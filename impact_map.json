@@ -1,0 +1,164 @@
+{
+  "programs": {
+    "SAM2": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    }
+  },
+  "files": {
+    "CUSTFILE": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    },
+    "TRANFILE": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    },
+    "CUSTOUT": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    },
+    "CUSTRPT": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    }
+  },
+  "copybooks": {
+    "CUSTCOPY": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM2.cbl",
+          "program_id": "SAM2"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM2.cbl",
+          "program_id": "SAM2"
+        }
+      ]
+    },
+    "TRANREC": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/COBOL/SAM2.cbl",
+          "program_id": "SAM2"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM2.cbl",
+          "program_id": "SAM2"
+        }
+      ]
+    },
+    "DATETIME": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    },
+    "REPTTOTL": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+          "program_id": "SAM1"
+        }
+      ]
+    },
+    "SAM2PARM": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+          "program_id": "SAM1"
+        },
+        {
+          "file": "sample-cobol/multiroot/sam/SAM2.cbl",
+          "program_id": "SAM2"
+        }
+      ]
+    }
+  }
+}

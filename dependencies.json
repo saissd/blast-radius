@@ -1,0 +1,94 @@
+{
+  "programs": [
+    {
+      "file": "sample-cobol/COBOL/SAM1.cbl",
+      "program_id": "SAM1",
+      "calls": [
+        {
+          "program": "SAM2",
+          "type": "dynamic",
+          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2')"
+        }
+      ],
+      "files": [
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+      ],
+      "copybooks": [
+        { "name": "CUSTCOPY",  "library": null,    "occurrences": 3 },
+        { "name": "TRANREC",   "library": null,    "occurrences": 1 }
+      ]
+    },
+    {
+      "file": "sample-cobol/COBOL/SAM1LIB.cbl",
+      "program_id": "SAM1",
+      "note": "Library-copybook variant of SAM1 demonstrating COPYLIB and COPYLIB-MVS settings",
+      "calls": [
+        {
+          "program": "SAM2",
+          "type": "dynamic",
+          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2')"
+        }
+      ],
+      "files": [
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+      ],
+      "copybooks": [
+        { "name": "CUSTCOPY",  "library": null,     "occurrences": 3 },
+        { "name": "TRANREC",   "library": null,     "occurrences": 1 },
+        { "name": "DATETIME",  "library": "MYFILE", "occurrences": 1 },
+        { "name": "REPTTOTL",  "library": "MYLIB",  "occurrences": 1 }
+      ]
+    },
+    {
+      "file": "sample-cobol/COBOL/SAM2.cbl",
+      "program_id": "SAM2",
+      "calls": [],
+      "files": [],
+      "copybooks": [
+        { "name": "CUSTCOPY", "library": null, "occurrences": 1 },
+        { "name": "TRANREC",  "library": null, "occurrences": 1 }
+      ]
+    },
+    {
+      "file": "sample-cobol/multiroot/sam/SAM1.cbl",
+      "program_id": "SAM1",
+      "note": "Multiroot variant of SAM1 (V02 — adds CRUNCH transaction and customer count reporting)",
+      "calls": [
+        {
+          "program": "SAM2",
+          "type": "dynamic",
+          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2'); passes extra SAM2-PARMS parameter in this variant"
+        }
+      ],
+      "files": [
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+      ],
+      "copybooks": [
+        { "name": "CUSTCOPY",  "library": null, "occurrences": 3 },
+        { "name": "TRANREC",   "library": null, "occurrences": 1 },
+        { "name": "SAM2PARM",  "library": null, "occurrences": 1 }
+      ]
+    },
+    {
+      "file": "sample-cobol/multiroot/sam/SAM2.cbl",
+      "program_id": "SAM2",
+      "note": "Multiroot variant of SAM2 (V02 — adds SAM2PARM linkage for CRUNCH result passing)",
+      "calls": [],
+      "files": [],
+      "copybooks": [
+        { "name": "CUSTCOPY",  "library": null, "occurrences": 1 },
+        { "name": "TRANREC",   "library": null, "occurrences": 1 },
+        { "name": "SAM2PARM",  "library": null, "occurrences": 1 }
+      ]
+    }
+  ]
+}
