@@ -1,4 +1,6 @@
 {
+  "_schema": "v2",
+  "_agents": ["CallGraphAgent", "CopybookAgent", "DataFlowAgent", "JCLAgent"],
   "programs": [
     {
       "file": "sample-cobol/COBOL/SAM1.cbl",
@@ -7,18 +9,21 @@
         {
           "program": "SAM2",
           "type": "dynamic",
-          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2')"
+          "resolved_via": "SAM2",
+          "source_line": 304,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL uses identifier SAM2 defined as working-storage variable (PIC X(8) VALUE 'SAM2') at line 122; target resolves at runtime"
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 40; OPEN INPUT line 358" },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN INPUT line 357" },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 359" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 360" }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null,    "occurrences": 3 },
-        { "name": "TRANREC",   "library": null,    "occurrences": 1 }
+        { "name": "CUSTCOPY",  "library": null,    "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",  "occurrences": 3, "confidence": "CONFIRMED", "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 131)" },
+        { "name": "TRANREC",   "library": null,    "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",   "occurrences": 1, "confidence": "CONFIRMED", "note": "FILE SECTION line 71" }
       ]
     },
     {
@@ -29,20 +34,23 @@
         {
           "program": "SAM2",
           "type": "dynamic",
-          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2')"
+          "resolved_via": "SAM2",
+          "source_line": 287,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL uses identifier SAM2 defined as working-storage variable (PIC X(8) VALUE 'SAM2') at line 105; target resolves at runtime"
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 40; OPEN INPUT line 341" },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN INPUT line 340" },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 342" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 343" }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null,     "occurrences": 3 },
-        { "name": "TRANREC",   "library": null,     "occurrences": 1 },
-        { "name": "DATETIME",  "library": "MYFILE", "occurrences": 1 },
-        { "name": "REPTTOTL",  "library": "MYLIB",  "occurrences": 1 }
+        { "name": "CUSTCOPY",  "library": null,     "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",      "occurrences": 3, "confidence": "CONFIRMED",    "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 116)" },
+        { "name": "TRANREC",   "library": null,     "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",       "occurrences": 1, "confidence": "CONFIRMED",    "note": "FILE SECTION line 71" },
+        { "name": "DATETIME",  "library": "MYFILE", "resolved_path": "sample-cobol/COPYLIB/DATETIME.cpy",       "occurrences": 1, "confidence": "NEEDS_REVIEW", "note": "WORKING-STORAGE line 84; library-qualified IN MYFILE — DD-to-path mapping via JCL symbolic" },
+        { "name": "REPTTOTL",  "library": "MYLIB",  "resolved_path": "sample-cobol/COPYLIB-MVS/REPTTOTL.cpy",  "occurrences": 1, "confidence": "NEEDS_REVIEW", "note": "WORKING-STORAGE line 89; library-qualified IN MYLIB — DD-to-path mapping via JCL symbolic" }
       ]
     },
     {
@@ -51,8 +59,8 @@
       "calls": [],
       "files": [],
       "copybooks": [
-        { "name": "CUSTCOPY", "library": null, "occurrences": 1 },
-        { "name": "TRANREC",  "library": null, "occurrences": 1 }
+        { "name": "CUSTCOPY", "library": null, "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 44" },
+        { "name": "TRANREC",  "library": null, "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 46" }
       ]
     },
     {
@@ -63,19 +71,22 @@
         {
           "program": "SAM2",
           "type": "dynamic",
-          "note": "Called via variable WS-FIELDS.SAM2 (PIC X(8) VALUE 'SAM2'); passes extra SAM2-PARMS parameter in this variant"
+          "resolved_via": "SAM2",
+          "source_line": 338,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL uses identifier SAM2 defined as working-storage variable (PIC X(8) VALUE 'SAM2') at line 113; passes extra SAM2-PARMS parameter in this variant"
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT"  },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT"  },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT" }
+        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN INPUT line 397" },
+        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 52; OPEN INPUT line 396" },
+        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN OUTPUT line 398" },
+        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 55; OPEN OUTPUT line 399" }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null, "occurrences": 3 },
-        { "name": "TRANREC",   "library": null, "occurrences": 1 },
-        { "name": "SAM2PARM",  "library": null, "occurrences": 1 }
+        { "name": "CUSTCOPY",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",  "occurrences": 3, "confidence": "CONFIRMED", "note": "FILE SECTION ×2 (lines 65, 71), WORKING-STORAGE (line 140)" },
+        { "name": "TRANREC",   "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "FILE SECTION line 75" },
+        { "name": "SAM2PARM",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "WORKING-STORAGE line 142" }
       ]
     },
     {
@@ -85,10 +96,288 @@
       "calls": [],
       "files": [],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null, "occurrences": 1 },
-        { "name": "TRANREC",   "library": null, "occurrences": 1 },
-        { "name": "SAM2PARM",  "library": null, "occurrences": 1 }
+        { "name": "CUSTCOPY",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 44" },
+        { "name": "TRANREC",   "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 46" },
+        { "name": "SAM2PARM",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 51" }
       ]
     }
-  ]
+  ],
+  "jcl": {
+    "jobs": [
+      {
+        "job_name": "ZDERUN",
+        "file": "sample-cobol/JCL/RUN.jcl",
+        "steps": [
+          {
+            "step_name": "CMPLSAM2",
+            "program": "IGYCRCTL",
+            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM2)", "&HLQ..SAMPLE.COPY"],
+            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM2)"],
+            "note": "Compile SAM2 source"
+          },
+          {
+            "step_name": "CMPLSAM1",
+            "program": "IGYCRCTL",
+            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM1)", "&HLQ..SAMPLE.COPY", "&HLQ..SAMPLE.COPYLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM1)"],
+            "note": "Compile SAM1 source; MYFILE and MYLIB DDs point to COPYLIB for library-qualified copybooks"
+          },
+          {
+            "step_name": "LINKSAM2",
+            "program": "IEWL",
+            "datasets_input": ["&HLQ..SAMPLE.OBJ(SAM2)", "&LINKLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.LOAD(SAM2)"],
+            "note": "Link SAM2 object"
+          },
+          {
+            "step_name": "LINKSAM1",
+            "program": "IEWL",
+            "datasets_input": ["&HLQ..SAMPLE.OBJ(SAM1)", "&HLQ..SAMPLE.LOAD", "&LINKLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.LOAD(SAM1)"],
+            "note": "Link SAM1 object; references SAM2 load module"
+          },
+          {
+            "step_name": "DELETE",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": ["&HLQ..SAMPLE.CUSTRPT", "&HLQ..SAMPLE.CUSTOUT"],
+            "note": "Delete output files from previous run"
+          },
+          {
+            "step_name": "SAM1",
+            "program": "SAM1",
+            "datasets_input": ["&HLQ..SAMPLE.LOAD(SAM1)", "&HLQ..SAMPLE.CUSTFILE", "&HLQ..SAMPLE.TRANFILE"],
+            "datasets_output": ["&HLQ..SAMPLE.CUSTOUT", "&HLQ..SAMPLE.CUSTRPT"],
+            "note": "Execute SAM1 application"
+          }
+        ]
+      },
+      {
+        "job_name": "WAZIASM1",
+        "file": "sample-cobol/JCL/RUNASAM1.jcl",
+        "steps": [
+          {
+            "step_name": "DELETE",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": ["&HLQ..SAMPLE.ASM.FILEOUT"],
+            "note": "Delete output file from previous run"
+          },
+          {
+            "step_name": "ASM1",
+            "program": "ASMA90",
+            "datasets_input": ["&MACLIB", "&MODGEN", "&SCEEMAC", "&HLQ..SAMPLE.ASMCOPY", "&HLQ..SAMPLE.ASM(ASAM1)"],
+            "datasets_output": ["&HLQ..SAMPLE.ASMOBJ(ASAM1)"],
+            "note": "Assemble ASAM1 source"
+          },
+          {
+            "step_name": "LKED",
+            "program": "IEWL",
+            "datasets_input": ["&HLQ..SAMPLE.ASMOBJ(ASAM1)", "&LINKLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.ASMLOAD(ASAM1)"],
+            "note": "Link ASAM1 object"
+          },
+          {
+            "step_name": "EXECUTE",
+            "program": "ASAM1",
+            "datasets_input": ["&HLQ..SAMPLE.ASMLOAD(ASAM1)", "&HLQ..SAMPLE.ASM.FILEIN"],
+            "datasets_output": ["&HLQ..SAMPLE.ASM.FILEOUT"],
+            "note": "Execute ASAM1 application"
+          }
+        ]
+      },
+      {
+        "job_name": "ZDEPSM1",
+        "file": "sample-cobol/JCL/RUNPSAM1.jcl",
+        "steps": [
+          {
+            "step_name": "DELETE",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": ["&HLQ..SAMPLE.PLI.CUSTRPT"],
+            "note": "Delete output file from previous run"
+          },
+          {
+            "step_name": "CMPPSAM2",
+            "program": "IBMZPLI",
+            "datasets_input": ["&HLQ..SAMPLE.PLI(PSAM2)", "&HLQ..SAMPLE.PLINC", "&CMPLLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.PLIOBJ(PSAM2)"],
+            "note": "Compile PSAM2 source"
+          },
+          {
+            "step_name": "CMPPSAM1",
+            "program": "IBMZPLI",
+            "datasets_input": ["&HLQ..SAMPLE.PLI(PSAM1)", "&HLQ..SAMPLE.PLINC", "&HLQ..SAMPLE.PLI.INCLLIB", "&CMPLLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.PLIOBJ(PSAM1)"],
+            "note": "Compile PSAM1 source"
+          },
+          {
+            "step_name": "LNKPSAM1",
+            "program": "IEWL",
+            "datasets_input": ["&HLQ..SAMPLE.PLIOBJ(PSAM2)", "&HLQ..SAMPLE.PLIOBJ(PSAM1)", "&LINKLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.PLILOAD(PSAM1)"],
+            "note": "Link PSAM1 and PSAM2 objects"
+          },
+          {
+            "step_name": "RUNPSAM1",
+            "program": "PSAM1",
+            "datasets_input": ["&HLQ..SAMPLE.PLILOAD(PSAM1)", "&HLQ..SAMPLE.PLI.CUSTFILE", "&HLQ..SAMPLE.PLI.TRANFILE"],
+            "datasets_output": ["&HLQ..SAMPLE.PLI.CUSTRPT"],
+            "note": "Execute PSAM1 application"
+          }
+        ]
+      },
+      {
+        "job_name": "ZDEALLC",
+        "file": "sample-cobol/JCL/ALLOCATE.jcl",
+        "steps": [
+          {
+            "step_name": "DELETE",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": ["&HLQ..SAMPLE.OBJ", "&HLQ..SAMPLE.LOAD", "&HLQ..SAMPLE.COBOL", "&HLQ..SAMPLE.COPY", "&HLQ..SAMPLE.TRANFILE", "&HLQ..SAMPLE.CUSTFILE", "&HLQ..SAMPLE.COPYLIB"],
+            "note": "Delete all sample datasets"
+          },
+          {
+            "step_name": "ALLOCAT",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": [],
+            "note": "Allocate datasets (IEFBR14 allocation step)"
+          }
+        ]
+      },
+      {
+        "job_name": "IBMUSER",
+        "file": "sample-cobol/JCL/INCLUDE.jcl",
+        "steps": [
+          {
+            "step_name": "STEP1",
+            "program": "COMPROC",
+            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM2)", "&HLQ..SAMPLE.COPY", "&CMPLLIB"],
+            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM2)"],
+            "note": "Executes COMPROC procedure; symbolics SET by COMPSET INCLUDE member"
+          }
+        ]
+      }
+    ],
+    "jcl_edges": [
+      {
+        "from_job": "ZDERUN", "from_step": "CMPLSAM2", "to_job": "ZDERUN", "to_step": "CMPLSAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "note": "CMPLSAM2 precedes CMPLSAM1 in job"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "CMPLSAM1", "to_job": "ZDERUN", "to_step": "LINKSAM2",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "note": "CMPLSAM1 precedes LINKSAM2 in job"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "LINKSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "note": "LINKSAM2 precedes LINKSAM1 in job"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "LINKSAM1", "to_job": "ZDERUN", "to_step": "DELETE",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "CMPLSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM2",
+        "dataset": "&HLQ..SAMPLE.OBJ(SAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "Compile produces object, link consumes it"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "CMPLSAM1", "to_job": "ZDERUN", "to_step": "LINKSAM1",
+        "dataset": "&HLQ..SAMPLE.OBJ(SAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "Compile produces object, link consumes it"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "LINKSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM1",
+        "dataset": "&HLQ..SAMPLE.LOAD(SAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "LINKSAM2 load module included by LINKSAM1 via LOAD library DD"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "LINKSAM1", "to_job": "ZDERUN", "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.LOAD(SAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "LINKSAM1 produces executable, SAM1 step runs it"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.CUSTRPT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "DELETE clears CUSTRPT so SAM1 can allocate NEW"
+      },
+      {
+        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.CUSTOUT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "DELETE clears CUSTOUT so SAM1 can allocate NEW"
+      },
+      {
+        "from_job": "WAZIASM1", "from_step": "DELETE", "to_job": "WAZIASM1", "to_step": "ASM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "WAZIASM1", "from_step": "ASM1", "to_job": "WAZIASM1", "to_step": "LKED",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "WAZIASM1", "from_step": "LKED", "to_job": "WAZIASM1", "to_step": "EXECUTE",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "WAZIASM1", "from_step": "ASM1", "to_job": "WAZIASM1", "to_step": "LKED",
+        "dataset": "&HLQ..SAMPLE.ASMOBJ(ASAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "WAZIASM1", "from_step": "LKED", "to_job": "WAZIASM1", "to_step": "EXECUTE",
+        "dataset": "&HLQ..SAMPLE.ASMLOAD(ASAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "DELETE",   "to_job": "ZDEPSM1", "to_step": "CMPPSAM2",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "CMPPSAM2", "to_job": "ZDEPSM1", "to_step": "CMPPSAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "CMPPSAM1", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "LNKPSAM1", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
+        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "CMPPSAM2", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "CMPPSAM1", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "LNKPSAM1", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLILOAD(PSAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ZDEPSM1", "from_step": "DELETE", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLI.CUSTRPT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "note": "DELETE clears report so RUNPSAM1 can allocate NEW"
+      },
+      {
+        "from_job": "IBMUSER", "from_step": null, "to_job": "IBMUSER", "to_step": "STEP1",
+        "dataset": "sample-cobol/JCLLIB/COMPSET.jcl", "relationship": "INCLUDES", "confidence": "CONFIRMED",
+        "note": "// INCLUDE MEMBER=COMPSET sets CMPLLIB, UNIT1, SPACE1 symbolics"
+      },
+      {
+        "from_job": "IBMUSER", "from_step": "STEP1", "to_job": null, "to_step": null,
+        "dataset": "sample-cobol/JCLPROC/COMPROC.jcl", "relationship": "CALLS_PROC", "confidence": "CONFIRMED",
+        "note": "EXEC PROC=COMPROC calls proc that compiles SAM2"
+      }
+    ]
+  }
 }
