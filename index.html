@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>COBOL Blast Radius — Dependency Graph</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --surface2:  #21262d;
+    --border:    #30363d;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+    --accent:    #388bfd;
+    --confirmed: #3fb950;
+    --review:    #d29922;
+    --danger:    #f85149;
+
+    --prog:  #388bfd;
+    --file:  #e3812b;
+    --copy:  #3fb950;
+    --jcl:   #a371f7;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Top bar ─────────────────────────────────────────── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .logo {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--text);
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--danger); }
+
+  .search-wrap {
+    position: relative;
+    flex: 0 0 280px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: .5;
+    pointer-events: none;
+  }
+  #search {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 6px 10px 6px 32px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--muted); }
+
+  #suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 200;
+    display: none;
+  }
+  .sug-item {
+    padding: 7px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sug-item:hover { background: var(--border); }
+  .sug-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .leg-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .leg-line {
+    width: 20px; height: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── Main layout ──────────────────────────────────────── */
+  .workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  #cy {
+    flex: 1;
+    background: var(--bg);
+  }
+
+  /* ── Side panel ───────────────────────────────────────── */
+  #panel {
+    width: 320px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .panel-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .panel-type {
+    font-size: 12px;
+    margin-top: 4px;
+    display: inline-block;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 600;
+    letter-spacing: .04em;
+  }
+  .panel-meta {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px 20px;
+  }
+  .panel-body::-webkit-scrollbar { width: 4px; }
+  .panel-body::-webkit-scrollbar-track { background: transparent; }
+  .panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 18px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .conf-group { margin-bottom: 10px; }
+  .conf-label {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .conf-confirmed { background: rgba(63,185,80,.15); color: var(--confirmed); }
+  .conf-review    { background: rgba(210,153,34,.15); color: var(--review); }
+
+  .dep-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .dep-item:hover { background: var(--surface2); }
+  .dep-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .dep-text { font-size: 13px; line-height: 1.5; }
+  .dep-sub { font-size: 11px; color: var(--muted); }
+
+  .empty-state {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    margin-top: 60px;
+    line-height: 1.8;
+  }
+  .empty-state strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 6px; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .stat-num { font-size: 20px; font-weight: 700; }
+  .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.4; }
+  .stat-sub { font-size: 10px; color: var(--muted); margin-top: 3px; opacity: .75; }
+
+  /* ── Risk block ───────────────────────────────────────── */
+  .risk-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .risk-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .risk-score {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .risk-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .risk-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .risk-reason {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    margin-bottom: 10px;
+  }
+  .risk-tests-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .risk-tests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .risk-test {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--prog);
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+  }
+  .risk-test:hover {
+    background: var(--border);
+    border-color: var(--prog);
+  }
+
+  /* ── Status bar ───────────────────────────────────────── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 5px 16px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+  footer span { display: flex; align-items: center; gap: 5px; }
+  footer b { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">COBOL <span>Blast Radius</span></div>
+
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.868-3.834zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+    </svg>
+    <input id="search" type="text" placeholder="Jump to entity…" autocomplete="off" />
+    <div id="suggestions"></div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--prog)"></div>Program</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--file)"></div>File</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--copy)"></div>Copybook</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--jcl)"></div>JCL Job</div>
+    <div class="leg-item">
+      <svg width="24" height="8"><line x1="0" y1="4" x2="24" y2="4" stroke="#8b949e" stroke-width="1.5"/></svg>
+      Confirmed
+    </div>
+    <div class="leg-item">
+      <svg width="24" height="8"><line x1="0" y1="4" x2="24" y2="4" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="4,3"/></svg>
+      Needs Review
+    </div>
+  </div>
+</header>
+
+<div class="workspace">
+  <div id="cy"></div>
+
+  <div id="panel">
+    <div class="panel-header">
+      <div class="panel-title">Blast Radius</div>
+      <div class="panel-name" id="pName">—</div>
+      <div id="pType"></div>
+      <div class="panel-meta" id="pMeta"></div>
+    </div>
+    <div class="panel-body" id="pBody">
+      <div class="empty-state">
+        <strong>No entity selected</strong>
+        Click any node in the graph<br>to explore its blast radius.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Nodes: <b id="statNodes">—</b></span>
+  <span>Edges: <b id="statEdges">—</b></span>
+  <span>Selected: <b id="statSel">none</b></span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA LOADING
+// ─────────────────────────────────────────────────────────────────────────────
+Promise.all([
+  fetch('dependencies.json').then(r => r.json()),
+  fetch('impact_map.json').then(r => r.json()),
+  fetch('risk_scores.json').then(r => r.json()).catch(() => ({}))
+]).then(([deps, impact, risks]) => init(deps, impact, risks))
+  .catch(err => {
+    document.getElementById('cy').innerHTML =
+      `<div style="color:#f85149;padding:40px;font-size:14px">
+        Failed to load data files.<br><small>${err.message}</small>
+      </div>`;
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD GRAPH ELEMENTS
+// ─────────────────────────────────────────────────────────────────────────────
+function buildElements(deps, impact) {
+  const nodes = new Map();   // id -> data
+  const edges = [];
+  let edgeId = 0;
+
+  function addNode(id, type, label, extra = {}) {
+    if (!nodes.has(id)) nodes.set(id, { id, type, label, ...extra });
+  }
+
+  function addEdge(source, target, confidence, relation, note) {
+    edges.push({
+      id: `e${edgeId++}`,
+      source, target, confidence, relation, note: note || ''
+    });
+  }
+
+  // ── Programs + their outgoing edges ────────────────────
+  // Deduplicate by program_id for graph display; track source files for metadata
+  const programFiles = {}; // program_id -> [file, ...]
+  deps.programs.forEach(prog => {
+    const pid = prog.program_id;
+    if (!programFiles[pid]) programFiles[pid] = [];
+    programFiles[pid].push(prog.file);
+    addNode(pid, 'program', pid, { sourceFiles: programFiles[pid] });
+  });
+
+  // Calls (program → program)
+  deps.programs.forEach(prog => {
+    (prog.calls || []).forEach(call => {
+      addNode(call.program, 'program', call.program);
+      // deduplicate edges between same pair
+      const eKey = `${prog.program_id}__${call.program}`;
+      if (!edges.find(e => e.source === prog.program_id && e.target === call.program)) {
+        addEdge(prog.program_id, call.program, call.confidence, 'CALLS', call.note);
+      }
+    });
+  });
+
+  // Files (program → file)
+  const fileNodes = new Set();
+  deps.programs.forEach(prog => {
+    (prog.files || []).forEach(f => {
+      if (!fileNodes.has(f.dd_name)) {
+        fileNodes.add(f.dd_name);
+        addNode(f.dd_name, 'file', f.dd_name, { logicalName: f.logical_name });
+      }
+      const eKey = `${prog.program_id}__${f.dd_name}`;
+      if (!edges.find(e => e.source === prog.program_id && e.target === f.dd_name)) {
+        addEdge(prog.program_id, f.dd_name, f.confidence, f.access, f.note);
+      }
+    });
+  });
+
+  // Copybooks (copybook → program)
+  deps.programs.forEach(prog => {
+    (prog.copybooks || []).forEach(cb => {
+      addNode(cb.name, 'copybook', cb.name, { library: cb.library });
+      if (!edges.find(e => e.source === cb.name && e.target === prog.program_id)) {
+        addEdge(cb.name, prog.program_id, cb.confidence, 'COPY', cb.note);
+      }
+    });
+  });
+
+  // ── JCL Jobs ────────────────────────────────────────────
+  // Edge direction: program → JCL job (program is consumed/run by job)
+  // This ensures blast-radius traversal from a copybook reaches the JCL job
+  // that builds/runs the affected programs.
+  deps.jcl.jobs.forEach(job => {
+    addNode(job.job_name, 'jcl', job.job_name, {
+      jclFile: job.file,
+      steps: job.steps
+    });
+
+    job.steps.forEach(step => {
+      const prog = step.program;
+      if (nodes.has(prog) || programFiles[prog]) {
+        // program → job: "this program is executed by this job"
+        if (!edges.find(e => e.source === prog && e.target === job.job_name)) {
+          addEdge(prog, job.job_name, 'CONFIRMED', 'EXECUTED_BY', step.note || `Step ${step.step_name} executes ${prog}`);
+        }
+      }
+    });
+  });
+
+  // ── Incoming-edge count for size scaling ────────────────
+  // Count how many edges point *to* each node so high-impact nodes render larger.
+  const inDegree = {};
+  nodes.forEach((_, id) => { inDegree[id] = 0; });
+  edges.forEach(e => {
+    if (inDegree[e.target] !== undefined) inDegree[e.target]++;
+  });
+  nodes.forEach((n, id) => { n.inDegree = inDegree[id] || 0; });
+
+  // Convert maps to cytoscape element format
+  const elements = [];
+  nodes.forEach(n => elements.push({ group: 'nodes', data: n }));
+  edges.forEach(e => elements.push({ group: 'edges', data: e }));
+  return { elements, nodeMap: nodes };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SIZE HELPER  (maps inDegree → px diameter)
+// ─────────────────────────────────────────────────────────────────────────────
+// base=36, max=72; each incoming edge adds ~5px, capped with sqrt to compress
+function nodeSize(inDegree, bonus = 0) {
+  const base = 36 + bonus;
+  const scaled = base + Math.round(Math.sqrt(inDegree) * 10);
+  return Math.min(scaled, base + 36) + 'px';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COLOUR HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+const TYPE_COLOR = {
+  program:  '#388bfd',
+  file:     '#e3812b',
+  copybook: '#3fb950',
+  jcl:      '#a371f7'
+};
+const TYPE_LABEL = {
+  program:  'Program',
+  file:     'Data File',
+  copybook: 'Copybook',
+  jcl:      'JCL Job'
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CYTOSCAPE INIT
+// ─────────────────────────────────────────────────────────────────────────────
+function init(deps, impact, risks) {
+  const { elements, nodeMap } = buildElements(deps, impact);
+
+  const cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements,
+    style: [
+      // ── Nodes ──
+      {
+        selector: 'node',
+        style: {
+          'background-color': n => TYPE_COLOR[n.data('type')] || '#8b949e',
+          'label': 'data(label)',
+          'color': '#e6edf3',
+          'font-size': '11px',
+          'font-family': '-apple-system, "Segoe UI", system-ui, sans-serif',
+          'font-weight': '600',
+          'text-valign': 'bottom',
+          'text-halign': 'center',
+          'text-margin-y': '5px',
+          'text-background-color': '#0d1117',
+          'text-background-opacity': 0.75,
+          'text-background-padding': '2px',
+          'text-background-shape': 'roundrectangle',
+          'width': n => nodeSize(n.data('inDegree') || 0),
+          'height': n => nodeSize(n.data('inDegree') || 0),
+          'border-width': '2px',
+          'border-color': n => TYPE_COLOR[n.data('type')] || '#8b949e',
+          'border-opacity': 0.5,
+          'transition-property': 'background-color, opacity, border-color, border-width',
+          'transition-duration': '350ms'
+        }
+      },
+      {
+        selector: 'node[type="jcl"]',
+        style: {
+          'shape': 'diamond',
+          'width':  n => nodeSize(n.data('inDegree') || 0, 8),
+          'height': n => nodeSize(n.data('inDegree') || 0, 8)
+        }
+      },
+      {
+        selector: 'node[type="copybook"]',
+        style: { 'shape': 'hexagon' }
+      },
+      {
+        selector: 'node[type="file"]',
+        style: { 'shape': 'barrel' }
+      },
+      // ── Edges ──
+      {
+        selector: 'edge',
+        style: {
+          'width': 1.5,
+          'line-color': '#30363d',
+          'target-arrow-color': '#30363d',
+          'target-arrow-shape': 'triangle',
+          'arrow-scale': 0.8,
+          'curve-style': 'bezier',
+          'transition-property': 'line-color, target-arrow-color, opacity, width',
+          'transition-duration': '350ms'
+        }
+      },
+      {
+        selector: 'edge[confidence="NEEDS_REVIEW"]',
+        style: { 'line-style': 'dashed', 'line-dash-pattern': [6, 4] }
+      },
+      // ── Highlighted ──
+      {
+        selector: '.highlighted-node',
+        style: {
+          'border-color': '#f85149',
+          'border-width': '3px',
+          'border-opacity': 1,
+          'background-color': '#f85149'
+        }
+      },
+      {
+        selector: '.highlighted-edge',
+        style: {
+          'line-color': '#f85149',
+          'target-arrow-color': '#f85149',
+          'width': 2.5
+        }
+      },
+      {
+        selector: '.selected-node',
+        style: {
+          'border-color': '#ffffff',
+          'border-width': '3px',
+          'border-opacity': 1
+        }
+      },
+      {
+        selector: '.dimmed',
+        style: { 'opacity': 0.18 }
+      }
+    ],
+    layout: {
+      name: 'cose',
+      animate: false,
+      idealEdgeLength: 120,
+      nodeOverlap: 30,
+      refresh: 20,
+      fit: true,
+      padding: 50,
+      randomize: false,
+      componentSpacing: 100,
+      nodeRepulsion: 450000,
+      edgeElasticity: 80,
+      nestingFactor: 5,
+      gravity: 40,
+      numIter: 1000,
+      initialTemp: 200,
+      coolingFactor: 0.95,
+      minTemp: 1.0
+    }
+  });
+
+  // Footer stats
+  document.getElementById('statNodes').textContent = cy.nodes().length;
+  document.getElementById('statEdges').textContent = cy.edges().length;
+
+  // ── Search ──────────────────────────────────────────────
+  const searchEl = document.getElementById('search');
+  const sugEl    = document.getElementById('suggestions');
+  const allIds   = cy.nodes().map(n => ({ id: n.id(), type: n.data('type') }));
+
+  searchEl.addEventListener('input', () => {
+    const q = searchEl.value.trim().toLowerCase();
+    if (!q) { sugEl.style.display = 'none'; return; }
+    const hits = allIds.filter(n => n.id.toLowerCase().includes(q)).slice(0, 12);
+    if (!hits.length) { sugEl.style.display = 'none'; return; }
+    sugEl.innerHTML = hits.map(h =>
+      `<div class="sug-item" data-id="${h.id}">
+        <div class="sug-dot" style="background:${TYPE_COLOR[h.type]}"></div>
+        <span>${h.id}</span>
+      </div>`
+    ).join('');
+    sugEl.style.display = 'block';
+  });
+
+  sugEl.addEventListener('mousedown', e => {
+    const item = e.target.closest('.sug-item');
+    if (!item) return;
+    const id = item.dataset.id;
+    sugEl.style.display = 'none';
+    searchEl.value = '';
+    const node = cy.getElementById(id);
+    if (node) {
+      cy.animate({ fit: { eles: node, padding: 120 }, duration: 400 });
+      selectNode(node, deps, impact, risks, nodeMap);
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('search').contains(e.target)) sugEl.style.display = 'none';
+  });
+
+  searchEl.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { sugEl.style.display = 'none'; searchEl.value = ''; }
+  });
+
+  // ── Click handler ────────────────────────────────────────
+  cy.on('tap', 'node', evt => {
+    selectNode(evt.target, deps, impact, risks, nodeMap);
+  });
+
+  cy.on('tap', evt => {
+    if (evt.target === cy) clearSelection(cy);
+  });
+
+  // ── Hover ────────────────────────────────────────────────
+  cy.on('mouseover', 'node', evt => {
+    document.getElementById('cy').style.cursor = 'pointer';
+  });
+  cy.on('mouseout', 'node', () => {
+    document.getElementById('cy').style.cursor = 'default';
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SELECTION + BLAST RADIUS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Returns the flat union of all downstream nodes/edges (used by panel render).
+function getDownstream(node, cy) {
+  const visited = new Set();
+  const visitedEdges = new Set();
+  const queue = [node];
+  visited.add(node.id());
+  while (queue.length) {
+    const cur = queue.shift();
+    cur.outgoers('edge').forEach(edge => {
+      const tgt = edge.target();
+      visitedEdges.add(edge.id());
+      if (!visited.has(tgt.id())) {
+        visited.add(tgt.id());
+        queue.push(tgt);
+      }
+    });
+  }
+  visited.delete(node.id());
+  return {
+    nodes: cy.nodes().filter(n => visited.has(n.id())),
+    edges: cy.edges().filter(e => visitedEdges.has(e.id()))
+  };
+}
+
+// BFS that returns an array of layers: layers[0] = direct children,
+// layers[1] = their children, etc.  Each layer is { nodes, edges }.
+function getDownstreamLayers(node, cy) {
+  const visitedNodes = new Set([node.id()]);
+  const visitedEdges = new Set();
+  const layers = [];
+  let frontier = [node];
+
+  while (frontier.length) {
+    const nextFrontier = [];
+    const layerNodes = [];
+    const layerEdges = [];
+
+    frontier.forEach(cur => {
+      cur.outgoers('edge').forEach(edge => {
+        const tgt = edge.target();
+        if (!visitedEdges.has(edge.id())) {
+          visitedEdges.add(edge.id());
+          layerEdges.push(edge);
+        }
+        if (!visitedNodes.has(tgt.id())) {
+          visitedNodes.add(tgt.id());
+          layerNodes.push(tgt);
+          nextFrontier.push(tgt);
+        }
+      });
+    });
+
+    if (layerNodes.length || layerEdges.length) {
+      layers.push({ nodes: layerNodes, edges: layerEdges });
+    }
+    frontier = nextFrontier;
+  }
+  return layers;
+}
+
+// Active ripple timer IDs — cancelled on each new selection or clear.
+let _rippleTimers = [];
+
+function cancelRipple() {
+  _rippleTimers.forEach(t => clearTimeout(t));
+  _rippleTimers = [];
+}
+
+function selectNode(node, deps, impact, risks, nodeMap) {
+  const cy = node.cy();
+  cancelRipple();
+
+  // Reset all classes immediately.
+  cy.elements().removeClass('highlighted-node highlighted-edge dimmed selected-node');
+
+  const layers = getDownstreamLayers(node, cy);
+
+  // Dim everything up-front; the selected node and each wave will un-dim as they fire.
+  cy.elements().addClass('dimmed');
+  node.removeClass('dimmed').addClass('selected-node');
+
+  // Stagger: ~550 ms per wave, first wave fires after 80 ms.
+  const WAVE_MS  = 550;
+  const START_MS = 80;
+
+  layers.forEach((layer, i) => {
+    const t = setTimeout(() => {
+      layer.nodes.forEach(n => n.removeClass('dimmed').addClass('highlighted-node'));
+      layer.edges.forEach(e => e.removeClass('dimmed').addClass('highlighted-edge'));
+    }, START_MS + i * WAVE_MS);
+    _rippleTimers.push(t);
+  });
+
+  document.getElementById('statSel').textContent = node.id();
+  renderPanel(node.id(), node.data('type'), node.data(), deps, impact, risks, nodeMap, cy);
+}
+
+function clearSelection(cy) {
+  cancelRipple();
+  cy.elements().removeClass('highlighted-node highlighted-edge dimmed selected-node');
+  document.getElementById('statSel').textContent = 'none';
+  document.getElementById('pName').textContent = '—';
+  document.getElementById('pType').innerHTML = '';
+  document.getElementById('pMeta').textContent = '';
+  document.getElementById('pBody').innerHTML =
+    `<div class="empty-state"><strong>No entity selected</strong>Click any node in the graph<br>to explore its blast radius.</div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PANEL RENDER
+// ─────────────────────────────────────────────────────────────────────────────
+function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
+  document.getElementById('pName').textContent = id;
+
+  const typeLabel = TYPE_LABEL[type] || type;
+  const color     = TYPE_COLOR[type]  || '#8b949e';
+  document.getElementById('pType').innerHTML =
+    `<span class="panel-type" style="background:${color}22;color:${color}">${typeLabel}</span>`;
+
+  // Meta line
+  let meta = '';
+  if (type === 'program' && data.sourceFiles) meta = data.sourceFiles.join('\n');
+  if (type === 'file'    && data.logicalName)  meta = `Logical name: ${data.logicalName}`;
+  if (type === 'copybook'&& data.library)      meta = `Library: ${data.library}`;
+  if (type === 'jcl'     && data.jclFile)      meta = data.jclFile;
+  document.getElementById('pMeta').textContent = meta;
+
+  // Build blast radius from graph traversal
+  const { nodes: downNodes } = getDownstream(cy.getElementById(id), cy);
+
+  const affected = { program: [], file: [], copybook: [], jcl: [] };
+  downNodes.forEach(n => {
+    const t = n.data('type');
+    if (affected[t]) affected[t].push(n.id());
+  });
+
+  // Count totals
+  const total = affected.program.length + affected.file.length + affected.copybook.length + affected.jcl.length;
+
+  // Source file count: sum the sourceFiles arrays for each affected program ID
+  const affectedSrcFiles = affected.program.reduce((sum, pid) => {
+    const n = nodeMap.get(pid);
+    return sum + (n && n.sourceFiles ? n.sourceFiles.length : 1);
+  }, 0);
+
+  // ── Risk section ─────────────────────────────────────────
+  let html = '';
+  const risk = risks && risks[id];
+  if (risk) {
+    const BAND_COLOR = { HIGH: 'var(--danger)', MEDIUM: 'var(--review)', LOW: 'var(--confirmed)' };
+    const bandColor  = BAND_COLOR[risk.band] || 'var(--muted)';
+    const testsHtml  = risk.regression_tests && risk.regression_tests.length
+      ? risk.regression_tests.map(t =>
+          `<span class="risk-test" data-node="${t}">${t}</span>`
+        ).join('')
+      : '<span style="color:var(--muted);font-size:12px">None identified</span>';
+    html += `<div class="risk-block">
+      <div class="risk-top">
+        <div class="risk-score" style="color:${bandColor}">${risk.score}</div>
+        <div>
+          <span class="risk-badge" style="background:${bandColor}22;color:${bandColor}">${risk.band}</span>
+          <div class="risk-label">Risk Score</div>
+        </div>
+      </div>
+      <div class="risk-reason">${risk.reason}</div>
+      <div class="risk-tests-label">Suggested regression tests</div>
+      <div class="risk-tests">${testsHtml}</div>
+    </div>`;
+  }
+
+  if (total === 0) {
+    html += `<div class="empty-state" style="margin-top:30px">No downstream dependencies found.</div>`;
+  } else {
+    const srcFileLine = affected.program.length > 0
+      ? `<div class="stat-sub">${affected.program.length} program${affected.program.length !== 1 ? 's' : ''} · ${affectedSrcFiles} source file${affectedSrcFiles !== 1 ? 's' : ''}</div>`
+      : '';
+    html += `<div class="stat-row">
+      <div class="stat-box"><div class="stat-num" style="color:var(--prog)">${affected.program.length}</div><div class="stat-lbl">Programs</div>${srcFileLine}</div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--file)">${affected.file.length}</div><div class="stat-lbl">Data Files</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--copy)">${affected.copybook.length}</div><div class="stat-lbl">Copybooks</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--jcl)">${affected.jcl.length}</div><div class="stat-lbl">JCL Jobs</div></div>
+    </div>`;
+
+    // ── Programs ──
+    if (affected.program.length) {
+      html += `<div class="section-label">Affected Programs</div>`;
+      html += renderConfGroups(affected.program, 'program', id, cy, nodeMap);
+    }
+
+    // ── Files ──
+    if (affected.file.length) {
+      html += `<div class="section-label">Data Files</div>`;
+      html += renderConfGroups(affected.file, 'file', id, cy);
+    }
+
+    // ── Copybooks ──
+    if (affected.copybook.length) {
+      html += `<div class="section-label">Copybooks</div>`;
+      html += renderConfGroups(affected.copybook, 'copybook', id, cy);
+    }
+
+    // ── JCL Jobs ──
+    if (affected.jcl.length) {
+      html += `<div class="section-label">JCL Jobs & Steps</div>`;
+      affected.jcl.forEach(jobId => {
+        const jNode = nodeMap.get(jobId);
+        // Only show steps that execute an affected program or the selected node
+        const relevantSteps = jNode && jNode.steps
+          ? jNode.steps.filter(s =>
+              affected.program.includes(s.program) || s.program === id)
+          : [];
+        html += `<div class="dep-item" data-node="${jobId}">
+          <div class="dep-dot" style="background:${TYPE_COLOR.jcl}"></div>
+          <div class="dep-text">
+            <div>${jobId}</div>`;
+        if (relevantSteps.length) {
+          html += `<div class="dep-sub">Steps: ${relevantSteps.map(s => s.step_name).join(', ')}</div>`;
+        } else if (jNode && jNode.jclFile) {
+          html += `<div class="dep-sub">${jNode.jclFile}</div>`;
+        }
+        html += `</div></div>`;
+      });
+    }
+  }
+
+  document.getElementById('pBody').innerHTML = html;
+
+  // Make panel items and risk-test chips clickable to focus node
+  document.getElementById('pBody').querySelectorAll('[data-node]').forEach(el => {
+    el.addEventListener('click', () => {
+      const nid = el.dataset.node;
+      const target = cy.getElementById(nid);
+      if (target.length) {
+        cy.animate({ fit: { eles: target, padding: 140 }, duration: 350 });
+        selectNode(target, deps, impact, risks, nodeMap);
+      }
+    });
+  });
+}
+
+function renderConfGroups(ids, type, sourceId, cy, nodeMap) {
+  const confirmed = [];
+  const review    = [];
+
+  ids.forEach(nid => {
+    // Check the direct incoming edge from sourceId → nid for confidence.
+    // If none exists (indirect descendant), look at all incoming edges to nid.
+    const directEdge = cy.edges(`[source="${sourceId}"][target="${nid}"]`);
+    let conf = 'CONFIRMED';
+    if (directEdge.length) {
+      conf = directEdge[0].data('confidence');
+    } else {
+      // For indirect descendants: if ANY incoming edge is NEEDS_REVIEW, flag it
+      cy.edges(`[target="${nid}"]`).forEach(e => {
+        if (e.data('confidence') === 'NEEDS_REVIEW') conf = 'NEEDS_REVIEW';
+      });
+    }
+    if (conf === 'NEEDS_REVIEW') review.push(nid);
+    else confirmed.push(nid);
+  });
+
+  function itemHtml(nid) {
+    let sub = '';
+    if (type === 'program' && nodeMap) {
+      const n = nodeMap.get(nid);
+      const count = n && n.sourceFiles ? n.sourceFiles.length : 0;
+      if (count > 0) sub = `<div class="dep-sub">${count} source file${count !== 1 ? 's' : ''}</div>`;
+    }
+    return `<div class="dep-item" data-node="${nid}">
+      <div class="dep-dot" style="background:${TYPE_COLOR[type]}"></div>
+      <div class="dep-text"><div>${nid}</div>${sub}</div>
+    </div>`;
+  }
+
+  let html = '';
+  if (confirmed.length) {
+    html += `<div class="conf-group">
+      <span class="conf-label conf-confirmed">✓ Confirmed</span>`;
+    html += confirmed.map(itemHtml).join('');
+    html += `</div>`;
+  }
+  if (review.length) {
+    html += `<div class="conf-group">
+      <span class="conf-label conf-review">⚠ Needs Review</span>`;
+    html += review.map(itemHtml).join('');
+    html += `</div>`;
+  }
+  return html;
+}
+</script>
+</body>
+</html>

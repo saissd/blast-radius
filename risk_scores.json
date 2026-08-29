@@ -1,0 +1,140 @@
+{
+  "SAM1": {
+    "entity": "SAM1",
+    "score": 81,
+    "band": "HIGH",
+    "reason": "'SAM1' is an entry-point program (nothing calls it). It calls 1 program (SAM2); writes 2 output files (CUSTOUT, CUSTRPT); uses 5 copybooks; executed by 1 JCL job (ZDERUN). Raw weighted score 81.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "SAM2": {
+    "entity": "SAM2",
+    "score": 41,
+    "band": "MEDIUM",
+    "reason": "Changing the program 'SAM2' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN); +25 program category base. Raw weighted score 41.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "CUSTCOPY": {
+    "entity": "CUSTCOPY",
+    "score": 61,
+    "band": "HIGH",
+    "reason": "Changing the copybook 'CUSTCOPY' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 5 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 61.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "TRANREC": {
+    "entity": "TRANREC",
+    "score": 61,
+    "band": "HIGH",
+    "reason": "Changing the copybook 'TRANREC' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 5 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 61.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "DATETIME": {
+    "entity": "DATETIME",
+    "score": 24,
+    "band": "LOW",
+    "reason": "Changing the copybook 'DATETIME' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "REPTTOTL": {
+    "entity": "REPTTOTL",
+    "score": 24,
+    "band": "LOW",
+    "reason": "Changing the copybook 'REPTTOTL' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "SAM2PARM": {
+    "entity": "SAM2PARM",
+    "score": 37,
+    "band": "MEDIUM",
+    "reason": "Changing the copybook 'SAM2PARM' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 2 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 37.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "CUSTFILE": {
+    "entity": "CUSTFILE",
+    "score": 16,
+    "band": "LOW",
+    "reason": "Changing the DD file 'CUSTFILE' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "TRANFILE": {
+    "entity": "TRANFILE",
+    "score": 16,
+    "band": "LOW",
+    "reason": "Changing the DD file 'TRANFILE' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "CUSTOUT": {
+    "entity": "CUSTOUT",
+    "score": 16,
+    "band": "LOW",
+    "reason": "Changing the DD file 'CUSTOUT' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "CUSTRPT": {
+    "entity": "CUSTRPT",
+    "score": 16,
+    "band": "LOW",
+    "reason": "Changing the DD file 'CUSTRPT' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "ZDERUN": {
+    "entity": "ZDERUN",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'ZDERUN' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "WAZIASM1": {
+    "entity": "WAZIASM1",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'WAZIASM1' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "ZDEPSM1": {
+    "entity": "ZDEPSM1",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'ZDEPSM1' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "ZDEALLC": {
+    "entity": "ZDEALLC",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'ZDEALLC' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "IBMUSER": {
+    "entity": "IBMUSER",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'IBMUSER' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  }
+}
