@@ -3,6 +3,8 @@
 blast_radius.py
 Usage:
     python blast_radius.py [--json] <name>
+    python blast_radius.py [--json] --changed <file1> [<file2> ...]
+    python blast_radius.py [--json] --git-diff
 
 <name> is matched case-insensitively against:
   - program IDs    (e.g. SAM2)
@@ -23,11 +25,15 @@ CONFIRMED and NEEDS_REVIEW edges are shown separately.
 Uses impact_map.json (must be in the same directory).
 
 Flags:
-  --json   Output the full result as structured JSON instead of formatted text.
+  --json        Output the full result as structured JSON instead of formatted text.
+  --changed     Compute the combined blast radius across one or more changed files/names.
+  --git-diff    Read changed files automatically from `git diff --name-only HEAD~1`
+                and compute their combined blast radius.
 """
 
 import argparse
 import json
+import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -42,6 +48,10 @@ CATEGORY_LABELS = {
 }
 
 CONFIDENCE_ORDER = ["CONFIRMED", "NEEDS_REVIEW"]
+
+# File extensions that are meaningful to blast-radius analysis.
+# Anything outside this set is silently ignored in diff mode.
+COBOL_EXTENSIONS = {".cbl", ".cpy", ".jcl", ".pli"}
 
 
 def load_map() -> dict:
@@ -377,30 +387,48 @@ def _print_confidence_groups(items: list[dict], fmt_fn) -> None:
                 print(f"      {fmt_fn(item)}")
 
 
+def _group_by_name(items: list[dict], name_key: str) -> dict[str, list[dict]]:
+    """Group dependency entries by their entity name, preserving first-seen order."""
+    grouped: dict[str, list[dict]] = {}
+    for item in items:
+        key = item[name_key]
+        grouped.setdefault(key, []).append(item)
+    return grouped
+
+
 def _print_root_program_deps(name: str, deps: dict) -> None:
-    """Print the forward dependencies of a root program."""
+    """Print the forward dependencies of a root program, deduplicated by entity."""
     print(f"\n[Root program — nothing calls {name.upper()}]")
     print("  Showing what this program depends on:")
 
     calls = deps.get("calls", [])
     if calls:
         print("\n  CALLs:")
-        for c in calls:
-            conf = c.get("confidence", "")
-            note = f"  # {c['note']}" if c.get("note") else ""
-            print(f"    [{conf}]  {c['program']}  (from {c['source_file']}){note}")
+        for prog_name, entries in _group_by_name(calls, "program").items():
+            conf = entries[0].get("confidence", "")
+            note = f"  # {entries[0]['note']}" if entries[0].get("note") else ""
+            print(f"    [{conf}]  {prog_name}{note}")
+            for e in entries:
+                print(f"           from {e['source_file']}")
 
     files = deps.get("files", [])
     if files:
         print("\n  Files (DD names):")
-        for f in files:
-            print(f"    [{f['confidence']}]  {f['dd_name']}  access={f['access']}  (from {f['source_file']})")
+        for dd_name, entries in _group_by_name(files, "dd_name").items():
+            conf = entries[0].get("confidence", "")
+            access = entries[0].get("access", "")
+            print(f"    [{conf}]  {dd_name}  access={access}")
+            for e in entries:
+                print(f"           from {e['source_file']}")
 
     copybooks = deps.get("copybooks", [])
     if copybooks:
         print("\n  Copybooks:")
-        for cb in copybooks:
-            print(f"    [{cb['confidence']}]  {cb['name']}  (from {cb['source_file']})")
+        for cb_name, entries in _group_by_name(copybooks, "name").items():
+            conf = entries[0].get("confidence", "")
+            print(f"    [{conf}]  {cb_name}")
+            for e in entries:
+                print(f"           from {e['source_file']}")
 
     if not calls and not files and not copybooks:
         print("  (no recorded dependencies)")
@@ -426,14 +454,23 @@ def print_results(
     # ------------------------------------------------------------------ #
     # Root-program: show what it depends on, then continue with JCL layer
     # ------------------------------------------------------------------ #
+    root_deps: dict | None = None
     if root:
-        deps = downstream_deps_for_program(name, deps_data)
-        _print_root_program_deps(name, deps)
+        root_deps = downstream_deps_for_program(name, deps_data)
+        _print_root_program_deps(name, root_deps)
 
     if not hits:
-        # Pure root program with no reverse-dep hits — nothing more to show
+        # Pure root program with no reverse-dep hits — show dependency summary
+        d = root_deps or {}
+        n_calls     = len({c["program"]   for c in d.get("calls",     [])})
+        n_files     = len({f["dd_name"]   for f in d.get("files",     [])})
+        n_copybooks = len({cb["name"]     for cb in d.get("copybooks", [])})
         print("\n" + "=" * 60)
-        print(f"Total affected source files: {total}")
+        print(
+            f"Dependencies: {n_calls} program(s) called, "
+            f"{n_files} file(s) used, "
+            f"{n_copybooks} copybook(s) copied"
+        )
         return
 
     # ------------------------------------------------------------------ #
@@ -539,26 +576,214 @@ def print_results(
 
 
 # --------------------------------------------------------------------------- #
+# diff / multi-file helpers
+# --------------------------------------------------------------------------- #
+
+def _names_from_git_diff() -> list[str]:
+    """Return the query name for every COBOL-relevant file reported by
+    ``git diff --name-only HEAD~1``.  Files whose extension is not in
+    COBOL_EXTENSIONS are silently skipped."""
+    try:
+        out = subprocess.check_output(
+            ["git", "diff", "--name-only", "HEAD~1"],
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        sys.exit(f"Error running git diff: {exc.stderr.strip()}")
+    except FileNotFoundError:
+        sys.exit("Error: 'git' executable not found.")
+
+    names = []
+    for line in out.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        p = Path(line)
+        if p.suffix.lower() not in COBOL_EXTENSIONS:
+            continue
+        names.append(p.stem)
+    return names
+
+
+def _merge_hits(
+    all_hits: list[tuple[str, list[tuple[str, str, list[dict]]]]]
+) -> list[tuple[str, str, list[dict]]]:
+    """Merge hits from multiple queries, deduplicating dependents by file path."""
+    # key: (category, matched_key) -> list[dict] (dependents, deduped by 'file')
+    merged: dict[tuple[str, str], dict[str, dict]] = {}
+    for _name, hits in all_hits:
+        for category, matched_key, dependents in hits:
+            slot = merged.setdefault((category, matched_key), {})
+            for dep in dependents:
+                slot[dep["file"]] = dep          # last write wins; values are identical
+    return [
+        (cat, key, list(deps.values()))
+        for (cat, key), deps in merged.items()
+    ]
+
+
+def print_combined_results(
+    names: list[str],
+    all_hits: list[tuple[str, list[tuple[str, str, list[dict]]]]],
+    impact_map: dict,
+    deps_data: dict,
+) -> None:
+    """Print the union blast radius for a set of changed files."""
+    merged = _merge_hits(all_hits)
+    found_names  = [n for n, hits in all_hits if hits or is_root_program(hits, n, deps_data)]
+    missed_names = [n for n, hits in all_hits if not hits and not is_root_program(hits, n, deps_data)]
+
+    header = "Combined blast radius for: " + ", ".join(n.upper() for n in names)
+    print(f"\n{header}")
+    print("=" * max(60, len(header)))
+
+    if missed_names:
+        print("\n  [NOT FOUND] " + ", ".join(n.upper() for n in missed_names))
+
+    if not merged and not found_names:
+        print("No downstream impact detected for any of the supplied names.")
+        return
+
+    # Reuse single-query printing per entry so formatting is identical
+    for name, hits in all_hits:
+        if hits or is_root_program(hits, name, deps_data):
+            print(f"\n{'-' * 60}")
+            print(f"  -> {name.upper()}")
+            print_results(name, hits, impact_map, deps_data)
+
+    # Deduplicated union summary
+    total_unique = len({dep["file"] for _, hits in all_hits for _, _, deps in hits for dep in deps})
+    print("\n" + "=" * 60)
+    print(f"Total unique affected source files (union): {total_unique}")
+
+
+def build_combined_json_result(
+    names: list[str],
+    all_hits: list[tuple[str, list[tuple[str, str, list[dict]]]]],
+    impact_map: dict,
+    deps_data: dict,
+) -> dict:
+    """Build a JSON result for the combined blast radius of multiple changed files."""
+    merged = _merge_hits(all_hits)
+    total_unique = len({dep["file"] for _, hits in all_hits for _, _, deps in hits for dep in deps})
+
+    per_name = []
+    for name, hits in all_hits:
+        entry = build_json_result(name, hits, impact_map, deps_data)
+        per_name.append(entry)
+
+    return {
+        "mode":    "diff",
+        "queries": [n.upper() for n in names],
+        "per_name_results": per_name,
+        "union": {
+            "source_layer": [
+                {
+                    "category":    cat,
+                    "matched_key": key,
+                    "label":       CATEGORY_LABELS.get(cat, cat),
+                    "dependents":  deps,
+                }
+                for cat, key, deps in merged
+            ],
+            "total_affected_source_files": total_unique,
+        },
+    }
+
+
+# --------------------------------------------------------------------------- #
 # entry point
 # --------------------------------------------------------------------------- #
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Show the blast radius of a COBOL program, DD file, or copybook.",
+        description=(
+            "Show the blast radius of a COBOL program, DD file, or copybook. "
+            "Use --changed or --git-diff for multi-file diff mode."
+        ),
         add_help=True,
     )
-    parser.add_argument("name", help="Program ID, DD file name, or copybook name to query.")
+    parser.add_argument(
+        "name",
+        nargs="?",
+        help="Program ID, DD file name, or copybook name to query.",
+    )
     parser.add_argument(
         "--json",
         action="store_true",
         dest="output_json",
         help="Output the result as structured JSON instead of formatted text.",
     )
+    parser.add_argument(
+        "--changed",
+        nargs="+",
+        metavar="FILE",
+        help="Compute the combined blast radius across these changed files/names.",
+    )
+    parser.add_argument(
+        "--git-diff",
+        action="store_true",
+        dest="git_diff",
+        help="Read changed files from 'git diff --name-only HEAD~1' and compute their combined blast radius.",
+    )
     args = parser.parse_args()
+
+    # Validate mutually exclusive usage
+    diff_flags = sum([bool(args.changed), args.git_diff])
+    if diff_flags > 1:
+        parser.error("--changed and --git-diff are mutually exclusive.")
+    if diff_flags > 0 and args.name:
+        parser.error("'name' positional argument cannot be combined with --changed or --git-diff.")
+    if diff_flags == 0 and not args.name:
+        parser.error("A name argument is required (or use --changed / --git-diff).")
 
     impact_map = load_map()
     deps_data  = load_dependencies()
-    hits       = search(impact_map, args.name)
+
+    # ------------------------------------------------------------------ #
+    # Diff / multi-file mode
+    # ------------------------------------------------------------------ #
+    if args.changed or args.git_diff:
+        if args.git_diff:
+            names = _names_from_git_diff()
+            if not names:
+                print("No changed files reported by git diff HEAD~1.")
+                sys.exit(0)
+        else:
+            # Keep only COBOL-relevant files; use the stem as the query name.
+            # (.cbl → program name, .cpy → copybook name, .jcl/.pli → stem)
+            names = [
+                Path(f).stem
+                for f in args.changed
+                if Path(f).suffix.lower() in COBOL_EXTENSIONS
+            ]
+            if not names:
+                print("No COBOL-relevant files supplied to --changed.")
+                sys.exit(0)
+
+        all_hits = [(name, search(impact_map, name)) for name in names]
+
+        if len(names) == 1:
+            name, hits = all_hits[0]
+            if args.output_json:
+                result = build_json_result(name, hits, impact_map, deps_data)
+                print(json.dumps(result, indent=2))
+            else:
+                print_results(name, hits, impact_map, deps_data)
+            return
+
+        if args.output_json:
+            result = build_combined_json_result(names, all_hits, impact_map, deps_data)
+            print(json.dumps(result, indent=2))
+        else:
+            print_combined_results(names, all_hits, impact_map, deps_data)
+        return
+
+    # ------------------------------------------------------------------ #
+    # Single-name mode (original behaviour)
+    # ------------------------------------------------------------------ #
+    hits = search(impact_map, args.name)
 
     if args.output_json:
         result = build_json_result(args.name, hits, impact_map, deps_data)
