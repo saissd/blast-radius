@@ -1,0 +1,146 @@
+name: Blast Radius Risk Gate
+
+on:
+  pull_request:
+    paths:
+      # Trigger only when mainframe source files change
+      - "**/*.cbl"
+      - "**/*.cpy"
+      - "**/*.jcl"
+
+permissions:
+  contents: read
+  pull-requests: write   # needed to post the PR comment
+
+jobs:
+  risk-gate:
+    name: COBOL Change Risk Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      # ------------------------------------------------------------------ #
+      # 1. Checkout full history so git diff works
+      # ------------------------------------------------------------------ #
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------ #
+      # 2. Set up Python (risk_score.py uses only the stdlib)
+      # ------------------------------------------------------------------ #
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ------------------------------------------------------------------ #
+      # 3. Collect changed COBOL/copybook/JCL files in this PR
+      # ------------------------------------------------------------------ #
+      - name: Detect changed mainframe files
+        id: changed
+        run: |
+          # List files changed versus the PR base branch
+          git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -Ei '\.(cbl|cpy|jcl)$' \
+            | sort -u \
+            > changed_files.txt
+
+          echo "--- changed mainframe files ---"
+          cat changed_files.txt
+
+          # Expose count so later steps can short-circuit
+          COUNT=$(wc -l < changed_files.txt | tr -d ' ')
+          echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
+
+      # ------------------------------------------------------------------ #
+      # 4. Derive entity names from each changed file path and run the gate
+      #    Strategy:
+      #      - Strip directory prefix and file extension  → bare name
+      #      - That bare name is the entity key in impact_map.json
+      #    Each file produces one risk_score.py invocation.
+      #    Collect all HIGH results; fail the job if any exist.
+      # ------------------------------------------------------------------ #
+      - name: Run risk gate for each changed file
+        id: gate
+        if: steps.changed.outputs.count != '0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          HIGH_HITS=""      # accumulates entity names that scored HIGH
+          ALL_RESULTS=""    # accumulates --report markdown blocks
+
+          while IFS= read -r filepath; do
+            # Extract bare filename without extension (e.g. CUSTCOPY)
+            entity=$(basename "$filepath" | sed 's/\.[^.]*$//')
+
+            echo "Scoring: $entity  (from $filepath)"
+
+            # --report produces ready-to-use Markdown; --gate sets exit code
+            report=$(python risk_score.py --report "$entity" 2>&1)
+            python risk_score.py --gate "$entity" > /dev/null 2>&1
+            gate_exit=$?
+
+            ALL_RESULTS="${ALL_RESULTS}${report}
+
+          ---
+
+          "
+
+            if [ "$gate_exit" -eq 1 ]; then
+              HIGH_HITS="${HIGH_HITS}${entity}
+          "
+            fi
+          done < changed_files.txt
+
+          # Write outputs for the comment step
+          echo "high_hits<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$HIGH_HITS"     >> "$GITHUB_OUTPUT"
+          echo "EOF"            >> "$GITHUB_OUTPUT"
+
+          echo "all_results<<EOF"  >> "$GITHUB_OUTPUT"
+          echo "$ALL_RESULTS"      >> "$GITHUB_OUTPUT"
+          echo "EOF"               >> "$GITHUB_OUTPUT"
+
+          # Propagate failure after writing outputs (comment step needs them)
+          if [ -n "$HIGH_HITS" ]; then
+            echo "gate_failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "gate_failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ------------------------------------------------------------------ #
+      # 5. Post a PR comment summarising findings
+      #    Always runs (even on failure) so the author sees the breakdown.
+      # ------------------------------------------------------------------ #
+      - name: Post risk summary comment
+        if: always() && steps.changed.outputs.count != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const gateStep   = ${{ toJSON(steps.gate.outputs) }};
+            const gateFailed = gateStep.gate_failed === 'true';
+            const allResults = gateStep.all_results || '_No results._';
+            const highHits   = (gateStep.high_hits || '').trim();
+
+            const header = gateFailed
+              ? `## ⛔ Blast-Radius Risk Gate — BLOCKED\n\nOne or more changed entities scored **HIGH** risk. The following programs need retesting before this PR can merge:\n\n\`\`\`\n${highHits}\n\`\`\``
+              : `## ✅ Blast-Radius Risk Gate — PASSED\n\nAll changed entities are within acceptable risk bands.`;
+
+            const body = `${header}\n\n---\n\n## Risk breakdown\n\n${allResults}\n> Scores: each affected program ×3 · output file ×5 · shared copybook ×10 · JCL job ×8 · cap 100. HIGH ≥ 60, MEDIUM 30–59, LOW < 30.`;
+
+            await github.rest.issues.createComment({
+              owner:    context.repo.owner,
+              repo:     context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+      # ------------------------------------------------------------------ #
+      # 6. Fail the check if any HIGH entities were found
+      # ------------------------------------------------------------------ #
+      - name: Enforce gate
+        if: steps.gate.outputs.gate_failed == 'true'
+        run: |
+          echo "::error::HIGH risk entities detected. See the PR comment for the full breakdown."
+          exit 1
