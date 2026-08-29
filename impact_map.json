@@ -4,15 +4,18 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "NEEDS_REVIEW"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "NEEDS_REVIEW"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "NEEDS_REVIEW"
         }
       ]
     }
@@ -22,15 +25,18 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         }
       ]
     },
@@ -38,15 +44,18 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         }
       ]
     },
@@ -54,15 +63,18 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         }
       ]
     },
@@ -70,15 +82,18 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         }
       ]
     }
@@ -88,23 +103,28 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM2.cbl",
-          "program_id": "SAM2"
+          "program_id": "SAM2",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM2.cbl",
-          "program_id": "SAM2"
+          "program_id": "SAM2",
+          "confidence": "CONFIRMED"
         }
       ]
     },
@@ -112,23 +132,28 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/COBOL/SAM2.cbl",
-          "program_id": "SAM2"
+          "program_id": "SAM2",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM2.cbl",
-          "program_id": "SAM2"
+          "program_id": "SAM2",
+          "confidence": "CONFIRMED"
         }
       ]
     },
@@ -136,7 +161,8 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "NEEDS_REVIEW"
         }
       ]
     },
@@ -144,7 +170,8 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/COBOL/SAM1LIB.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "NEEDS_REVIEW"
         }
       ]
     },
@@ -152,11 +179,1050 @@
       "depended_on_by": [
         {
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
-          "program_id": "SAM1"
+          "program_id": "SAM1",
+          "confidence": "CONFIRMED"
         },
         {
           "file": "sample-cobol/multiroot/sam/SAM2.cbl",
-          "program_id": "SAM2"
+          "program_id": "SAM2",
+          "confidence": "CONFIRMED"
+        }
+      ]
+    }
+  },
+  "jcl": {
+    "programs_executed_by": {
+      "IGYCRCTL": [
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "CMPLSAM2",
+          "datasets_input": [
+            "&HLQ..SAMPLE.COBOL(SAM2)",
+            "&HLQ..SAMPLE.COPY"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.OBJ(SAM2)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile SAM2 source"
+        },
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "CMPLSAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.COBOL(SAM1)",
+            "&HLQ..SAMPLE.COPY",
+            "&HLQ..SAMPLE.COPYLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.OBJ(SAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile SAM1 source; MYFILE and MYLIB DDs point to COPYLIB for library-qualified copybooks"
+        }
+      ],
+      "IEWL": [
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "LINKSAM2",
+          "datasets_input": [
+            "&HLQ..SAMPLE.OBJ(SAM2)",
+            "&LINKLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.LOAD(SAM2)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Link SAM2 object"
+        },
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "LINKSAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.OBJ(SAM1)",
+            "&HLQ..SAMPLE.LOAD",
+            "&LINKLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.LOAD(SAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Link SAM1 object; references SAM2 load module"
+        },
+        {
+          "job": "WAZIASM1",
+          "job_file": "sample-cobol/JCL/RUNASAM1.jcl",
+          "step": "LKED",
+          "datasets_input": [
+            "&HLQ..SAMPLE.ASMOBJ(ASAM1)",
+            "&LINKLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.ASMLOAD(ASAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Link ASAM1 object"
+        },
+        {
+          "job": "ZDEPSM1",
+          "job_file": "sample-cobol/JCL/RUNPSAM1.jcl",
+          "step": "LNKPSAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.PLIOBJ(PSAM2)",
+            "&HLQ..SAMPLE.PLIOBJ(PSAM1)",
+            "&LINKLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.PLILOAD(PSAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Link PSAM1 and PSAM2 objects"
+        }
+      ],
+      "IEFBR14": [
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "DELETE",
+          "datasets_input": [],
+          "datasets_output": [
+            "&HLQ..SAMPLE.CUSTRPT",
+            "&HLQ..SAMPLE.CUSTOUT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Delete output files from previous run"
+        },
+        {
+          "job": "WAZIASM1",
+          "job_file": "sample-cobol/JCL/RUNASAM1.jcl",
+          "step": "DELETE",
+          "datasets_input": [],
+          "datasets_output": [
+            "&HLQ..SAMPLE.ASM.FILEOUT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Delete output file from previous run"
+        },
+        {
+          "job": "ZDEPSM1",
+          "job_file": "sample-cobol/JCL/RUNPSAM1.jcl",
+          "step": "DELETE",
+          "datasets_input": [],
+          "datasets_output": [
+            "&HLQ..SAMPLE.PLI.CUSTRPT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Delete output file from previous run"
+        },
+        {
+          "job": "ZDEALLC",
+          "job_file": "sample-cobol/JCL/ALLOCATE.jcl",
+          "step": "DELETE",
+          "datasets_input": [],
+          "datasets_output": [
+            "&HLQ..SAMPLE.OBJ",
+            "&HLQ..SAMPLE.LOAD",
+            "&HLQ..SAMPLE.COBOL",
+            "&HLQ..SAMPLE.COPY",
+            "&HLQ..SAMPLE.TRANFILE",
+            "&HLQ..SAMPLE.CUSTFILE",
+            "&HLQ..SAMPLE.COPYLIB"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Delete all sample datasets"
+        },
+        {
+          "job": "ZDEALLC",
+          "job_file": "sample-cobol/JCL/ALLOCATE.jcl",
+          "step": "ALLOCAT",
+          "datasets_input": [],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Allocate datasets (IEFBR14 allocation step)"
+        }
+      ],
+      "SAM1": [
+        {
+          "job": "ZDERUN",
+          "job_file": "sample-cobol/JCL/RUN.jcl",
+          "step": "SAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.LOAD(SAM1)",
+            "&HLQ..SAMPLE.CUSTFILE",
+            "&HLQ..SAMPLE.TRANFILE"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.CUSTOUT",
+            "&HLQ..SAMPLE.CUSTRPT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute SAM1 application"
+        }
+      ],
+      "ASMA90": [
+        {
+          "job": "WAZIASM1",
+          "job_file": "sample-cobol/JCL/RUNASAM1.jcl",
+          "step": "ASM1",
+          "datasets_input": [
+            "&MACLIB",
+            "&MODGEN",
+            "&SCEEMAC",
+            "&HLQ..SAMPLE.ASMCOPY",
+            "&HLQ..SAMPLE.ASM(ASAM1)"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.ASMOBJ(ASAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Assemble ASAM1 source"
+        }
+      ],
+      "ASAM1": [
+        {
+          "job": "WAZIASM1",
+          "job_file": "sample-cobol/JCL/RUNASAM1.jcl",
+          "step": "EXECUTE",
+          "datasets_input": [
+            "&HLQ..SAMPLE.ASMLOAD(ASAM1)",
+            "&HLQ..SAMPLE.ASM.FILEIN"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.ASM.FILEOUT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute ASAM1 application"
+        }
+      ],
+      "IBMZPLI": [
+        {
+          "job": "ZDEPSM1",
+          "job_file": "sample-cobol/JCL/RUNPSAM1.jcl",
+          "step": "CMPPSAM2",
+          "datasets_input": [
+            "&HLQ..SAMPLE.PLI(PSAM2)",
+            "&HLQ..SAMPLE.PLINC",
+            "&CMPLLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.PLIOBJ(PSAM2)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile PSAM2 source"
+        },
+        {
+          "job": "ZDEPSM1",
+          "job_file": "sample-cobol/JCL/RUNPSAM1.jcl",
+          "step": "CMPPSAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.PLI(PSAM1)",
+            "&HLQ..SAMPLE.PLINC",
+            "&HLQ..SAMPLE.PLI.INCLLIB",
+            "&CMPLLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.PLIOBJ(PSAM1)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile PSAM1 source"
+        }
+      ],
+      "PSAM1": [
+        {
+          "job": "ZDEPSM1",
+          "job_file": "sample-cobol/JCL/RUNPSAM1.jcl",
+          "step": "RUNPSAM1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.PLILOAD(PSAM1)",
+            "&HLQ..SAMPLE.PLI.CUSTFILE",
+            "&HLQ..SAMPLE.PLI.TRANFILE"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.PLI.CUSTRPT"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute PSAM1 application"
+        }
+      ],
+      "COMPROC": [
+        {
+          "job": "IBMUSER",
+          "job_file": "sample-cobol/JCL/INCLUDE.jcl",
+          "step": "STEP1",
+          "datasets_input": [
+            "&HLQ..SAMPLE.COBOL(SAM2)",
+            "&HLQ..SAMPLE.COPY",
+            "&CMPLLIB"
+          ],
+          "datasets_output": [
+            "&HLQ..SAMPLE.OBJ(SAM2)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Executes COMPROC procedure; symbolics SET by COMPSET INCLUDE member"
+        }
+      ]
+    },
+    "datasets": {
+      "&HLQ..SAMPLE.COBOL(SAM2)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "IBMUSER",
+            "step": "STEP1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.COPY": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM1",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "IBMUSER",
+            "step": "STEP1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.OBJ(SAM2)": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "IBMUSER",
+            "step": "STEP1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM2",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.COBOL(SAM1)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.COPYLIB": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.OBJ(SAM1)": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "CMPLSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&LINKLIB": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM1",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "WAZIASM1",
+            "step": "LKED",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDEPSM1",
+            "step": "LNKPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.LOAD(SAM2)": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM2",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&HLQ..SAMPLE.LOAD": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.LOAD(SAM1)": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "LINKSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "SAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.CUSTRPT": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDERUN",
+            "step": "SAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&HLQ..SAMPLE.CUSTOUT": {
+        "produced_by": [
+          {
+            "job": "ZDERUN",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDERUN",
+            "step": "SAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&HLQ..SAMPLE.CUSTFILE": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "SAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.TRANFILE": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDERUN",
+            "step": "SAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASM.FILEOUT": {
+        "produced_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "WAZIASM1",
+            "step": "EXECUTE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&MACLIB": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&MODGEN": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SCEEMAC": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASMCOPY": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASM(ASAM1)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASMOBJ(ASAM1)": {
+        "produced_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "ASM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "LKED",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASMLOAD(ASAM1)": {
+        "produced_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "LKED",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "EXECUTE",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.ASM.FILEIN": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "WAZIASM1",
+            "step": "EXECUTE",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLI.CUSTRPT": {
+        "produced_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDEPSM1",
+            "step": "RUNPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&HLQ..SAMPLE.PLI(PSAM2)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM2",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLINC": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&CMPLLIB": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM2",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM1",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "IBMUSER",
+            "step": "STEP1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLIOBJ(PSAM2)": {
+        "produced_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM2",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "LNKPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLI(PSAM1)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLI.INCLLIB": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLIOBJ(PSAM1)": {
+        "produced_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "CMPPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "LNKPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLILOAD(PSAM1)": {
+        "produced_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "LNKPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "RUNPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLI.CUSTFILE": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "RUNPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.PLI.TRANFILE": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ZDEPSM1",
+            "step": "RUNPSAM1",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&HLQ..SAMPLE.OBJ": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&HLQ..SAMPLE.COBOL": {
+        "produced_by": [
+          {
+            "job": "ZDEALLC",
+            "step": "DELETE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      }
+    },
+    "dataset_downstream_jobs": {
+      "&HLQ..SAMPLE.COBOL(SAM2)": [
+        {
+          "job": "ZDERUN",
+          "step": "CMPLSAM2",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "IBMUSER",
+          "step": "STEP1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.COPY": [
+        {
+          "job": "ZDERUN",
+          "step": "CMPLSAM2",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ZDERUN",
+          "step": "CMPLSAM1",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "IBMUSER",
+          "step": "STEP1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.OBJ(SAM2)": [
+        {
+          "job": "ZDERUN",
+          "step": "LINKSAM2",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.COBOL(SAM1)": [
+        {
+          "job": "ZDERUN",
+          "step": "CMPLSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.COPYLIB": [
+        {
+          "job": "ZDERUN",
+          "step": "CMPLSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.OBJ(SAM1)": [
+        {
+          "job": "ZDERUN",
+          "step": "LINKSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&LINKLIB": [
+        {
+          "job": "ZDERUN",
+          "step": "LINKSAM2",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ZDERUN",
+          "step": "LINKSAM1",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "WAZIASM1",
+          "step": "LKED",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ZDEPSM1",
+          "step": "LNKPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.LOAD": [
+        {
+          "job": "ZDERUN",
+          "step": "LINKSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.LOAD(SAM1)": [
+        {
+          "job": "ZDERUN",
+          "step": "SAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.CUSTFILE": [
+        {
+          "job": "ZDERUN",
+          "step": "SAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.TRANFILE": [
+        {
+          "job": "ZDERUN",
+          "step": "SAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&MACLIB": [
+        {
+          "job": "WAZIASM1",
+          "step": "ASM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&MODGEN": [
+        {
+          "job": "WAZIASM1",
+          "step": "ASM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SCEEMAC": [
+        {
+          "job": "WAZIASM1",
+          "step": "ASM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.ASMCOPY": [
+        {
+          "job": "WAZIASM1",
+          "step": "ASM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.ASM(ASAM1)": [
+        {
+          "job": "WAZIASM1",
+          "step": "ASM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.ASMOBJ(ASAM1)": [
+        {
+          "job": "WAZIASM1",
+          "step": "LKED",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.ASMLOAD(ASAM1)": [
+        {
+          "job": "WAZIASM1",
+          "step": "EXECUTE",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.ASM.FILEIN": [
+        {
+          "job": "WAZIASM1",
+          "step": "EXECUTE",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLI(PSAM2)": [
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM2",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLINC": [
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM2",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&CMPLLIB": [
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM2",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM1",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "IBMUSER",
+          "step": "STEP1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLIOBJ(PSAM2)": [
+        {
+          "job": "ZDEPSM1",
+          "step": "LNKPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLI(PSAM1)": [
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLI.INCLLIB": [
+        {
+          "job": "ZDEPSM1",
+          "step": "CMPPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLIOBJ(PSAM1)": [
+        {
+          "job": "ZDEPSM1",
+          "step": "LNKPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLILOAD(PSAM1)": [
+        {
+          "job": "ZDEPSM1",
+          "step": "RUNPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLI.CUSTFILE": [
+        {
+          "job": "ZDEPSM1",
+          "step": "RUNPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&HLQ..SAMPLE.PLI.TRANFILE": [
+        {
+          "job": "ZDEPSM1",
+          "step": "RUNPSAM1",
+          "confidence": "CONFIRMED"
         }
       ]
     }
