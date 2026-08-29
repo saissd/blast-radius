@@ -88,8 +88,7 @@ Supports `--json` (structured output), `--report` (Markdown for PR comments), an
 To regenerate it:
 
 ```bash
-python build_risk_scores.py        # if a bulk-export script exists, or:
-python risk_score.py --json SAM1   # per-entity, pipe/collect into risk_scores.json
+python -c "import json,subprocess; names=['SAM1','SAM2','CUSTCOPY','TRANREC','DATETIME','REPTTOTL','SAM2PARM','CUSTFILE','TRANFILE','CUSTOUT','CUSTRPT','ZDERUN','WAZIASM1','ZDEPSM1','ZDEALLC','IBMUSER']; out={n: json.loads(subprocess.run(['python','risk_score.py',n,'--json'],capture_output=True,text=True).stdout) for n in names}; json.dump(out,open('risk_scores.json','w'),indent=2)"
 ```
 
 ### `.github/workflows/blast-radius.yml` — CI gate
