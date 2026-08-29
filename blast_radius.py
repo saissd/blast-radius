@@ -2,9 +2,9 @@
 """
 blast_radius.py
 Usage:
-    python blast_radius.py [--json] <name>
-    python blast_radius.py [--json] --changed <file1> [<file2> ...]
-    python blast_radius.py [--json] --git-diff
+    python blast_radius.py [--json] [--effort] <name>
+    python blast_radius.py [--json] [--effort] --changed <file1> [<file2> ...]
+    python blast_radius.py [--json] [--effort] --git-diff
 
 <name> is matched case-insensitively against:
   - program IDs    (e.g. SAM2)
@@ -29,6 +29,10 @@ Flags:
   --changed     Compute the combined blast radius across one or more changed files/names.
   --git-diff    Read changed files automatically from `git diff --name-only HEAD~1`
                 and compute their combined blast radius.
+  --effort      Estimate regression-testing effort from the blast radius and show a
+                confidence summary (CONFIRMED vs NEEDS_REVIEW edge percentages).
+                Rates: 2 h per affected program, 4 h per affected JCL job, 1 h per
+                affected file.  With --json the values are added to the result dict.
 """
 
 import argparse
@@ -293,6 +297,7 @@ def build_json_result(
     hits: list[tuple[str, str, list[dict]]],
     impact_map: dict,
     deps_data: dict,
+    effort: bool = False,
 ) -> dict:
     """
     Build and return the full blast-radius result as a plain Python dict
@@ -362,7 +367,111 @@ def build_json_result(
             "consumers": consumers,
         })
 
+    if effort:
+        result["effort"]             = compute_effort(hits, jcl_hits)
+        result["confidence_summary"] = compute_confidence_summary(hits, jcl_hits, downstream)
+
     return result
+
+
+# --------------------------------------------------------------------------- #
+# effort estimation & confidence summary
+# --------------------------------------------------------------------------- #
+
+EFFORT_HOURS_PROGRAM = 2
+EFFORT_HOURS_JCL_JOB = 4
+EFFORT_HOURS_FILE    = 1
+
+
+def compute_effort(
+    hits: list[tuple[str, str, list[dict]]],
+    jcl_hits: dict[str, list[dict]],
+) -> dict:
+    """
+    Estimate regression-testing effort from the blast radius.
+
+    Rates
+    -----
+    - 2 h per unique affected program (source layer)
+    - 4 h per unique affected JCL job
+    - 1 h per unique affected source file
+
+    Returns a dict with individual counts, hours per category, and total hours.
+    """
+    # Unique affected source files
+    affected_files: set[str] = set()
+    # Unique affected program_ids from the source layer
+    affected_programs: set[str] = set()
+    for _, _, dependents in hits:
+        for dep in dependents:
+            affected_files.add(dep["file"])
+            affected_programs.add(dep["program_id"].upper())
+
+    # Unique JCL job names (a job may appear in multiple steps)
+    affected_jcl_jobs: set[str] = set()
+    for steps in jcl_hits.values():
+        for s in steps:
+            affected_jcl_jobs.add(s["job"].upper())
+
+    n_programs = len(affected_programs)
+    n_jcl_jobs = len(affected_jcl_jobs)
+    n_files    = len(affected_files)
+
+    hours_programs = n_programs * EFFORT_HOURS_PROGRAM
+    hours_jcl_jobs = n_jcl_jobs * EFFORT_HOURS_JCL_JOB
+    hours_files    = n_files    * EFFORT_HOURS_FILE
+    total_hours    = hours_programs + hours_jcl_jobs + hours_files
+
+    return {
+        "affected_programs":  n_programs,
+        "affected_jcl_jobs":  n_jcl_jobs,
+        "affected_files":     n_files,
+        "hours_programs":     hours_programs,
+        "hours_jcl_jobs":     hours_jcl_jobs,
+        "hours_files":        hours_files,
+        "total_hours":        total_hours,
+    }
+
+
+def compute_confidence_summary(
+    hits: list[tuple[str, str, list[dict]]],
+    jcl_hits: dict[str, list[dict]],
+    downstream: dict[str, list[dict]],
+) -> dict:
+    """
+    Count all dependency edges (source layer + JCL layer + downstream jobs)
+    and return how many are CONFIRMED vs NEEDS_REVIEW (and any other values).
+
+    Returns a dict with counts and the CONFIRMED percentage.
+    """
+    counts: dict[str, int] = {}
+
+    def _tally(items: list[dict]) -> None:
+        for item in items:
+            level = item.get("confidence", "CONFIRMED")
+            counts[level] = counts.get(level, 0) + 1
+
+    # Source layer edges
+    for _, _, dependents in hits:
+        _tally(dependents)
+
+    # JCL jobs/steps edges
+    for steps in jcl_hits.values():
+        _tally(steps)
+
+    # Downstream job edges
+    for consumers in downstream.values():
+        _tally(consumers)
+
+    total = sum(counts.values())
+    confirmed = counts.get("CONFIRMED", 0)
+    pct_confirmed = round(confirmed / total * 100, 1) if total > 0 else 0.0
+
+    return {
+        "total_edges":     total,
+        "counts":          counts,
+        "pct_confirmed":   pct_confirmed,
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -434,11 +543,51 @@ def _print_root_program_deps(name: str, deps: dict) -> None:
         print("  (no recorded dependencies)")
 
 
+def _print_effort_summary(
+    hits: list[tuple[str, str, list[dict]]],
+    jcl_hits: dict[str, list[dict]],
+    downstream: dict[str, list[dict]],
+) -> None:
+    """Print effort estimate and confidence summary lines."""
+    effort = compute_effort(hits, jcl_hits)
+    conf   = compute_confidence_summary(hits, jcl_hits, downstream)
+
+    print(
+        f"Estimated verification effort: {effort['total_hours']} hours"
+        f"  ({effort['affected_programs']} program(s) × {EFFORT_HOURS_PROGRAM} h"
+        f", {effort['affected_jcl_jobs']} JCL job(s) × {EFFORT_HOURS_JCL_JOB} h"
+        f", {effort['affected_files']} file(s) × {EFFORT_HOURS_FILE} h)"
+    )
+
+    if conf["total_edges"] > 0:
+        counts = conf["counts"]
+        parts  = ", ".join(
+            f"{counts.get(lvl, 0)} {lvl}"
+            for lvl in CONFIDENCE_ORDER
+            if counts.get(lvl, 0) > 0
+        )
+        # also show any non-standard confidence values
+        for lvl, cnt in counts.items():
+            if lvl not in CONFIDENCE_ORDER:
+                parts += f", {cnt} {lvl}"
+        pct_confirmed    = conf["pct_confirmed"]
+        needs_review_cnt = counts.get("NEEDS_REVIEW", 0)
+        pct_needs_review = round(needs_review_cnt / conf["total_edges"] * 100, 1)
+        print(
+            f"Confidence: {pct_confirmed}% CONFIRMED, "
+            f"{pct_needs_review}% NEEDS_REVIEW  ({parts}; "
+            f"{conf['total_edges']} total edges)"
+        )
+    else:
+        print("Confidence: no edges to evaluate.")
+
+
 def print_results(
     name: str,
     hits: list[tuple[str, str, list[dict]]],
     impact_map: dict,
     deps_data: dict,
+    effort: bool = False,
 ) -> None:
     root = is_root_program(hits, name, deps_data)
 
@@ -507,6 +656,8 @@ def print_results(
     if not jcl:
         print("\n" + "-" * 60)
         print(f"Total affected source files: {total}")
+        if effort:
+            _print_effort_summary(hits, {}, {})
         return
 
     jcl_hits, ds_details, downstream = _collect_jcl_data(name, hits, impact_map)
@@ -573,6 +724,8 @@ def print_results(
 
     print("\n" + "=" * 60)
     print(f"Total affected source files: {total}")
+    if effort:
+        _print_effort_summary(hits, jcl_hits, downstream)
 
 
 # --------------------------------------------------------------------------- #
@@ -628,6 +781,7 @@ def print_combined_results(
     all_hits: list[tuple[str, list[tuple[str, str, list[dict]]]]],
     impact_map: dict,
     deps_data: dict,
+    effort: bool = False,
 ) -> None:
     """Print the union blast radius for a set of changed files."""
     merged = _merge_hits(all_hits)
@@ -657,12 +811,30 @@ def print_combined_results(
     print("\n" + "=" * 60)
     print(f"Total unique affected source files (union): {total_unique}")
 
+    if effort:
+        # Union-level effort & confidence across all names
+        union_hits = [
+            (cat, key, deps)
+            for _, hits in all_hits
+            for cat, key, deps in hits
+        ]
+        union_jcl_hits: dict[str, list[dict]] = {}
+        union_downstream: dict[str, list[dict]] = {}
+        for name, hits in all_hits:
+            j, _, d = _collect_jcl_data(name, hits, impact_map)
+            for pid, steps in j.items():
+                union_jcl_hits.setdefault(pid, []).extend(steps)
+            for ds, consumers in d.items():
+                union_downstream.setdefault(ds, []).extend(consumers)
+        _print_effort_summary(union_hits, union_jcl_hits, union_downstream)
+
 
 def build_combined_json_result(
     names: list[str],
     all_hits: list[tuple[str, list[tuple[str, str, list[dict]]]]],
     impact_map: dict,
     deps_data: dict,
+    effort: bool = False,
 ) -> dict:
     """Build a JSON result for the combined blast radius of multiple changed files."""
     merged = _merge_hits(all_hits)
@@ -670,25 +842,46 @@ def build_combined_json_result(
 
     per_name = []
     for name, hits in all_hits:
-        entry = build_json_result(name, hits, impact_map, deps_data)
+        entry = build_json_result(name, hits, impact_map, deps_data, effort=effort)
         per_name.append(entry)
+
+    union: dict = {
+        "source_layer": [
+            {
+                "category":    cat,
+                "matched_key": key,
+                "label":       CATEGORY_LABELS.get(cat, cat),
+                "dependents":  deps,
+            }
+            for cat, key, deps in merged
+        ],
+        "total_affected_source_files": total_unique,
+    }
+
+    if effort:
+        union_hits = [
+            (cat, key, deps)
+            for _, hits in all_hits
+            for cat, key, deps in hits
+        ]
+        union_jcl_hits: dict[str, list[dict]] = {}
+        union_downstream: dict[str, list[dict]] = {}
+        for name, hits in all_hits:
+            j, _, d = _collect_jcl_data(name, hits, impact_map)
+            for pid, steps in j.items():
+                union_jcl_hits.setdefault(pid, []).extend(steps)
+            for ds, consumers in d.items():
+                union_downstream.setdefault(ds, []).extend(consumers)
+        union["effort"]             = compute_effort(union_hits, union_jcl_hits)
+        union["confidence_summary"] = compute_confidence_summary(
+            union_hits, union_jcl_hits, union_downstream
+        )
 
     return {
         "mode":    "diff",
         "queries": [n.upper() for n in names],
         "per_name_results": per_name,
-        "union": {
-            "source_layer": [
-                {
-                    "category":    cat,
-                    "matched_key": key,
-                    "label":       CATEGORY_LABELS.get(cat, cat),
-                    "dependents":  deps,
-                }
-                for cat, key, deps in merged
-            ],
-            "total_affected_source_files": total_unique,
-        },
+        "union": union,
     }
 
 
@@ -726,6 +919,17 @@ def main() -> None:
         action="store_true",
         dest="git_diff",
         help="Read changed files from 'git diff --name-only HEAD~1' and compute their combined blast radius.",
+    )
+    parser.add_argument(
+        "--effort",
+        action="store_true",
+        dest="effort",
+        help=(
+            "Estimate regression-testing effort and show a confidence summary. "
+            f"Rates: {EFFORT_HOURS_PROGRAM} h per affected program, "
+            f"{EFFORT_HOURS_JCL_JOB} h per affected JCL job, "
+            f"{EFFORT_HOURS_FILE} h per affected file."
+        ),
     )
     args = parser.parse_args()
 
@@ -767,17 +971,17 @@ def main() -> None:
         if len(names) == 1:
             name, hits = all_hits[0]
             if args.output_json:
-                result = build_json_result(name, hits, impact_map, deps_data)
+                result = build_json_result(name, hits, impact_map, deps_data, effort=args.effort)
                 print(json.dumps(result, indent=2))
             else:
-                print_results(name, hits, impact_map, deps_data)
+                print_results(name, hits, impact_map, deps_data, effort=args.effort)
             return
 
         if args.output_json:
-            result = build_combined_json_result(names, all_hits, impact_map, deps_data)
+            result = build_combined_json_result(names, all_hits, impact_map, deps_data, effort=args.effort)
             print(json.dumps(result, indent=2))
         else:
-            print_combined_results(names, all_hits, impact_map, deps_data)
+            print_combined_results(names, all_hits, impact_map, deps_data, effort=args.effort)
         return
 
     # ------------------------------------------------------------------ #
@@ -786,10 +990,10 @@ def main() -> None:
     hits = search(impact_map, args.name)
 
     if args.output_json:
-        result = build_json_result(args.name, hits, impact_map, deps_data)
+        result = build_json_result(args.name, hits, impact_map, deps_data, effort=args.effort)
         print(json.dumps(result, indent=2))
     else:
-        print_results(args.name, hits, impact_map, deps_data)
+        print_results(args.name, hits, impact_map, deps_data, effort=args.effort)
 
 
 if __name__ == "__main__":

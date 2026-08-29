@@ -18,6 +18,25 @@
           "confidence": "NEEDS_REVIEW"
         }
       ]
+    },
+    "DSNTIAR": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB21.cbl",
+          "program_id": "CBLDB21",
+          "confidence": "NEEDS_REVIEW"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB22.cbl",
+          "program_id": "CBLDB22",
+          "confidence": "NEEDS_REVIEW"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB23.cbl",
+          "program_id": "CBLDB23",
+          "confidence": "NEEDS_REVIEW"
+        }
+      ]
     }
   },
   "files": {
@@ -94,6 +113,71 @@
           "file": "sample-cobol/multiroot/sam/SAM1.cbl",
           "program_id": "SAM1",
           "confidence": "CONFIRMED"
+        }
+      ]
+    },
+    "ACCTREC": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106.cbl",
+          "program_id": "CBL0106",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106C.cbl",
+          "program_id": "CBL0106C",
+          "confidence": "CONFIRMED"
+        }
+      ]
+    },
+    "PRTLINE": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106.cbl",
+          "program_id": "CBL0106",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106C.cbl",
+          "program_id": "CBL0106C",
+          "confidence": "CONFIRMED"
+        }
+      ]
+    },
+    "REPORT": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB21.cbl",
+          "program_id": "CBLDB21",
+          "confidence": "NEEDS_REVIEW"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB22.cbl",
+          "program_id": "CBLDB22",
+          "confidence": "NEEDS_REVIEW"
+        },
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB23.cbl",
+          "program_id": "CBLDB23",
+          "confidence": "NEEDS_REVIEW"
+        }
+      ]
+    },
+    "RECIN": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB22.cbl",
+          "program_id": "CBLDB22",
+          "confidence": "NEEDS_REVIEW"
+        }
+      ]
+    },
+    "CARDIN": {
+      "depended_on_by": [
+        {
+          "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB23.cbl",
+          "program_id": "CBLDB23",
+          "confidence": "NEEDS_REVIEW"
         }
       ]
     }
@@ -343,6 +427,17 @@
           "datasets_output": [],
           "confidence": "CONFIRMED",
           "note": "Allocate datasets (IEFBR14 allocation step)"
+        },
+        {
+          "job": "DBRMLIB",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/DBRMLIB.jcl",
+          "step": "ALLOCAT",
+          "datasets_input": [],
+          "datasets_output": [
+            "&SYSUID..DBRMLIB"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Allocate DBRM library dataset"
         }
       ],
       "SAM1": [
@@ -463,6 +558,813 @@
           ],
           "confidence": "CONFIRMED",
           "note": "Executes COMPROC procedure; symbolics SET by COMPSET INCLUDE member"
+        }
+      ],
+      "IGYWCL": [
+        {
+          "job": "CBL0001J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0001J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0001)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0001)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0001 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0002J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0002J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0002)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0002)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0002 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0003J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0003J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0003)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0003)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0003 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0004J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0004J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0004)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0004)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0004 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0005J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0005J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0005)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0005)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0005 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0006J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0006J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0006)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0006)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0006 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0007J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0007J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0007)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0007)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0007 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0008J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0008J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0008)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0008)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0008 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0009J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0009J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0009)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0009)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0009 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0010J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0010J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0010)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0010)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0010 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0011J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0011J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0011)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0011)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0011 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0012J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0012J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0012)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0012)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0012 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0013J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0013J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0013)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0013)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0013 via IGYWCL proc"
+        },
+        {
+          "job": "CBL0014J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0014J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0014)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0014)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0014 via IGYWCL proc"
+        },
+        {
+          "job": "CBL006AJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL006AJ.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL006A)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL006A)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL006A via IGYWCL proc"
+        },
+        {
+          "job": "CBL0033J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0033J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0033)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0033)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0033 via IGYWCL proc"
+        },
+        {
+          "job": "ADDAMT",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/ADDAMT.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(ADDAMT)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(ADDAMT)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link ADDAMT via IGYWCL proc"
+        },
+        {
+          "job": "SRCHBINJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHBINJ.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(SRCHBIN)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(SRCHBIN)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link SRCHBIN via IGYWCL proc"
+        },
+        {
+          "job": "SRCHSERJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHSERJ.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(SRCHSER)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(SRCHSER)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link SRCHSER via IGYWCL proc"
+        },
+        {
+          "job": "HELLO",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/HELLO.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(HELLO)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(HELLO)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link HELLO via IGYWCL proc"
+        },
+        {
+          "job": "COBRUN",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/COBRUN.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(&MEMBER)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(&MEMBER)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Generic parameterised compile+link only; MEMBER supplied at submission; no RUN step"
+        },
+        {
+          "job": "CBL0106J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/jcl/CBL0106J.jcl",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(CBL0106)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(CBL0106)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link CBL0106 via IGYWCL proc"
+        },
+        {
+          "job": "EMPPAY",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/EMPPAY.JCL",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(EMPPAY)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(EMPPAY)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link EMPPAY via IGYWCL proc"
+        },
+        {
+          "job": "DEPTPAYJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/DEPTPAY.JCL",
+          "step": "COBRUN",
+          "datasets_input": [
+            "&SYSUID..CBL(DEPTPAY)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(DEPTPAY)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile and link DEPTPAY via IGYWCL proc"
+        }
+      ],
+      "CBL0001": [
+        {
+          "job": "CBL0001J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0001J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0001; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0002": [
+        {
+          "job": "CBL0002J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0002J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0002; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0003": [
+        {
+          "job": "CBL0003J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0003J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0003; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0004": [
+        {
+          "job": "CBL0004J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0004J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0004; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0005": [
+        {
+          "job": "CBL0005J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0005J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0005; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0006": [
+        {
+          "job": "CBL0006J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0006J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0006; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0007": [
+        {
+          "job": "CBL0007J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0007J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0007; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0008": [
+        {
+          "job": "CBL0008J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0008J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0008; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0009": [
+        {
+          "job": "CBL0009J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0009J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0009; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0010": [
+        {
+          "job": "CBL0010J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0010J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0010; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0011": [
+        {
+          "job": "CBL0011J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0011J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0011; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0012": [
+        {
+          "job": "CBL0012J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0012J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0012; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0013": [
+        {
+          "job": "CBL0013J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0013J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0013; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0014": [
+        {
+          "job": "CBL0014J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0014J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0014; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL006A": [
+        {
+          "job": "CBL006AJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL006AJ.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL006A; conditional on COBRUN RC=0"
+        }
+      ],
+      "CBL0033": [
+        {
+          "job": "CBL0033J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0033J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0033; conditional on COBRUN RC=0"
+        }
+      ],
+      "ADDAMT": [
+        {
+          "job": "ADDAMT",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/ADDAMT.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute ADDAMT; conditional on COBRUN RC=0"
+        }
+      ],
+      "SRCHBIN": [
+        {
+          "job": "SRCHBINJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHBINJ.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute SRCHBIN; conditional on COBRUN RC=0"
+        }
+      ],
+      "SRCHSER": [
+        {
+          "job": "SRCHSERJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHSERJ.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute SRCHSER; conditional on COBRUN RC=0"
+        }
+      ],
+      "HELLO": [
+        {
+          "job": "HELLO",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/HELLO.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute HELLO; conditional on COBRUN RC=0"
+        }
+      ],
+      "IGYWCLG": [
+        {
+          "job": "PAYROL00",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/PAYROL00.jcl",
+          "step": "PAYROLL",
+          "datasets_input": [
+            "&SYSUID..CBL(PAYROL00)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(PAYROL00)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile, link, and go (IGYWCLG); SRC=PAYROL00; GO sub-step runs program inline"
+        },
+        {
+          "job": "PAYROL0X",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/PAYROL0X.jcl",
+          "step": "PAYROLL",
+          "datasets_input": [
+            "&SYSUID..CBL(PAYROL0X)"
+          ],
+          "datasets_output": [
+            "&SYSUID..LOAD(PAYROL0X)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile, link, and go (IGYWCLG); GO sub-step runs program inline"
+        }
+      ],
+      "CBL0106": [
+        {
+          "job": "CBL0106J",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/jcl/CBL0106J.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBL0106; conditional on COBRUN RC=0"
+        }
+      ],
+      "DB2CBL": [
+        {
+          "job": "CBLDB21C",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB21C.jcl",
+          "step": "COMPILE",
+          "datasets_input": [
+            "&SYSUID..CBL(CBLDB21)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DBRMLIB(CBLDB21)",
+            "&SYSUID..LOAD(CBLDB21)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile CBLDB21 via DB2CBL proc; produces DBRM and load module"
+        },
+        {
+          "job": "CBLDB22C",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB22C.jcl",
+          "step": "COMPILE",
+          "datasets_input": [
+            "&SYSUID..CBL(CBLDB22)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DBRMLIB(CBLDB22)",
+            "&SYSUID..LOAD(CBLDB22)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile CBLDB22 via DB2CBL proc; produces DBRM and load module"
+        },
+        {
+          "job": "CBLDB23C",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB23C.jcl",
+          "step": "COMPILE",
+          "datasets_input": [
+            "&SYSUID..CBL(CBLDB23)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DBRMLIB(CBLDB23)",
+            "&SYSUID..LOAD(CBLDB23)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Compile CBLDB23 via DB2CBL proc; produces DBRM and load module"
+        }
+      ],
+      "CBLDB21": [
+        {
+          "job": "CBLDB21R",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB21R.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD(CBLDB21)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DATA(REPORT)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBLDB21; REPORT DD output"
+        }
+      ],
+      "CBLDB22": [
+        {
+          "job": "CBLDB22R",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB22R.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD(CBLDB22)",
+            "&SYSUID..DATA(RECIN)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DATA(REPORT)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBLDB22; RECIN input DD, REPORT output DD"
+        }
+      ],
+      "CBLDB23": [
+        {
+          "job": "CBLDB23R",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB23R.jcl",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD(CBLDB23)",
+            "&SYSUID..DATA(CARDIN)"
+          ],
+          "datasets_output": [
+            "&SYSUID..DATA(REPORT)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "Execute CBLDB23; CARDIN input DD, REPORT output DD"
+        }
+      ],
+      "DB2JCL": [
+        {
+          "job": "CRETBL",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CRETBL.jcl",
+          "step": "CRETBL",
+          "datasets_input": [],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Create DB2 table via DB2JCL proc"
+        },
+        {
+          "job": "LOADTBL",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/LOADTBL.jcl",
+          "step": "LOADTBL",
+          "datasets_input": [],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Load DB2 table via DB2JCL proc"
+        },
+        {
+          "job": "SELTBL",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/SELTBL.jcl",
+          "step": "SELTBL",
+          "datasets_input": [],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Select from DB2 table via DB2JCL proc"
+        }
+      ],
+      "DSNUPROC": [
+        {
+          "job": "DB2SETUP",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/DB2SETUP.jcl",
+          "step": "DB2SETUP",
+          "datasets_input": [],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "DB2 environment setup via DSNUPROC proc"
+        }
+      ],
+      "EMPPAY": [
+        {
+          "job": "EMPPAY",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/EMPPAY.JCL",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute EMPPAY; conditional on COBRUN RC=0"
+        }
+      ],
+      "IKJEFT01": [
+        {
+          "job": "DEPTPAYJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/DEPTPAY.JCL",
+          "step": "COPY2DS1",
+          "datasets_input": [],
+          "datasets_output": [
+            "&SYSUID..CBL(DEPTPAY)"
+          ],
+          "confidence": "CONFIRMED",
+          "note": "TSO/E batch step copies Unix HFS source to MVS PDS member"
+        }
+      ],
+      "DEPTPAY": [
+        {
+          "job": "DEPTPAYJ",
+          "job_file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/DEPTPAY.JCL",
+          "step": "RUN",
+          "datasets_input": [
+            "&SYSUID..LOAD",
+            "&SYSUID..DATA"
+          ],
+          "datasets_output": [],
+          "confidence": "CONFIRMED",
+          "note": "Execute DEPTPAY"
         }
       ]
     },
@@ -974,6 +1876,925 @@
           }
         ],
         "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0001)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0001J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0001)": {
+        "produced_by": [
+          {
+            "job": "CBL0001J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..LOAD": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0001J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0002J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0003J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0004J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0005J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0006J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0007J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0008J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0009J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0010J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0011J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0012J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0013J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0014J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL006AJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0033J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ADDAMT",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "SRCHBINJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "SRCHSERJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "HELLO",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0106J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "EMPPAY",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "DEPTPAYJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DATA": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0001J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0002J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0003J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0004J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0005J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0006J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0007J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0008J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0009J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0010J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0011J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0012J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0013J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0014J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL006AJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0033J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "ADDAMT",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "SRCHBINJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "SRCHSERJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBL0106J",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "EMPPAY",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "DEPTPAYJ",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..CBL(CBL0002)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0002J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0002)": {
+        "produced_by": [
+          {
+            "job": "CBL0002J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0003)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0003J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0003)": {
+        "produced_by": [
+          {
+            "job": "CBL0003J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0004)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0004J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0004)": {
+        "produced_by": [
+          {
+            "job": "CBL0004J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0005)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0005J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0005)": {
+        "produced_by": [
+          {
+            "job": "CBL0005J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0006)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0006J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0006)": {
+        "produced_by": [
+          {
+            "job": "CBL0006J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0007)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0007J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0007)": {
+        "produced_by": [
+          {
+            "job": "CBL0007J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0008)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0008J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0008)": {
+        "produced_by": [
+          {
+            "job": "CBL0008J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0009)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0009J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0009)": {
+        "produced_by": [
+          {
+            "job": "CBL0009J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0010)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0010J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0010)": {
+        "produced_by": [
+          {
+            "job": "CBL0010J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0011)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0011J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0011)": {
+        "produced_by": [
+          {
+            "job": "CBL0011J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0012)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0012J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0012)": {
+        "produced_by": [
+          {
+            "job": "CBL0012J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0013)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0013J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0013)": {
+        "produced_by": [
+          {
+            "job": "CBL0013J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0014)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0014J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0014)": {
+        "produced_by": [
+          {
+            "job": "CBL0014J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL006A)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL006AJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL006A)": {
+        "produced_by": [
+          {
+            "job": "CBL006AJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0033)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0033J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0033)": {
+        "produced_by": [
+          {
+            "job": "CBL0033J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(ADDAMT)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "ADDAMT",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(ADDAMT)": {
+        "produced_by": [
+          {
+            "job": "ADDAMT",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(SRCHBIN)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "SRCHBINJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(SRCHBIN)": {
+        "produced_by": [
+          {
+            "job": "SRCHBINJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(SRCHSER)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "SRCHSERJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(SRCHSER)": {
+        "produced_by": [
+          {
+            "job": "SRCHSERJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(HELLO)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "HELLO",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(HELLO)": {
+        "produced_by": [
+          {
+            "job": "HELLO",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(&MEMBER)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "COBRUN",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(&MEMBER)": {
+        "produced_by": [
+          {
+            "job": "COBRUN",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(PAYROL00)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "PAYROL00",
+            "step": "PAYROLL",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(PAYROL00)": {
+        "produced_by": [
+          {
+            "job": "PAYROL00",
+            "step": "PAYROLL",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(PAYROL0X)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "PAYROL0X",
+            "step": "PAYROLL",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(PAYROL0X)": {
+        "produced_by": [
+          {
+            "job": "PAYROL0X",
+            "step": "PAYROLL",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBL0106)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBL0106J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(CBL0106)": {
+        "produced_by": [
+          {
+            "job": "CBL0106J",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBLDB21)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBLDB21C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DBRMLIB(CBLDB21)": {
+        "produced_by": [
+          {
+            "job": "CBLDB21C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..LOAD(CBLDB21)": {
+        "produced_by": [
+          {
+            "job": "CBLDB21C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "CBLDB21R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DATA(REPORT)": {
+        "produced_by": [
+          {
+            "job": "CBLDB21R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBLDB22R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          },
+          {
+            "job": "CBLDB23R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(CBLDB22)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBLDB22C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DBRMLIB(CBLDB22)": {
+        "produced_by": [
+          {
+            "job": "CBLDB22C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..LOAD(CBLDB22)": {
+        "produced_by": [
+          {
+            "job": "CBLDB22C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "CBLDB22R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DATA(RECIN)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBLDB22R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..CBL(CBLDB23)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBLDB23C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DBRMLIB(CBLDB23)": {
+        "produced_by": [
+          {
+            "job": "CBLDB23C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..LOAD(CBLDB23)": {
+        "produced_by": [
+          {
+            "job": "CBLDB23C",
+            "step": "COMPILE",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "CBLDB23R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DATA(CARDIN)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "CBLDB23R",
+            "step": "RUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..DBRMLIB": {
+        "produced_by": [
+          {
+            "job": "DBRMLIB",
+            "step": "ALLOCAT",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(EMPPAY)": {
+        "produced_by": [],
+        "consumed_by": [
+          {
+            "job": "EMPPAY",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(EMPPAY)": {
+        "produced_by": [
+          {
+            "job": "EMPPAY",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
+      },
+      "&SYSUID..CBL(DEPTPAY)": {
+        "produced_by": [
+          {
+            "job": "DEPTPAYJ",
+            "step": "COPY2DS1",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": [
+          {
+            "job": "DEPTPAYJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ]
+      },
+      "&SYSUID..LOAD(DEPTPAY)": {
+        "produced_by": [
+          {
+            "job": "DEPTPAYJ",
+            "step": "COBRUN",
+            "confidence": "CONFIRMED"
+          }
+        ],
+        "consumed_by": []
       }
     },
     "dataset_downstream_jobs": {
@@ -1222,6 +3043,473 @@
         {
           "job": "ZDEPSM1",
           "step": "RUNPSAM1",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0001)": [
+        {
+          "job": "CBL0001J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..LOAD": [
+        {
+          "job": "CBL0001J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0002J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0003J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0004J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0005J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0006J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0007J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0008J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0009J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0010J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0011J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0012J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0013J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0014J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL006AJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0033J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ADDAMT",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "SRCHBINJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "SRCHSERJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "HELLO",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0106J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "EMPPAY",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "DEPTPAYJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..DATA": [
+        {
+          "job": "CBL0001J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0002J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0003J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0004J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0005J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0006J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0007J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0008J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0009J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0010J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0011J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0012J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0013J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0014J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL006AJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0033J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "ADDAMT",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "SRCHBINJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "SRCHSERJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "CBL0106J",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "EMPPAY",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        },
+        {
+          "job": "DEPTPAYJ",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0002)": [
+        {
+          "job": "CBL0002J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0003)": [
+        {
+          "job": "CBL0003J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0004)": [
+        {
+          "job": "CBL0004J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0005)": [
+        {
+          "job": "CBL0005J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0006)": [
+        {
+          "job": "CBL0006J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0007)": [
+        {
+          "job": "CBL0007J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0008)": [
+        {
+          "job": "CBL0008J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0009)": [
+        {
+          "job": "CBL0009J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0010)": [
+        {
+          "job": "CBL0010J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0011)": [
+        {
+          "job": "CBL0011J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0012)": [
+        {
+          "job": "CBL0012J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0013)": [
+        {
+          "job": "CBL0013J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0014)": [
+        {
+          "job": "CBL0014J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL006A)": [
+        {
+          "job": "CBL006AJ",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0033)": [
+        {
+          "job": "CBL0033J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(ADDAMT)": [
+        {
+          "job": "ADDAMT",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(SRCHBIN)": [
+        {
+          "job": "SRCHBINJ",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(SRCHSER)": [
+        {
+          "job": "SRCHSERJ",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(HELLO)": [
+        {
+          "job": "HELLO",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(&MEMBER)": [
+        {
+          "job": "COBRUN",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(PAYROL00)": [
+        {
+          "job": "PAYROL00",
+          "step": "PAYROLL",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(PAYROL0X)": [
+        {
+          "job": "PAYROL0X",
+          "step": "PAYROLL",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBL0106)": [
+        {
+          "job": "CBL0106J",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBLDB21)": [
+        {
+          "job": "CBLDB21C",
+          "step": "COMPILE",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..LOAD(CBLDB21)": [
+        {
+          "job": "CBLDB21R",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBLDB22)": [
+        {
+          "job": "CBLDB22C",
+          "step": "COMPILE",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..LOAD(CBLDB22)": [
+        {
+          "job": "CBLDB22R",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..DATA(RECIN)": [
+        {
+          "job": "CBLDB22R",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(CBLDB23)": [
+        {
+          "job": "CBLDB23C",
+          "step": "COMPILE",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..LOAD(CBLDB23)": [
+        {
+          "job": "CBLDB23R",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..DATA(CARDIN)": [
+        {
+          "job": "CBLDB23R",
+          "step": "RUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(EMPPAY)": [
+        {
+          "job": "EMPPAY",
+          "step": "COBRUN",
+          "confidence": "CONFIRMED"
+        }
+      ],
+      "&SYSUID..CBL(DEPTPAY)": [
+        {
+          "job": "DEPTPAYJ",
+          "step": "COBRUN",
           "confidence": "CONFIRMED"
         }
       ]

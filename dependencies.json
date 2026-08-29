@@ -1,6 +1,11 @@
 {
   "_schema": "v2",
-  "_agents": ["CallGraphAgent", "CopybookAgent", "DataFlowAgent", "JCLAgent"],
+  "_agents": [
+    "CallGraphAgent",
+    "CopybookAgent",
+    "DataFlowAgent",
+    "JCLAgent"
+  ],
   "programs": [
     {
       "file": "sample-cobol/COBOL/SAM1.cbl",
@@ -16,14 +21,52 @@
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 40; OPEN INPUT line 358" },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN INPUT line 357" },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 359" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 360" }
+        {
+          "dd_name": "CUSTFILE",
+          "logical_name": "CUSTOMER-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 40; OPEN INPUT line 358"
+        },
+        {
+          "dd_name": "TRANFILE",
+          "logical_name": "TRANSACTION-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 48; OPEN INPUT line 357"
+        },
+        {
+          "dd_name": "CUSTOUT",
+          "logical_name": "CUSTOMER-FILE-OUT",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 359"
+        },
+        {
+          "dd_name": "CUSTRPT",
+          "logical_name": "REPORT-FILE",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 360"
+        }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null,    "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",  "occurrences": 3, "confidence": "CONFIRMED", "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 131)" },
-        { "name": "TRANREC",   "library": null,    "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",   "occurrences": 1, "confidence": "CONFIRMED", "note": "FILE SECTION line 71" }
+        {
+          "name": "CUSTCOPY",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",
+          "occurrences": 3,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 131)"
+        },
+        {
+          "name": "TRANREC",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION line 71"
+        }
       ]
     },
     {
@@ -41,16 +84,68 @@
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 40; OPEN INPUT line 341" },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN INPUT line 340" },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 342" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 343" }
+        {
+          "dd_name": "CUSTFILE",
+          "logical_name": "CUSTOMER-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 40; OPEN INPUT line 341"
+        },
+        {
+          "dd_name": "TRANFILE",
+          "logical_name": "TRANSACTION-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 48; OPEN INPUT line 340"
+        },
+        {
+          "dd_name": "CUSTOUT",
+          "logical_name": "CUSTOMER-FILE-OUT",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 44; OPEN OUTPUT line 342"
+        },
+        {
+          "dd_name": "CUSTRPT",
+          "logical_name": "REPORT-FILE",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 51; OPEN OUTPUT line 343"
+        }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null,     "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",      "occurrences": 3, "confidence": "CONFIRMED",    "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 116)" },
-        { "name": "TRANREC",   "library": null,     "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",       "occurrences": 1, "confidence": "CONFIRMED",    "note": "FILE SECTION line 71" },
-        { "name": "DATETIME",  "library": "MYFILE", "resolved_path": "sample-cobol/COPYLIB/DATETIME.cpy",       "occurrences": 1, "confidence": "NEEDS_REVIEW", "note": "WORKING-STORAGE line 84; library-qualified IN MYFILE — DD-to-path mapping via JCL symbolic" },
-        { "name": "REPTTOTL",  "library": "MYLIB",  "resolved_path": "sample-cobol/COPYLIB-MVS/REPTTOTL.cpy",  "occurrences": 1, "confidence": "NEEDS_REVIEW", "note": "WORKING-STORAGE line 89; library-qualified IN MYLIB — DD-to-path mapping via JCL symbolic" }
+        {
+          "name": "CUSTCOPY",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",
+          "occurrences": 3,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION ×2 (lines 61, 67), WORKING-STORAGE (line 116)"
+        },
+        {
+          "name": "TRANREC",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION line 71"
+        },
+        {
+          "name": "DATETIME",
+          "library": "MYFILE",
+          "resolved_path": "sample-cobol/COPYLIB/DATETIME.cpy",
+          "occurrences": 1,
+          "confidence": "NEEDS_REVIEW",
+          "note": "WORKING-STORAGE line 84; library-qualified IN MYFILE — DD-to-path mapping via JCL symbolic"
+        },
+        {
+          "name": "REPTTOTL",
+          "library": "MYLIB",
+          "resolved_path": "sample-cobol/COPYLIB-MVS/REPTTOTL.cpy",
+          "occurrences": 1,
+          "confidence": "NEEDS_REVIEW",
+          "note": "WORKING-STORAGE line 89; library-qualified IN MYLIB — DD-to-path mapping via JCL symbolic"
+        }
       ]
     },
     {
@@ -59,8 +154,22 @@
       "calls": [],
       "files": [],
       "copybooks": [
-        { "name": "CUSTCOPY", "library": null, "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 44" },
-        { "name": "TRANREC",  "library": null, "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 46" }
+        {
+          "name": "CUSTCOPY",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/CUSTCOPY.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "LINKAGE SECTION line 44"
+        },
+        {
+          "name": "TRANREC",
+          "library": null,
+          "resolved_path": "sample-cobol/COPYBOOK/TRANREC.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "LINKAGE SECTION line 46"
+        }
       ]
     },
     {
@@ -78,15 +187,60 @@
         }
       ],
       "files": [
-        { "dd_name": "CUSTFILE",  "logical_name": "CUSTOMER-FILE",     "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 44; OPEN INPUT line 397" },
-        { "dd_name": "TRANFILE",  "logical_name": "TRANSACTION-FILE",  "access": "INPUT",  "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 52; OPEN INPUT line 396" },
-        { "dd_name": "CUSTOUT",   "logical_name": "CUSTOMER-FILE-OUT", "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 48; OPEN OUTPUT line 398" },
-        { "dd_name": "CUSTRPT",   "logical_name": "REPORT-FILE",       "access": "OUTPUT", "confidence": "CONFIRMED", "note": "SELECT...ASSIGN line 55; OPEN OUTPUT line 399" }
+        {
+          "dd_name": "CUSTFILE",
+          "logical_name": "CUSTOMER-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 44; OPEN INPUT line 397"
+        },
+        {
+          "dd_name": "TRANFILE",
+          "logical_name": "TRANSACTION-FILE",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 52; OPEN INPUT line 396"
+        },
+        {
+          "dd_name": "CUSTOUT",
+          "logical_name": "CUSTOMER-FILE-OUT",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 48; OPEN OUTPUT line 398"
+        },
+        {
+          "dd_name": "CUSTRPT",
+          "logical_name": "REPORT-FILE",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT...ASSIGN line 55; OPEN OUTPUT line 399"
+        }
       ],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",  "occurrences": 3, "confidence": "CONFIRMED", "note": "FILE SECTION ×2 (lines 65, 71), WORKING-STORAGE (line 140)" },
-        { "name": "TRANREC",   "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "FILE SECTION line 75" },
-        { "name": "SAM2PARM",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "WORKING-STORAGE line 142" }
+        {
+          "name": "CUSTCOPY",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",
+          "occurrences": 3,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION ×2 (lines 65, 71), WORKING-STORAGE (line 140)"
+        },
+        {
+          "name": "TRANREC",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "FILE SECTION line 75"
+        },
+        {
+          "name": "SAM2PARM",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "WORKING-STORAGE line 142"
+        }
       ]
     },
     {
@@ -96,10 +250,191 @@
       "calls": [],
       "files": [],
       "copybooks": [
-        { "name": "CUSTCOPY",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 44" },
-        { "name": "TRANREC",   "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",  "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 46" },
-        { "name": "SAM2PARM",  "library": null, "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy", "occurrences": 1, "confidence": "CONFIRMED", "note": "LINKAGE SECTION line 51" }
+        {
+          "name": "CUSTCOPY",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/cust/CUSTCOPY.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "LINKAGE SECTION line 44"
+        },
+        {
+          "name": "TRANREC",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/trans/TRANREC.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "LINKAGE SECTION line 46"
+        },
+        {
+          "name": "SAM2PARM",
+          "library": null,
+          "resolved_path": "sample-cobol/multiroot/copybooks/trans/SAM2PARM.cpy",
+          "occurrences": 1,
+          "confidence": "CONFIRMED",
+          "note": "LINKAGE SECTION line 51"
+        }
       ]
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106.cbl",
+      "program_id": "CBL0106",
+      "note": "Account report generator — reads ACCTREC sequential file, writes PRTLINE report; tracks over-limit accounts and Virginia clients",
+      "calls": [],
+      "files": [
+        {
+          "dd_name": "ACCTREC",
+          "logical_name": "ACCT-REC",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT ACCT-REC ASSIGN TO ACCTREC line 15; OPEN INPUT line 124"
+        },
+        {
+          "dd_name": "PRTLINE",
+          "logical_name": "PRINT-LINE",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT PRINT-LINE ASSIGN TO PRTLINE line 14; OPEN OUTPUT line 125"
+        }
+      ],
+      "copybooks": []
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/CBL0106C.cbl",
+      "program_id": "CBL0106C",
+      "note": "Corrected version of CBL0106 — fixes OVERLIMIT array overflow bug (table size 5→20, counter starts at 0)",
+      "calls": [],
+      "files": [
+        {
+          "dd_name": "ACCTREC",
+          "logical_name": "ACCT-REC",
+          "access": "INPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT ACCT-REC ASSIGN TO ACCTREC line 15; OPEN INPUT line 125"
+        },
+        {
+          "dd_name": "PRTLINE",
+          "logical_name": "PRINT-LINE",
+          "access": "OUTPUT",
+          "confidence": "CONFIRMED",
+          "note": "SELECT PRINT-LINE ASSIGN TO PRTLINE line 14; OPEN OUTPUT line 126"
+        }
+      ],
+      "copybooks": []
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB21.cbl",
+      "program_id": "CBLDB21",
+      "note": "DB2 lab — lists all accounts from Z#####T table via cursor CUR1; calls DSNTIAR for SQL error formatting",
+      "calls": [
+        {
+          "program": "DSNTIAR",
+          "type": "static",
+          "resolved_via": "literal",
+          "source_line": 134,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL 'DSNTIAR' USING SQLCA ERROR-MESSAGE ERROR-TEXT-LEN; IBM DB2 system utility for SQL error message formatting — not an application program"
+        }
+      ],
+      "files": [
+        {
+          "dd_name": "REPORT",
+          "logical_name": "REPOUT",
+          "access": "OUTPUT",
+          "confidence": "NEEDS_REVIEW",
+          "note": "SELECT REPOUT ASSIGN TO UT-S-REPORT lines 15-16; OPEN OUTPUT line 93; DD name derived as suffix after -S- in ASSIGN target"
+        }
+      ],
+      "copybooks": [],
+      "sql_includes": [
+        "SQLCA"
+      ]
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB22.cbl",
+      "program_id": "CBLDB22",
+      "note": "DB2 lab — lists all accounts (CUR1) or searches by surname (CUR2) from RECIN input; calls DSNTIAR for SQL error formatting",
+      "calls": [
+        {
+          "program": "DSNTIAR",
+          "type": "static",
+          "resolved_via": "literal",
+          "source_line": 191,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL 'DSNTIAR' USING SQLCA ERROR-MESSAGE ERROR-TEXT-LEN; IBM DB2 system utility for SQL error message formatting — not an application program"
+        }
+      ],
+      "files": [
+        {
+          "dd_name": "RECIN",
+          "logical_name": "RECIN",
+          "access": "INPUT",
+          "confidence": "NEEDS_REVIEW",
+          "note": "SELECT RECIN ASSIGN TO DA-S-RECIN line 15; OPEN INPUT line 112; DD name derived as suffix after -S- in ASSIGN target"
+        },
+        {
+          "dd_name": "REPORT",
+          "logical_name": "REPOUT",
+          "access": "OUTPUT",
+          "confidence": "NEEDS_REVIEW",
+          "note": "SELECT REPOUT ASSIGN TO UT-S-REPORT line 14; OPEN OUTPUT line 113; DD name derived as suffix after -S- in ASSIGN target"
+        }
+      ],
+      "copybooks": [],
+      "sql_includes": [
+        "SQLCA"
+      ]
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/cbl/CBLDB23.cbl",
+      "program_id": "CBLDB23",
+      "note": "DB2 lab — lists all accounts (CUR1) or searches by state/address3 (CUR2) from CARDIN input; calls DSNTIAR for SQL error formatting",
+      "calls": [
+        {
+          "program": "DSNTIAR",
+          "type": "static",
+          "resolved_via": "literal",
+          "source_line": 178,
+          "confidence": "NEEDS_REVIEW",
+          "note": "CALL 'DSNTIAR' USING SQLCA ERROR-MESSAGE ERROR-TEXT-LEN; IBM DB2 system utility for SQL error message formatting — not an application program"
+        }
+      ],
+      "files": [
+        {
+          "dd_name": "CARDIN",
+          "logical_name": "CARDIN",
+          "access": "INPUT",
+          "confidence": "NEEDS_REVIEW",
+          "note": "SELECT CARDIN ASSIGN TO DA-S-CARDIN lines 17-18; OPEN INPUT line 108; DD name derived as suffix after -S- in ASSIGN target"
+        },
+        {
+          "dd_name": "REPORT",
+          "logical_name": "REPOUT",
+          "access": "OUTPUT",
+          "confidence": "NEEDS_REVIEW",
+          "note": "SELECT REPOUT ASSIGN TO UT-S-REPORT lines 15-16; OPEN OUTPUT line 109; DD name derived as suffix after -S- in ASSIGN target"
+        }
+      ],
+      "copybooks": [],
+      "sql_includes": [
+        "SQLCA"
+      ]
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/cbl/EMPPAY.CBL",
+      "program_id": "EMPPAY",
+      "note": "Employee pay calculator — computes weekly and monthly gross pay with overtime and reward rates; no file I/O",
+      "calls": [],
+      "files": [],
+      "copybooks": []
+    },
+    {
+      "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/cbl/DEPTPAY.CBL",
+      "program_id": "DEPTPAY",
+      "note": "Department pay calculator — computes average salary from total salaries and employee count; no file I/O",
+      "calls": [],
+      "files": [],
+      "copybooks": []
     }
   ],
   "jcl": {
@@ -111,43 +446,75 @@
           {
             "step_name": "CMPLSAM2",
             "program": "IGYCRCTL",
-            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM2)", "&HLQ..SAMPLE.COPY"],
-            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM2)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.COBOL(SAM2)",
+              "&HLQ..SAMPLE.COPY"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.OBJ(SAM2)"
+            ],
             "note": "Compile SAM2 source"
           },
           {
             "step_name": "CMPLSAM1",
             "program": "IGYCRCTL",
-            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM1)", "&HLQ..SAMPLE.COPY", "&HLQ..SAMPLE.COPYLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM1)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.COBOL(SAM1)",
+              "&HLQ..SAMPLE.COPY",
+              "&HLQ..SAMPLE.COPYLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.OBJ(SAM1)"
+            ],
             "note": "Compile SAM1 source; MYFILE and MYLIB DDs point to COPYLIB for library-qualified copybooks"
           },
           {
             "step_name": "LINKSAM2",
             "program": "IEWL",
-            "datasets_input": ["&HLQ..SAMPLE.OBJ(SAM2)", "&LINKLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.LOAD(SAM2)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.OBJ(SAM2)",
+              "&LINKLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.LOAD(SAM2)"
+            ],
             "note": "Link SAM2 object"
           },
           {
             "step_name": "LINKSAM1",
             "program": "IEWL",
-            "datasets_input": ["&HLQ..SAMPLE.OBJ(SAM1)", "&HLQ..SAMPLE.LOAD", "&LINKLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.LOAD(SAM1)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.OBJ(SAM1)",
+              "&HLQ..SAMPLE.LOAD",
+              "&LINKLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.LOAD(SAM1)"
+            ],
             "note": "Link SAM1 object; references SAM2 load module"
           },
           {
             "step_name": "DELETE",
             "program": "IEFBR14",
             "datasets_input": [],
-            "datasets_output": ["&HLQ..SAMPLE.CUSTRPT", "&HLQ..SAMPLE.CUSTOUT"],
+            "datasets_output": [
+              "&HLQ..SAMPLE.CUSTRPT",
+              "&HLQ..SAMPLE.CUSTOUT"
+            ],
             "note": "Delete output files from previous run"
           },
           {
             "step_name": "SAM1",
             "program": "SAM1",
-            "datasets_input": ["&HLQ..SAMPLE.LOAD(SAM1)", "&HLQ..SAMPLE.CUSTFILE", "&HLQ..SAMPLE.TRANFILE"],
-            "datasets_output": ["&HLQ..SAMPLE.CUSTOUT", "&HLQ..SAMPLE.CUSTRPT"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.LOAD(SAM1)",
+              "&HLQ..SAMPLE.CUSTFILE",
+              "&HLQ..SAMPLE.TRANFILE"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.CUSTOUT",
+              "&HLQ..SAMPLE.CUSTRPT"
+            ],
             "note": "Execute SAM1 application"
           }
         ]
@@ -160,28 +527,48 @@
             "step_name": "DELETE",
             "program": "IEFBR14",
             "datasets_input": [],
-            "datasets_output": ["&HLQ..SAMPLE.ASM.FILEOUT"],
+            "datasets_output": [
+              "&HLQ..SAMPLE.ASM.FILEOUT"
+            ],
             "note": "Delete output file from previous run"
           },
           {
             "step_name": "ASM1",
             "program": "ASMA90",
-            "datasets_input": ["&MACLIB", "&MODGEN", "&SCEEMAC", "&HLQ..SAMPLE.ASMCOPY", "&HLQ..SAMPLE.ASM(ASAM1)"],
-            "datasets_output": ["&HLQ..SAMPLE.ASMOBJ(ASAM1)"],
+            "datasets_input": [
+              "&MACLIB",
+              "&MODGEN",
+              "&SCEEMAC",
+              "&HLQ..SAMPLE.ASMCOPY",
+              "&HLQ..SAMPLE.ASM(ASAM1)"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.ASMOBJ(ASAM1)"
+            ],
             "note": "Assemble ASAM1 source"
           },
           {
             "step_name": "LKED",
             "program": "IEWL",
-            "datasets_input": ["&HLQ..SAMPLE.ASMOBJ(ASAM1)", "&LINKLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.ASMLOAD(ASAM1)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.ASMOBJ(ASAM1)",
+              "&LINKLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.ASMLOAD(ASAM1)"
+            ],
             "note": "Link ASAM1 object"
           },
           {
             "step_name": "EXECUTE",
             "program": "ASAM1",
-            "datasets_input": ["&HLQ..SAMPLE.ASMLOAD(ASAM1)", "&HLQ..SAMPLE.ASM.FILEIN"],
-            "datasets_output": ["&HLQ..SAMPLE.ASM.FILEOUT"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.ASMLOAD(ASAM1)",
+              "&HLQ..SAMPLE.ASM.FILEIN"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.ASM.FILEOUT"
+            ],
             "note": "Execute ASAM1 application"
           }
         ]
@@ -194,35 +581,62 @@
             "step_name": "DELETE",
             "program": "IEFBR14",
             "datasets_input": [],
-            "datasets_output": ["&HLQ..SAMPLE.PLI.CUSTRPT"],
+            "datasets_output": [
+              "&HLQ..SAMPLE.PLI.CUSTRPT"
+            ],
             "note": "Delete output file from previous run"
           },
           {
             "step_name": "CMPPSAM2",
             "program": "IBMZPLI",
-            "datasets_input": ["&HLQ..SAMPLE.PLI(PSAM2)", "&HLQ..SAMPLE.PLINC", "&CMPLLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.PLIOBJ(PSAM2)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.PLI(PSAM2)",
+              "&HLQ..SAMPLE.PLINC",
+              "&CMPLLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.PLIOBJ(PSAM2)"
+            ],
             "note": "Compile PSAM2 source"
           },
           {
             "step_name": "CMPPSAM1",
             "program": "IBMZPLI",
-            "datasets_input": ["&HLQ..SAMPLE.PLI(PSAM1)", "&HLQ..SAMPLE.PLINC", "&HLQ..SAMPLE.PLI.INCLLIB", "&CMPLLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.PLIOBJ(PSAM1)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.PLI(PSAM1)",
+              "&HLQ..SAMPLE.PLINC",
+              "&HLQ..SAMPLE.PLI.INCLLIB",
+              "&CMPLLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.PLIOBJ(PSAM1)"
+            ],
             "note": "Compile PSAM1 source"
           },
           {
             "step_name": "LNKPSAM1",
             "program": "IEWL",
-            "datasets_input": ["&HLQ..SAMPLE.PLIOBJ(PSAM2)", "&HLQ..SAMPLE.PLIOBJ(PSAM1)", "&LINKLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.PLILOAD(PSAM1)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.PLIOBJ(PSAM2)",
+              "&HLQ..SAMPLE.PLIOBJ(PSAM1)",
+              "&LINKLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.PLILOAD(PSAM1)"
+            ],
             "note": "Link PSAM1 and PSAM2 objects"
           },
           {
             "step_name": "RUNPSAM1",
             "program": "PSAM1",
-            "datasets_input": ["&HLQ..SAMPLE.PLILOAD(PSAM1)", "&HLQ..SAMPLE.PLI.CUSTFILE", "&HLQ..SAMPLE.PLI.TRANFILE"],
-            "datasets_output": ["&HLQ..SAMPLE.PLI.CUSTRPT"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.PLILOAD(PSAM1)",
+              "&HLQ..SAMPLE.PLI.CUSTFILE",
+              "&HLQ..SAMPLE.PLI.TRANFILE"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.PLI.CUSTRPT"
+            ],
             "note": "Execute PSAM1 application"
           }
         ]
@@ -235,7 +649,15 @@
             "step_name": "DELETE",
             "program": "IEFBR14",
             "datasets_input": [],
-            "datasets_output": ["&HLQ..SAMPLE.OBJ", "&HLQ..SAMPLE.LOAD", "&HLQ..SAMPLE.COBOL", "&HLQ..SAMPLE.COPY", "&HLQ..SAMPLE.TRANFILE", "&HLQ..SAMPLE.CUSTFILE", "&HLQ..SAMPLE.COPYLIB"],
+            "datasets_output": [
+              "&HLQ..SAMPLE.OBJ",
+              "&HLQ..SAMPLE.LOAD",
+              "&HLQ..SAMPLE.COBOL",
+              "&HLQ..SAMPLE.COPY",
+              "&HLQ..SAMPLE.TRANFILE",
+              "&HLQ..SAMPLE.CUSTFILE",
+              "&HLQ..SAMPLE.COPYLIB"
+            ],
             "note": "Delete all sample datasets"
           },
           {
@@ -254,129 +676,1697 @@
           {
             "step_name": "STEP1",
             "program": "COMPROC",
-            "datasets_input": ["&HLQ..SAMPLE.COBOL(SAM2)", "&HLQ..SAMPLE.COPY", "&CMPLLIB"],
-            "datasets_output": ["&HLQ..SAMPLE.OBJ(SAM2)"],
+            "datasets_input": [
+              "&HLQ..SAMPLE.COBOL(SAM2)",
+              "&HLQ..SAMPLE.COPY",
+              "&CMPLLIB"
+            ],
+            "datasets_output": [
+              "&HLQ..SAMPLE.OBJ(SAM2)"
+            ],
             "note": "Executes COMPROC procedure; symbolics SET by COMPSET INCLUDE member"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0001J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0001J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0001)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0001)"
+            ],
+            "note": "Compile and link CBL0001 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0001",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0001; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0002J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0002J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0002)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0002)"
+            ],
+            "note": "Compile and link CBL0002 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0002",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0002; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0003J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0003J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0003)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0003)"
+            ],
+            "note": "Compile and link CBL0003 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0003",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0003; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0004J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0004J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0004)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0004)"
+            ],
+            "note": "Compile and link CBL0004 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0004",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0004; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0005J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0005J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0005)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0005)"
+            ],
+            "note": "Compile and link CBL0005 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0005",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0005; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0006J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0006J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0006)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0006)"
+            ],
+            "note": "Compile and link CBL0006 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0006",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0006; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0007J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0007J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0007)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0007)"
+            ],
+            "note": "Compile and link CBL0007 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0007",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0007; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0008J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0008J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0008)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0008)"
+            ],
+            "note": "Compile and link CBL0008 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0008",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0008; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0009J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0009J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0009)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0009)"
+            ],
+            "note": "Compile and link CBL0009 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0009",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0009; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0010J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0010J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0010)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0010)"
+            ],
+            "note": "Compile and link CBL0010 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0010",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0010; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0011J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0011J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0011)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0011)"
+            ],
+            "note": "Compile and link CBL0011 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0011",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0011; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0012J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0012J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0012)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0012)"
+            ],
+            "note": "Compile and link CBL0012 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0012",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0012; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0013J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0013J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0013)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0013)"
+            ],
+            "note": "Compile and link CBL0013 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0013",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0013; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0014J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0014J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0014)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0014)"
+            ],
+            "note": "Compile and link CBL0014 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0014",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0014; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL006AJ",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL006AJ.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL006A)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL006A)"
+            ],
+            "note": "Compile and link CBL006A via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL006A",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL006A; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0033J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/CBL0033J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0033)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0033)"
+            ],
+            "note": "Compile and link CBL0033 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0033",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0033; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "ADDAMT",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/ADDAMT.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(ADDAMT)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(ADDAMT)"
+            ],
+            "note": "Compile and link ADDAMT via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "ADDAMT",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute ADDAMT; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "SRCHBINJ",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHBINJ.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(SRCHBIN)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(SRCHBIN)"
+            ],
+            "note": "Compile and link SRCHBIN via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "SRCHBIN",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute SRCHBIN; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "SRCHSERJ",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/SRCHSERJ.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(SRCHSER)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(SRCHSER)"
+            ],
+            "note": "Compile and link SRCHSER via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "SRCHSER",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute SRCHSER; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "HELLO",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/HELLO.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(HELLO)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(HELLO)"
+            ],
+            "note": "Compile and link HELLO via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "HELLO",
+            "datasets_input": [
+              "&SYSUID..LOAD"
+            ],
+            "datasets_output": [],
+            "note": "Execute HELLO; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "COBRUN",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/COBRUN.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(&MEMBER)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(&MEMBER)"
+            ],
+            "note": "Generic parameterised compile+link only; MEMBER supplied at submission; no RUN step"
+          }
+        ]
+      },
+      {
+        "job_name": "PAYROL00",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/PAYROL00.jcl",
+        "steps": [
+          {
+            "step_name": "PAYROLL",
+            "program": "IGYWCLG",
+            "datasets_input": [
+              "&SYSUID..CBL(PAYROL00)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(PAYROL00)"
+            ],
+            "note": "Compile, link, and go (IGYWCLG); SRC=PAYROL00; GO sub-step runs program inline"
+          }
+        ]
+      },
+      {
+        "job_name": "PAYROL0X",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #2 - Learning COBOL/Labs/jcl/PAYROL0X.jcl",
+        "steps": [
+          {
+            "step_name": "PAYROLL",
+            "program": "IGYWCLG",
+            "datasets_input": [
+              "&SYSUID..CBL(PAYROL0X)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(PAYROL0X)"
+            ],
+            "note": "Compile, link, and go (IGYWCLG); GO sub-step runs program inline"
+          }
+        ]
+      },
+      {
+        "job_name": "CBL0106J",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/jcl/CBL0106J.jcl",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBL0106)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(CBL0106)"
+            ],
+            "note": "Compile and link CBL0106 via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "CBL0106",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute CBL0106; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB21C",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB21C.jcl",
+        "steps": [
+          {
+            "step_name": "COMPILE",
+            "program": "DB2CBL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBLDB21)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DBRMLIB(CBLDB21)",
+              "&SYSUID..LOAD(CBLDB21)"
+            ],
+            "note": "Compile CBLDB21 via DB2CBL proc; produces DBRM and load module"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB21R",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB21R.jcl",
+        "steps": [
+          {
+            "step_name": "RUN",
+            "program": "CBLDB21",
+            "datasets_input": [
+              "&SYSUID..LOAD(CBLDB21)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DATA(REPORT)"
+            ],
+            "note": "Execute CBLDB21; REPORT DD output"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB22C",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB22C.jcl",
+        "steps": [
+          {
+            "step_name": "COMPILE",
+            "program": "DB2CBL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBLDB22)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DBRMLIB(CBLDB22)",
+              "&SYSUID..LOAD(CBLDB22)"
+            ],
+            "note": "Compile CBLDB22 via DB2CBL proc; produces DBRM and load module"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB22R",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB22R.jcl",
+        "steps": [
+          {
+            "step_name": "RUN",
+            "program": "CBLDB22",
+            "datasets_input": [
+              "&SYSUID..LOAD(CBLDB22)",
+              "&SYSUID..DATA(RECIN)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DATA(REPORT)"
+            ],
+            "note": "Execute CBLDB22; RECIN input DD, REPORT output DD"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB23C",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB23C.jcl",
+        "steps": [
+          {
+            "step_name": "COMPILE",
+            "program": "DB2CBL",
+            "datasets_input": [
+              "&SYSUID..CBL(CBLDB23)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DBRMLIB(CBLDB23)",
+              "&SYSUID..LOAD(CBLDB23)"
+            ],
+            "note": "Compile CBLDB23 via DB2CBL proc; produces DBRM and load module"
+          }
+        ]
+      },
+      {
+        "job_name": "CBLDB23R",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CBLDB23R.jcl",
+        "steps": [
+          {
+            "step_name": "RUN",
+            "program": "CBLDB23",
+            "datasets_input": [
+              "&SYSUID..LOAD(CBLDB23)",
+              "&SYSUID..DATA(CARDIN)"
+            ],
+            "datasets_output": [
+              "&SYSUID..DATA(REPORT)"
+            ],
+            "note": "Execute CBLDB23; CARDIN input DD, REPORT output DD"
+          }
+        ]
+      },
+      {
+        "job_name": "CRETBL",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/CRETBL.jcl",
+        "steps": [
+          {
+            "step_name": "CRETBL",
+            "program": "DB2JCL",
+            "datasets_input": [],
+            "datasets_output": [],
+            "note": "Create DB2 table via DB2JCL proc"
+          }
+        ]
+      },
+      {
+        "job_name": "DB2SETUP",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/DB2SETUP.jcl",
+        "steps": [
+          {
+            "step_name": "DB2SETUP",
+            "program": "DSNUPROC",
+            "datasets_input": [],
+            "datasets_output": [],
+            "note": "DB2 environment setup via DSNUPROC proc"
+          }
+        ]
+      },
+      {
+        "job_name": "DBRMLIB",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/DBRMLIB.jcl",
+        "steps": [
+          {
+            "step_name": "ALLOCAT",
+            "program": "IEFBR14",
+            "datasets_input": [],
+            "datasets_output": [
+              "&SYSUID..DBRMLIB"
+            ],
+            "note": "Allocate DBRM library dataset"
+          }
+        ]
+      },
+      {
+        "job_name": "LOADTBL",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/LOADTBL.jcl",
+        "steps": [
+          {
+            "step_name": "LOADTBL",
+            "program": "DB2JCL",
+            "datasets_input": [],
+            "datasets_output": [],
+            "note": "Load DB2 table via DB2JCL proc"
+          }
+        ]
+      },
+      {
+        "job_name": "SELTBL",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #3 - Advanced Topics/Labs/jcl/SELTBL.jcl",
+        "steps": [
+          {
+            "step_name": "SELTBL",
+            "program": "DB2JCL",
+            "datasets_input": [],
+            "datasets_output": [],
+            "note": "Select from DB2 table via DB2JCL proc"
+          }
+        ]
+      },
+      {
+        "job_name": "EMPPAY",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/EMPPAY.JCL",
+        "steps": [
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(EMPPAY)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(EMPPAY)"
+            ],
+            "note": "Compile and link EMPPAY via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "EMPPAY",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute EMPPAY; conditional on COBRUN RC=0"
+          }
+        ]
+      },
+      {
+        "job_name": "DEPTPAYJ",
+        "file": "sample-cobol/cobol-programming-course/COBOL Programming Course #4 - Testing/Labs/jcl/DEPTPAY.JCL",
+        "steps": [
+          {
+            "step_name": "COPY2DS1",
+            "program": "IKJEFT01",
+            "datasets_input": [],
+            "datasets_output": [
+              "&SYSUID..CBL(DEPTPAY)"
+            ],
+            "note": "TSO/E batch step copies Unix HFS source to MVS PDS member"
+          },
+          {
+            "step_name": "COBRUN",
+            "program": "IGYWCL",
+            "datasets_input": [
+              "&SYSUID..CBL(DEPTPAY)"
+            ],
+            "datasets_output": [
+              "&SYSUID..LOAD(DEPTPAY)"
+            ],
+            "note": "Compile and link DEPTPAY via IGYWCL proc"
+          },
+          {
+            "step_name": "RUN",
+            "program": "DEPTPAY",
+            "datasets_input": [
+              "&SYSUID..LOAD",
+              "&SYSUID..DATA"
+            ],
+            "datasets_output": [],
+            "note": "Execute DEPTPAY"
           }
         ]
       }
     ],
     "jcl_edges": [
       {
-        "from_job": "ZDERUN", "from_step": "CMPLSAM2", "to_job": "ZDERUN", "to_step": "CMPLSAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "CMPLSAM2",
+        "to_job": "ZDERUN",
+        "to_step": "CMPLSAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
         "note": "CMPLSAM2 precedes CMPLSAM1 in job"
       },
       {
-        "from_job": "ZDERUN", "from_step": "CMPLSAM1", "to_job": "ZDERUN", "to_step": "LINKSAM2",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "CMPLSAM1",
+        "to_job": "ZDERUN",
+        "to_step": "LINKSAM2",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
         "note": "CMPLSAM1 precedes LINKSAM2 in job"
       },
       {
-        "from_job": "ZDERUN", "from_step": "LINKSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "LINKSAM2",
+        "to_job": "ZDERUN",
+        "to_step": "LINKSAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
         "note": "LINKSAM2 precedes LINKSAM1 in job"
       },
       {
-        "from_job": "ZDERUN", "from_step": "LINKSAM1", "to_job": "ZDERUN", "to_step": "DELETE",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDERUN",
+        "from_step": "LINKSAM1",
+        "to_job": "ZDERUN",
+        "to_step": "DELETE",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDERUN",
+        "from_step": "DELETE",
+        "to_job": "ZDERUN",
+        "to_step": "SAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDERUN", "from_step": "CMPLSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM2",
-        "dataset": "&HLQ..SAMPLE.OBJ(SAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "CMPLSAM2",
+        "to_job": "ZDERUN",
+        "to_step": "LINKSAM2",
+        "dataset": "&HLQ..SAMPLE.OBJ(SAM2)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "Compile produces object, link consumes it"
       },
       {
-        "from_job": "ZDERUN", "from_step": "CMPLSAM1", "to_job": "ZDERUN", "to_step": "LINKSAM1",
-        "dataset": "&HLQ..SAMPLE.OBJ(SAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "CMPLSAM1",
+        "to_job": "ZDERUN",
+        "to_step": "LINKSAM1",
+        "dataset": "&HLQ..SAMPLE.OBJ(SAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "Compile produces object, link consumes it"
       },
       {
-        "from_job": "ZDERUN", "from_step": "LINKSAM2", "to_job": "ZDERUN", "to_step": "LINKSAM1",
-        "dataset": "&HLQ..SAMPLE.LOAD(SAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "LINKSAM2",
+        "to_job": "ZDERUN",
+        "to_step": "LINKSAM1",
+        "dataset": "&HLQ..SAMPLE.LOAD(SAM2)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "LINKSAM2 load module included by LINKSAM1 via LOAD library DD"
       },
       {
-        "from_job": "ZDERUN", "from_step": "LINKSAM1", "to_job": "ZDERUN", "to_step": "SAM1",
-        "dataset": "&HLQ..SAMPLE.LOAD(SAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "LINKSAM1",
+        "to_job": "ZDERUN",
+        "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.LOAD(SAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "LINKSAM1 produces executable, SAM1 step runs it"
       },
       {
-        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
-        "dataset": "&HLQ..SAMPLE.CUSTRPT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "DELETE",
+        "to_job": "ZDERUN",
+        "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.CUSTRPT",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "DELETE clears CUSTRPT so SAM1 can allocate NEW"
       },
       {
-        "from_job": "ZDERUN", "from_step": "DELETE", "to_job": "ZDERUN", "to_step": "SAM1",
-        "dataset": "&HLQ..SAMPLE.CUSTOUT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDERUN",
+        "from_step": "DELETE",
+        "to_job": "ZDERUN",
+        "to_step": "SAM1",
+        "dataset": "&HLQ..SAMPLE.CUSTOUT",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "DELETE clears CUSTOUT so SAM1 can allocate NEW"
       },
       {
-        "from_job": "WAZIASM1", "from_step": "DELETE", "to_job": "WAZIASM1", "to_step": "ASM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "WAZIASM1",
+        "from_step": "DELETE",
+        "to_job": "WAZIASM1",
+        "to_step": "ASM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "WAZIASM1", "from_step": "ASM1", "to_job": "WAZIASM1", "to_step": "LKED",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "WAZIASM1",
+        "from_step": "ASM1",
+        "to_job": "WAZIASM1",
+        "to_step": "LKED",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "WAZIASM1", "from_step": "LKED", "to_job": "WAZIASM1", "to_step": "EXECUTE",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "WAZIASM1",
+        "from_step": "LKED",
+        "to_job": "WAZIASM1",
+        "to_step": "EXECUTE",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "WAZIASM1", "from_step": "ASM1", "to_job": "WAZIASM1", "to_step": "LKED",
-        "dataset": "&HLQ..SAMPLE.ASMOBJ(ASAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+        "from_job": "WAZIASM1",
+        "from_step": "ASM1",
+        "to_job": "WAZIASM1",
+        "to_step": "LKED",
+        "dataset": "&HLQ..SAMPLE.ASMOBJ(ASAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "WAZIASM1", "from_step": "LKED", "to_job": "WAZIASM1", "to_step": "EXECUTE",
-        "dataset": "&HLQ..SAMPLE.ASMLOAD(ASAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+        "from_job": "WAZIASM1",
+        "from_step": "LKED",
+        "to_job": "WAZIASM1",
+        "to_step": "EXECUTE",
+        "dataset": "&HLQ..SAMPLE.ASMLOAD(ASAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "DELETE",   "to_job": "ZDEPSM1", "to_step": "CMPPSAM2",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "DELETE",
+        "to_job": "ZDEPSM1",
+        "to_step": "CMPPSAM2",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "CMPPSAM2", "to_job": "ZDEPSM1", "to_step": "CMPPSAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "CMPPSAM2",
+        "to_job": "ZDEPSM1",
+        "to_step": "CMPPSAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "CMPPSAM1", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "CMPPSAM1",
+        "to_job": "ZDEPSM1",
+        "to_step": "LNKPSAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "LNKPSAM1", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
-        "dataset": null, "relationship": "STEP_ORDER", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "LNKPSAM1",
+        "to_job": "ZDEPSM1",
+        "to_step": "RUNPSAM1",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "CMPPSAM2", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
-        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM2)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "CMPPSAM2",
+        "to_job": "ZDEPSM1",
+        "to_step": "LNKPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM2)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "CMPPSAM1", "to_job": "ZDEPSM1", "to_step": "LNKPSAM1",
-        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "CMPPSAM1",
+        "to_job": "ZDEPSM1",
+        "to_step": "LNKPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLIOBJ(PSAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "LNKPSAM1", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
-        "dataset": "&HLQ..SAMPLE.PLILOAD(PSAM1)", "relationship": "PRODUCES", "confidence": "CONFIRMED"
+        "from_job": "ZDEPSM1",
+        "from_step": "LNKPSAM1",
+        "to_job": "ZDEPSM1",
+        "to_step": "RUNPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLILOAD(PSAM1)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       },
       {
-        "from_job": "ZDEPSM1", "from_step": "DELETE", "to_job": "ZDEPSM1", "to_step": "RUNPSAM1",
-        "dataset": "&HLQ..SAMPLE.PLI.CUSTRPT", "relationship": "PRODUCES", "confidence": "CONFIRMED",
+        "from_job": "ZDEPSM1",
+        "from_step": "DELETE",
+        "to_job": "ZDEPSM1",
+        "to_step": "RUNPSAM1",
+        "dataset": "&HLQ..SAMPLE.PLI.CUSTRPT",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
         "note": "DELETE clears report so RUNPSAM1 can allocate NEW"
       },
       {
-        "from_job": "IBMUSER", "from_step": null, "to_job": "IBMUSER", "to_step": "STEP1",
-        "dataset": "sample-cobol/JCLLIB/COMPSET.jcl", "relationship": "INCLUDES", "confidence": "CONFIRMED",
+        "from_job": "ZDEALLC",
+        "from_step": "DELETE",
+        "to_job": "ZDEALLC",
+        "to_step": "ALLOCAT",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "IBMUSER",
+        "from_step": null,
+        "to_job": "IBMUSER",
+        "to_step": "STEP1",
+        "dataset": "sample-cobol/JCLLIB/COMPSET.jcl",
+        "relationship": "INCLUDES",
+        "confidence": "CONFIRMED",
         "note": "// INCLUDE MEMBER=COMPSET sets CMPLLIB, UNIT1, SPACE1 symbolics"
       },
       {
-        "from_job": "IBMUSER", "from_step": "STEP1", "to_job": null, "to_step": null,
-        "dataset": "sample-cobol/JCLPROC/COMPROC.jcl", "relationship": "CALLS_PROC", "confidence": "CONFIRMED",
+        "from_job": "IBMUSER",
+        "from_step": "STEP1",
+        "to_job": null,
+        "to_step": null,
+        "dataset": "sample-cobol/JCLPROC/COMPROC.jcl",
+        "relationship": "CALLS_PROC",
+        "confidence": "CONFIRMED",
         "note": "EXEC PROC=COMPROC calls proc that compiles SAM2"
+      },
+      {
+        "from_job": "CBL0001J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0001J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0001J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0001J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0001)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0002J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0002J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0002J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0002J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0002)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0003J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0003J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0003J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0003J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0003)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0004J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0004J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0004J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0004J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0004)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0005J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0005J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0005J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0005J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0005)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0006J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0006J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0006J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0006J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0006)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0007J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0007J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0007J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0007J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0007)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0008J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0008J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0008J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0008J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0008)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0009J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0009J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0009J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0009J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0009)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0010J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0010J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0010J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0010J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0010)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0011J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0011J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0011J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0011J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0011)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0012J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0012J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0012J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0012J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0012)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0013J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0013J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0013J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0013J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0013)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0014J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0014J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0014J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0014J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0014)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL006AJ",
+        "from_step": "COBRUN",
+        "to_job": "CBL006AJ",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL006AJ",
+        "from_step": "COBRUN",
+        "to_job": "CBL006AJ",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL006A)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0033J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0033J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0033J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0033J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0033)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "ADDAMT",
+        "from_step": "COBRUN",
+        "to_job": "ADDAMT",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "ADDAMT",
+        "from_step": "COBRUN",
+        "to_job": "ADDAMT",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(ADDAMT)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "SRCHBINJ",
+        "from_step": "COBRUN",
+        "to_job": "SRCHBINJ",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "SRCHBINJ",
+        "from_step": "COBRUN",
+        "to_job": "SRCHBINJ",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(SRCHBIN)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "SRCHSERJ",
+        "from_step": "COBRUN",
+        "to_job": "SRCHSERJ",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "SRCHSERJ",
+        "from_step": "COBRUN",
+        "to_job": "SRCHSERJ",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(SRCHSER)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "HELLO",
+        "from_step": "COBRUN",
+        "to_job": "HELLO",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "HELLO",
+        "from_step": "COBRUN",
+        "to_job": "HELLO",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(HELLO)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBL0106J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0106J",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBL0106J",
+        "from_step": "COBRUN",
+        "to_job": "CBL0106J",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBL0106)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "CBLDB21C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB21R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBLDB21)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile job produces load module consumed by run job"
+      },
+      {
+        "from_job": "CBLDB21C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB21R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..DBRMLIB(CBLDB21)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile job produces DBRM for DB2 bind"
+      },
+      {
+        "from_job": "CBLDB22C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB22R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBLDB22)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBLDB22C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB22R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..DBRMLIB(CBLDB22)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBLDB23C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB23R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(CBLDB23)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "CBLDB23C",
+        "from_step": "COMPILE",
+        "to_job": "CBLDB23R",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..DBRMLIB(CBLDB23)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "DBRMLIB",
+        "from_step": "ALLOCAT",
+        "to_job": "CBLDB21C",
+        "to_step": "COMPILE",
+        "dataset": "&SYSUID..DBRMLIB",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "DBRMLIB allocation must precede DB2 compile jobs"
+      },
+      {
+        "from_job": "DBRMLIB",
+        "from_step": "ALLOCAT",
+        "to_job": "CBLDB22C",
+        "to_step": "COMPILE",
+        "dataset": "&SYSUID..DBRMLIB",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "DBRMLIB",
+        "from_step": "ALLOCAT",
+        "to_job": "CBLDB23C",
+        "to_step": "COMPILE",
+        "dataset": "&SYSUID..DBRMLIB",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "DB2SETUP",
+        "from_step": "DB2SETUP",
+        "to_job": "CRETBL",
+        "to_step": "CRETBL",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
+        "note": "DB2 environment must be set up before table creation"
+      },
+      {
+        "from_job": "CRETBL",
+        "from_step": "CRETBL",
+        "to_job": "LOADTBL",
+        "to_step": "LOADTBL",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
+        "note": "Table must exist before data load"
+      },
+      {
+        "from_job": "LOADTBL",
+        "from_step": "LOADTBL",
+        "to_job": "SELTBL",
+        "to_step": "SELTBL",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED",
+        "note": "Table must be loaded before select"
+      },
+      {
+        "from_job": "EMPPAY",
+        "from_step": "COBRUN",
+        "to_job": "EMPPAY",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "EMPPAY",
+        "from_step": "COBRUN",
+        "to_job": "EMPPAY",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(EMPPAY)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "Compile+link produces load module; RUN executes it"
+      },
+      {
+        "from_job": "DEPTPAYJ",
+        "from_step": "COPY2DS1",
+        "to_job": "DEPTPAYJ",
+        "to_step": "COBRUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "DEPTPAYJ",
+        "from_step": "COPY2DS1",
+        "to_job": "DEPTPAYJ",
+        "to_step": "COBRUN",
+        "dataset": "&SYSUID..CBL(DEPTPAY)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED",
+        "note": "TSO copy makes source available to compile step"
+      },
+      {
+        "from_job": "DEPTPAYJ",
+        "from_step": "COBRUN",
+        "to_job": "DEPTPAYJ",
+        "to_step": "RUN",
+        "dataset": null,
+        "relationship": "STEP_ORDER",
+        "confidence": "CONFIRMED"
+      },
+      {
+        "from_job": "DEPTPAYJ",
+        "from_step": "COBRUN",
+        "to_job": "DEPTPAYJ",
+        "to_step": "RUN",
+        "dataset": "&SYSUID..LOAD(DEPTPAY)",
+        "relationship": "PRODUCES",
+        "confidence": "CONFIRMED"
       }
     ]
   }
