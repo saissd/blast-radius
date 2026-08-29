@@ -79,6 +79,19 @@ Computes a weighted 0–100 risk score for any entity using:
 
 Supports `--json` (structured output), `--report` (Markdown for PR comments), and `--gate` (exit code 1 on HIGH, for CI).
 
+#### `risk_scores.json` — pre-generated snapshot
+
+`risk_scores.json` is a **generated snapshot** produced by running `risk_score.py --json` across every entity and collecting the results. It is consumed by the dependency graph UI (`index.html`) so the browser does not need to run Python at visualisation time.
+
+> **Important:** `risk_scores.json` must be regenerated whenever the scoring weights in `risk_score.py` change, or whenever `dependencies.json` / `impact_map.json` are updated. If it is out of date, the UI will display stale risk scores and regression-test lists.
+
+To regenerate it:
+
+```bash
+python build_risk_scores.py        # if a bulk-export script exists, or:
+python risk_score.py --json SAM1   # per-entity, pipe/collect into risk_scores.json
+```
+
 ### `.github/workflows/blast-radius.yml` — CI gate
 
 Triggers on any pull request that touches `*.cbl`, `*.cpy`, or `*.jcl`. For each changed file it derives the entity name, runs `risk_score.py --report` to generate a Markdown block, and runs `risk_score.py --gate` to determine pass/fail. A summary comment is posted to the PR; the job fails if any entity is HIGH.
@@ -231,6 +244,8 @@ Total unique affected source files (union): 5
 
 ### `risk_score.py` — score the change risk of any entity
 
+> **`risk_scores.json` is a generated snapshot.** Run `risk_score.py --json` across all entities and write the results to `risk_scores.json` to keep the UI current. Regenerate it whenever the scoring weights in `risk_score.py` change or the UI will display stale risk numbers.
+
 ```
 python risk_score.py [--json] [--report] [--gate] <name>
 ```
@@ -374,6 +389,8 @@ Score: 61/100
 | `build_impact_map.py` | Regenerates `impact_map.json` from `dependencies.json` |
 | `blast_radius.py` | Interactive dependency explorer |
 | `risk_score.py` | Weighted risk scorer with CI gate support |
+| `risk_scores.json` | **Generated snapshot** — pre-computed risk scores for all entities, consumed by `index.html`; must be regenerated when scoring weights or source data change |
+| `index.html` | Interactive dependency graph UI (loads `dependencies.json`, `impact_map.json`, `risk_scores.json`) |
 | `.github/workflows/blast-radius.yml` | GitHub Actions PR gate |
 | `sample-cobol/` | IBM z Open Editor sample COBOL programs (see DATA_SOURCES) |
 
