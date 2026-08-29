@@ -273,6 +273,76 @@
   .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.4; }
   .stat-sub { font-size: 10px; color: var(--muted); margin-top: 3px; opacity: .75; }
 
+  /* ── Risk block ───────────────────────────────────────── */
+  .risk-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .risk-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .risk-score {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .risk-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .risk-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .risk-reason {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    margin-bottom: 10px;
+  }
+  .risk-tests-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .risk-tests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .risk-test {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--prog);
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+  }
+  .risk-test:hover {
+    background: var(--border);
+    border-color: var(--prog);
+  }
+
   /* ── Status bar ───────────────────────────────────────── */
   footer {
     background: var(--surface);
@@ -348,8 +418,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 Promise.all([
   fetch('dependencies.json').then(r => r.json()),
-  fetch('impact_map.json').then(r => r.json())
-]).then(([deps, impact]) => init(deps, impact))
+  fetch('impact_map.json').then(r => r.json()),
+  fetch('risk_scores.json').then(r => r.json()).catch(() => ({}))
+]).then(([deps, impact, risks]) => init(deps, impact, risks))
   .catch(err => {
     document.getElementById('cy').innerHTML =
       `<div style="color:#f85149;padding:40px;font-size:14px">
@@ -489,7 +560,7 @@ const TYPE_LABEL = {
 // ─────────────────────────────────────────────────────────────────────────────
 // CYTOSCAPE INIT
 // ─────────────────────────────────────────────────────────────────────────────
-function init(deps, impact) {
+function init(deps, impact, risks) {
   const { elements, nodeMap } = buildElements(deps, impact);
 
   const cy = cytoscape({
@@ -640,7 +711,7 @@ function init(deps, impact) {
     const node = cy.getElementById(id);
     if (node) {
       cy.animate({ fit: { eles: node, padding: 120 }, duration: 400 });
-      selectNode(node, deps, impact, nodeMap);
+      selectNode(node, deps, impact, risks, nodeMap);
     }
   });
 
@@ -654,7 +725,7 @@ function init(deps, impact) {
 
   // ── Click handler ────────────────────────────────────────
   cy.on('tap', 'node', evt => {
-    selectNode(evt.target, deps, impact, nodeMap);
+    selectNode(evt.target, deps, impact, risks, nodeMap);
   });
 
   cy.on('tap', evt => {
@@ -742,7 +813,7 @@ function cancelRipple() {
   _rippleTimers = [];
 }
 
-function selectNode(node, deps, impact, nodeMap) {
+function selectNode(node, deps, impact, risks, nodeMap) {
   const cy = node.cy();
   cancelRipple();
 
@@ -768,7 +839,7 @@ function selectNode(node, deps, impact, nodeMap) {
   });
 
   document.getElementById('statSel').textContent = node.id();
-  renderPanel(node.id(), node.data('type'), node.data(), deps, impact, nodeMap, cy);
+  renderPanel(node.id(), node.data('type'), node.data(), deps, impact, risks, nodeMap, cy);
 }
 
 function clearSelection(cy) {
@@ -785,7 +856,7 @@ function clearSelection(cy) {
 // ─────────────────────────────────────────────────────────────────────────────
 // PANEL RENDER
 // ─────────────────────────────────────────────────────────────────────────────
-function renderPanel(id, type, data, deps, impact, nodeMap, cy) {
+function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
   document.getElementById('pName').textContent = id;
 
   const typeLabel = TYPE_LABEL[type] || type;
@@ -819,10 +890,33 @@ function renderPanel(id, type, data, deps, impact, nodeMap, cy) {
     return sum + (n && n.sourceFiles ? n.sourceFiles.length : 1);
   }, 0);
 
+  // ── Risk section ─────────────────────────────────────────
   let html = '';
+  const risk = risks && risks[id];
+  if (risk) {
+    const BAND_COLOR = { HIGH: 'var(--danger)', MEDIUM: 'var(--review)', LOW: 'var(--confirmed)' };
+    const bandColor  = BAND_COLOR[risk.band] || 'var(--muted)';
+    const testsHtml  = risk.regression_tests && risk.regression_tests.length
+      ? risk.regression_tests.map(t =>
+          `<span class="risk-test" data-node="${t}">${t}</span>`
+        ).join('')
+      : '<span style="color:var(--muted);font-size:12px">None identified</span>';
+    html += `<div class="risk-block">
+      <div class="risk-top">
+        <div class="risk-score" style="color:${bandColor}">${risk.score}</div>
+        <div>
+          <span class="risk-badge" style="background:${bandColor}22;color:${bandColor}">${risk.band}</span>
+          <div class="risk-label">Risk Score</div>
+        </div>
+      </div>
+      <div class="risk-reason">${risk.reason}</div>
+      <div class="risk-tests-label">Suggested regression tests</div>
+      <div class="risk-tests">${testsHtml}</div>
+    </div>`;
+  }
 
   if (total === 0) {
-    html = `<div class="empty-state" style="margin-top:30px">No downstream dependencies found.</div>`;
+    html += `<div class="empty-state" style="margin-top:30px">No downstream dependencies found.</div>`;
   } else {
     const srcFileLine = affected.program.length > 0
       ? `<div class="stat-sub">${affected.program.length} program${affected.program.length !== 1 ? 's' : ''} · ${affectedSrcFiles} source file${affectedSrcFiles !== 1 ? 's' : ''}</div>`
@@ -878,14 +972,14 @@ function renderPanel(id, type, data, deps, impact, nodeMap, cy) {
 
   document.getElementById('pBody').innerHTML = html;
 
-  // Make panel items clickable to focus node
-  document.getElementById('pBody').querySelectorAll('.dep-item[data-node]').forEach(el => {
+  // Make panel items and risk-test chips clickable to focus node
+  document.getElementById('pBody').querySelectorAll('[data-node]').forEach(el => {
     el.addEventListener('click', () => {
       const nid = el.dataset.node;
       const target = cy.getElementById(nid);
       if (target.length) {
         cy.animate({ fit: { eles: target, padding: 140 }, duration: 350 });
-        selectNode(target, deps, impact, nodeMap);
+        selectNode(target, deps, impact, risks, nodeMap);
       }
     });
   });
