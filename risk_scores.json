@@ -1,22 +1,252 @@
 {
-  "SAM1": {
-    "entity": "SAM1",
-    "score": 81,
-    "band": "HIGH",
-    "reason": "'SAM1' is an entry-point program (nothing calls it). It calls 1 program (SAM2); writes 2 output files (CUSTOUT, CUSTRPT); uses 5 copybooks; executed by 1 JCL job (ZDERUN). Raw weighted score 81.",
+  "ACCTREC": {
+    "entity": "ACCTREC",
+    "score": 18,
+    "band": "LOW",
+    "reason": "Changing the DD file 'ACCTREC' impacts: 2 affected programs (CBL0106, CBL0106C); 1 output file written (PRTLINE); 1 JCL job affected (CBL0106J). Raw weighted score 18.",
     "regression_tests": [
-      "SAM1",
-      "SAM2"
+      "CBL0106",
+      "CBL0106C"
     ]
   },
-  "SAM2": {
-    "entity": "SAM2",
-    "score": 41,
-    "band": "MEDIUM",
-    "reason": "Changing the program 'SAM2' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN); +25 program category base. Raw weighted score 41.",
+  "ADDAMT": {
+    "entity": "ADDAMT",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'ADDAMT' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CARDIN": {
+    "entity": "CARDIN",
+    "score": 13,
+    "band": "LOW",
+    "reason": "Changing the DD file 'CARDIN' impacts: 1 affected program (CBLDB23); 1 output file written (REPORT); 1 JCL job affected (CBLDB23R). Raw weighted score 13.",
     "regression_tests": [
-      "SAM1"
+      "CBLDB23"
     ]
+  },
+  "CBL0001J": {
+    "entity": "CBL0001J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0001J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0002J": {
+    "entity": "CBL0002J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0002J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0003J": {
+    "entity": "CBL0003J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0003J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0004J": {
+    "entity": "CBL0004J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0004J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0005J": {
+    "entity": "CBL0005J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0005J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0006J": {
+    "entity": "CBL0006J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0006J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0007J": {
+    "entity": "CBL0007J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0007J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0008J": {
+    "entity": "CBL0008J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0008J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0009J": {
+    "entity": "CBL0009J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0009J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0010J": {
+    "entity": "CBL0010J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0010J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0011J": {
+    "entity": "CBL0011J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0011J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0012J": {
+    "entity": "CBL0012J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0012J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0013J": {
+    "entity": "CBL0013J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0013J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0014J": {
+    "entity": "CBL0014J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0014J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0033J": {
+    "entity": "CBL0033J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0033J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL006AJ": {
+    "entity": "CBL006AJ",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL006AJ' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBL0106": {
+    "entity": "CBL0106",
+    "score": 33,
+    "band": "MEDIUM",
+    "reason": "'CBL0106' is an entry-point program (nothing calls it). It writes 1 output file (PRTLINE); executed by 1 JCL job (CBL0106J). Raw weighted score 33.",
+    "regression_tests": [
+      "CBL0106"
+    ]
+  },
+  "CBL0106C": {
+    "entity": "CBL0106C",
+    "score": 28,
+    "band": "LOW",
+    "reason": "'CBL0106C' is an entry-point program (nothing calls it). It writes 1 output file (PRTLINE). Raw weighted score 28.",
+    "regression_tests": [
+      "CBL0106C"
+    ]
+  },
+  "CBL0106J": {
+    "entity": "CBL0106J",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBL0106J' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB21": {
+    "entity": "CBLDB21",
+    "score": 38,
+    "band": "MEDIUM",
+    "reason": "'CBLDB21' is an entry-point program (nothing calls it). It calls 1 program (DSNTIAR); writes 1 output file (REPORT); executed by 1 JCL job (CBLDB21R). Raw weighted score 38.",
+    "regression_tests": [
+      "CBLDB21",
+      "DSNTIAR"
+    ]
+  },
+  "CBLDB21C": {
+    "entity": "CBLDB21C",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB21C' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB21R": {
+    "entity": "CBLDB21R",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB21R' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB22": {
+    "entity": "CBLDB22",
+    "score": 38,
+    "band": "MEDIUM",
+    "reason": "'CBLDB22' is an entry-point program (nothing calls it). It calls 1 program (DSNTIAR); writes 1 output file (REPORT); executed by 1 JCL job (CBLDB22R). Raw weighted score 38.",
+    "regression_tests": [
+      "CBLDB22",
+      "DSNTIAR"
+    ]
+  },
+  "CBLDB22C": {
+    "entity": "CBLDB22C",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB22C' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB22R": {
+    "entity": "CBLDB22R",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB22R' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB23": {
+    "entity": "CBLDB23",
+    "score": 38,
+    "band": "MEDIUM",
+    "reason": "'CBLDB23' is an entry-point program (nothing calls it). It calls 1 program (DSNTIAR); writes 1 output file (REPORT); executed by 1 JCL job (CBLDB23R). Raw weighted score 38.",
+    "regression_tests": [
+      "CBLDB23",
+      "DSNTIAR"
+    ]
+  },
+  "CBLDB23C": {
+    "entity": "CBLDB23C",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB23C' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CBLDB23R": {
+    "entity": "CBLDB23R",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CBLDB23R' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "COBRUN": {
+    "entity": "COBRUN",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'COBRUN' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "CRETBL": {
+    "entity": "CRETBL",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'CRETBL' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
   },
   "CUSTCOPY": {
     "entity": "CUSTCOPY",
@@ -28,58 +258,11 @@
       "SAM2"
     ]
   },
-  "TRANREC": {
-    "entity": "TRANREC",
-    "score": 61,
-    "band": "HIGH",
-    "reason": "Changing the copybook 'TRANREC' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 5 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 61.",
-    "regression_tests": [
-      "SAM1",
-      "SAM2"
-    ]
-  },
-  "DATETIME": {
-    "entity": "DATETIME",
-    "score": 24,
-    "band": "LOW",
-    "reason": "Changing the copybook 'DATETIME' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
-    "regression_tests": [
-      "SAM1"
-    ]
-  },
-  "REPTTOTL": {
-    "entity": "REPTTOTL",
-    "score": 24,
-    "band": "LOW",
-    "reason": "Changing the copybook 'REPTTOTL' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
-    "regression_tests": [
-      "SAM1"
-    ]
-  },
-  "SAM2PARM": {
-    "entity": "SAM2PARM",
-    "score": 37,
-    "band": "MEDIUM",
-    "reason": "Changing the copybook 'SAM2PARM' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 2 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 37.",
-    "regression_tests": [
-      "SAM1",
-      "SAM2"
-    ]
-  },
   "CUSTFILE": {
     "entity": "CUSTFILE",
     "score": 16,
     "band": "LOW",
     "reason": "Changing the DD file 'CUSTFILE' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
-    "regression_tests": [
-      "SAM1"
-    ]
-  },
-  "TRANFILE": {
-    "entity": "TRANFILE",
-    "score": 16,
-    "band": "LOW",
-    "reason": "Changing the DD file 'TRANFILE' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
     "regression_tests": [
       "SAM1"
     ]
@@ -102,25 +285,213 @@
       "SAM1"
     ]
   },
-  "ZDERUN": {
-    "entity": "ZDERUN",
+  "DATETIME": {
+    "entity": "DATETIME",
+    "score": 24,
+    "band": "LOW",
+    "reason": "Changing the copybook 'DATETIME' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "DB2SETUP": {
+    "entity": "DB2SETUP",
     "score": 0,
     "band": "LOW",
-    "reason": "'ZDERUN' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "reason": "'DB2SETUP' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
     "regression_tests": []
+  },
+  "DBRMLIB": {
+    "entity": "DBRMLIB",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'DBRMLIB' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "DEPTPAY": {
+    "entity": "DEPTPAY",
+    "score": 30,
+    "band": "MEDIUM",
+    "reason": "'DEPTPAY' is an entry-point program (nothing calls it). It executed by 1 JCL job (DEPTPAYJ). Raw weighted score 30.",
+    "regression_tests": [
+      "DEPTPAY"
+    ]
+  },
+  "DEPTPAYJ": {
+    "entity": "DEPTPAYJ",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'DEPTPAYJ' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "DSNTIAR": {
+    "entity": "DSNTIAR",
+    "score": 58,
+    "band": "MEDIUM",
+    "reason": "Changing the program 'DSNTIAR' impacts: 3 affected programs (CBLDB21, CBLDB22, CBLDB23); 1 output file written (REPORT); 3 JCL jobs affected (CBLDB21R, CBLDB22R, CBLDB23R); +25 program category base. Raw weighted score 58.",
+    "regression_tests": [
+      "CBLDB21",
+      "CBLDB22",
+      "CBLDB23"
+    ]
+  },
+  "EMPPAY": {
+    "entity": "EMPPAY",
+    "score": 30,
+    "band": "MEDIUM",
+    "reason": "'EMPPAY' is an entry-point program (nothing calls it). It executed by 1 JCL job (EMPPAY). Raw weighted score 30.",
+    "regression_tests": [
+      "EMPPAY"
+    ]
+  },
+  "HELLO": {
+    "entity": "HELLO",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'HELLO' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "IBMUSER": {
+    "entity": "IBMUSER",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'IBMUSER' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "LOADTBL": {
+    "entity": "LOADTBL",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'LOADTBL' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "PAYROL00": {
+    "entity": "PAYROL00",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'PAYROL00' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "PAYROL0X": {
+    "entity": "PAYROL0X",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'PAYROL0X' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "PRTLINE": {
+    "entity": "PRTLINE",
+    "score": 18,
+    "band": "LOW",
+    "reason": "Changing the DD file 'PRTLINE' impacts: 2 affected programs (CBL0106, CBL0106C); 1 output file written (PRTLINE); 1 JCL job affected (CBL0106J). Raw weighted score 18.",
+    "regression_tests": [
+      "CBL0106",
+      "CBL0106C"
+    ]
+  },
+  "RECIN": {
+    "entity": "RECIN",
+    "score": 13,
+    "band": "LOW",
+    "reason": "Changing the DD file 'RECIN' impacts: 1 affected program (CBLDB22); 1 output file written (REPORT); 1 JCL job affected (CBLDB22R). Raw weighted score 13.",
+    "regression_tests": [
+      "CBLDB22"
+    ]
+  },
+  "REPORT": {
+    "entity": "REPORT",
+    "score": 33,
+    "band": "MEDIUM",
+    "reason": "Changing the DD file 'REPORT' impacts: 3 affected programs (CBLDB21, CBLDB22, CBLDB23); 1 output file written (REPORT); 3 JCL jobs affected (CBLDB21R, CBLDB22R, CBLDB23R). Raw weighted score 33.",
+    "regression_tests": [
+      "CBLDB21",
+      "CBLDB22",
+      "CBLDB23"
+    ]
+  },
+  "REPTTOTL": {
+    "entity": "REPTTOTL",
+    "score": 24,
+    "band": "LOW",
+    "reason": "Changing the copybook 'REPTTOTL' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 source file COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 24.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "SAM1": {
+    "entity": "SAM1",
+    "score": 81,
+    "band": "HIGH",
+    "reason": "'SAM1' is an entry-point program (nothing calls it). It calls 1 program (SAM2); writes 2 output files (CUSTOUT, CUSTRPT); uses 5 copybooks; executed by 1 JCL job (ZDERUN). Raw weighted score 81.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "SAM2": {
+    "entity": "SAM2",
+    "score": 41,
+    "band": "MEDIUM",
+    "reason": "Changing the program 'SAM2' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN); +25 program category base. Raw weighted score 41.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "SAM2PARM": {
+    "entity": "SAM2PARM",
+    "score": 37,
+    "band": "MEDIUM",
+    "reason": "Changing the copybook 'SAM2PARM' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 2 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 37.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
+  },
+  "SELTBL": {
+    "entity": "SELTBL",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'SELTBL' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "SRCHBINJ": {
+    "entity": "SRCHBINJ",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'SRCHBINJ' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "SRCHSERJ": {
+    "entity": "SRCHSERJ",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'SRCHSERJ' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "TRANFILE": {
+    "entity": "TRANFILE",
+    "score": 16,
+    "band": "LOW",
+    "reason": "Changing the DD file 'TRANFILE' impacts: 1 affected program (SAM1); 2 output files written (CUSTOUT, CUSTRPT); 1 JCL job affected (ZDERUN). Raw weighted score 16.",
+    "regression_tests": [
+      "SAM1"
+    ]
+  },
+  "TRANREC": {
+    "entity": "TRANREC",
+    "score": 61,
+    "band": "HIGH",
+    "reason": "Changing the copybook 'TRANREC' impacts: 2 affected programs (SAM1, SAM2); 2 output files written (CUSTOUT, CUSTRPT); 5 source files COPY it; 1 JCL job affected (ZDERUN). Raw weighted score 61.",
+    "regression_tests": [
+      "SAM1",
+      "SAM2"
+    ]
   },
   "WAZIASM1": {
     "entity": "WAZIASM1",
     "score": 0,
     "band": "LOW",
     "reason": "'WAZIASM1' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
-    "regression_tests": []
-  },
-  "ZDEPSM1": {
-    "entity": "ZDEPSM1",
-    "score": 0,
-    "band": "LOW",
-    "reason": "'ZDEPSM1' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
     "regression_tests": []
   },
   "ZDEALLC": {
@@ -130,11 +501,18 @@
     "reason": "'ZDEALLC' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
     "regression_tests": []
   },
-  "IBMUSER": {
-    "entity": "IBMUSER",
+  "ZDEPSM1": {
+    "entity": "ZDEPSM1",
     "score": 0,
     "band": "LOW",
-    "reason": "'IBMUSER' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "reason": "'ZDEPSM1' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
+    "regression_tests": []
+  },
+  "ZDERUN": {
+    "entity": "ZDERUN",
+    "score": 0,
+    "band": "LOW",
+    "reason": "'ZDERUN' was not found in impact_map.json. No affected programs, files, or copybooks could be identified.",
     "regression_tests": []
   }
 }
