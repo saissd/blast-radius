@@ -13,13 +13,17 @@ Outputs a risk score (0-100), band (HIGH / MEDIUM / LOW), a plain-English
 reason, and a regression test list (affected programs that need retesting).
 
 Scoring weights:
-  - Each affected program           x3
-  - Each OUTPUT file written        x5
-  - Each copybook source-file use   x10  (total #files that COPY this copybook;
+  - Each affected program           x5
+  - Each OUTPUT file written        x3
+  - Each copybook source-file use   x8   (total #files that COPY this copybook;
                                           or shared copybooks when scoring a
                                           program/file entity)
-  - Each JCL job affected           x8
+  - Each JCL job affected           x5
+  - Category base score             +25 for programs, +0 for files/copybooks
   Score is capped at 100.
+
+The category base ensures that a program depended on by others (call-chain risk)
+scores above a raw DD file with an identical dependency footprint.
 
 Root programs (entry-points that nothing calls, e.g. SAM1) are scored on what
 they *depend on* rather than what depends on them.
@@ -46,10 +50,18 @@ from pathlib import Path
 IMPACT_MAP   = Path(__file__).parent / "impact_map.json"
 DEPENDENCIES = Path(__file__).parent / "dependencies.json"
 
-WEIGHT_PROGRAM   = 3
-WEIGHT_FILE      = 5
-WEIGHT_COPYBOOK  = 10
-WEIGHT_JCL_JOB   = 8
+WEIGHT_PROGRAM   = 5
+WEIGHT_FILE      = 3
+WEIGHT_COPYBOOK  = 8
+WEIGHT_JCL_JOB   = 5
+
+# Per-category base score added once to every non-root entity score.
+# Programs carry inherent call-chain risk that a bare DD file does not.
+CATEGORY_BASE = {
+    "programs":  25,
+    "files":      0,
+    "copybooks":  0,
+}
 
 
 # --------------------------------------------------------------------------- #
@@ -168,7 +180,8 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             n_programs  * WEIGHT_PROGRAM  +
             n_files     * WEIGHT_FILE     +
             n_copybooks * WEIGHT_COPYBOOK +
-            n_jobs      * WEIGHT_JCL_JOB
+            n_jobs      * WEIGHT_JCL_JOB  +
+            CATEGORY_BASE.get("programs", 0)
         )
         score = min(raw, 100)
         band  = "HIGH" if score >= 60 else ("MEDIUM" if score >= 30 else "LOW")
@@ -284,7 +297,8 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
         n_programs  * WEIGHT_PROGRAM  +
         n_files     * WEIGHT_FILE     +
         n_copybooks * WEIGHT_COPYBOOK +
-        n_jobs      * WEIGHT_JCL_JOB
+        n_jobs      * WEIGHT_JCL_JOB  +
+        CATEGORY_BASE.get(cat0, 0)
     )
     score = min(raw, 100)
 
@@ -322,6 +336,10 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             f"{n_jobs} JCL job{'s' if n_jobs != 1 else ''} affected "
             f"({', '.join(sorted(affected_jobs))})"
         )
+
+    base_score = CATEGORY_BASE.get(cat0, 0)
+    if base_score:
+        parts.append(f"+{base_score} program category base")
 
     if parts:
         reason = (
