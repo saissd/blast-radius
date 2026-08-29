@@ -870,6 +870,30 @@ function init(deps, impact, risks) {
 // SELECTION + BLAST RADIUS
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Returns the flat union of all upstream nodes/edges (BFS following incoming edges).
+function getUpstream(node, cy) {
+  const visited = new Set();
+  const visitedEdges = new Set();
+  const queue = [node];
+  visited.add(node.id());
+  while (queue.length) {
+    const cur = queue.shift();
+    cur.incomers('edge').forEach(edge => {
+      const src = edge.source();
+      visitedEdges.add(edge.id());
+      if (!visited.has(src.id())) {
+        visited.add(src.id());
+        queue.push(src);
+      }
+    });
+  }
+  visited.delete(node.id());
+  return {
+    nodes: cy.nodes().filter(n => visited.has(n.id())),
+    edges: cy.edges().filter(e => visitedEdges.has(e.id()))
+  };
+}
+
 // Returns the flat union of all downstream nodes/edges (used by panel render).
 function getDownstream(node, cy) {
   const visited = new Set();
@@ -997,14 +1021,38 @@ function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
   if (type === 'jcl'     && data.jclFile)      meta = data.jclFile;
   document.getElementById('pMeta').textContent = meta;
 
-  // Build blast radius from graph traversal
-  const { nodes: downNodes } = getDownstream(cy.getElementById(id), cy);
+  // Build blast radius from graph traversal.
+  // For entry-point programs (no incoming edges from other programs — they are
+  // roots in the caller-callee chain), the programs/copybooks/files they depend
+  // on live *upstream* in the impact-flow graph (callee→caller edge direction).
+  // Walk upstream to populate those tiles; downstream still captures JCL jobs.
+  const cyNode = cy.getElementById(id);
+  const isEntryPoint = type === 'program' &&
+    cyNode.outgoers('node[type="program"]').length === 0;
+
+  const { nodes: downNodes } = getDownstream(cyNode, cy);
+  const { nodes: upNodes }   = isEntryPoint ? getUpstream(cyNode, cy) : { nodes: cy.collection() };
 
   const affected = { program: [], file: [], copybook: [], jcl: [] };
-  downNodes.forEach(n => {
-    const t = n.data('type');
-    if (affected[t]) affected[t].push(n.id());
-  });
+
+  // For entry-point programs: programs/copybooks/files come from upstream,
+  // JCL jobs come from downstream.
+  if (isEntryPoint) {
+    upNodes.forEach(n => {
+      const t = n.data('type');
+      if (t === 'program' || t === 'copybook' || t === 'file') {
+        if (affected[t]) affected[t].push(n.id());
+      }
+    });
+    downNodes.forEach(n => {
+      if (n.data('type') === 'jcl') affected.jcl.push(n.id());
+    });
+  } else {
+    downNodes.forEach(n => {
+      const t = n.data('type');
+      if (affected[t]) affected[t].push(n.id());
+    });
+  }
 
   // Count totals
   const total = affected.program.length + affected.file.length + affected.copybook.length + affected.jcl.length;
@@ -1041,7 +1089,7 @@ function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
   }
 
   if (total === 0) {
-    html += `<div class="empty-state" style="margin-top:30px">No downstream dependencies found.</div>`;
+    html += `<div class="empty-state" style="margin-top:30px">${isEntryPoint ? 'No dependencies found.' : 'No downstream dependencies found.'}</div>`;
   } else {
     const srcFileLine = affected.program.length > 0
       ? `<div class="stat-sub">${affected.program.length} program${affected.program.length !== 1 ? 's' : ''} · ${affectedSrcFiles} source file${affectedSrcFiles !== 1 ? 's' : ''}</div>`
@@ -1055,20 +1103,20 @@ function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
 
     // ── Programs ──
     if (affected.program.length) {
-      html += `<div class="section-label">Affected Programs</div>`;
-      html += renderConfGroups(affected.program, 'program', id, cy, nodeMap);
+      html += `<div class="section-label">${isEntryPoint ? 'Called Programs' : 'Affected Programs'}</div>`;
+      html += renderConfGroups(affected.program, 'program', id, cy, nodeMap, isEntryPoint);
     }
 
     // ── Files ──
     if (affected.file.length) {
       html += `<div class="section-label">Data Files</div>`;
-      html += renderConfGroups(affected.file, 'file', id, cy);
+      html += renderConfGroups(affected.file, 'file', id, cy, null, isEntryPoint);
     }
 
     // ── Copybooks ──
     if (affected.copybook.length) {
       html += `<div class="section-label">Copybooks</div>`;
-      html += renderConfGroups(affected.copybook, 'copybook', id, cy);
+      html += renderConfGroups(affected.copybook, 'copybook', id, cy, null, isEntryPoint);
     }
 
     // ── JCL Jobs ──
@@ -1110,20 +1158,25 @@ function renderPanel(id, type, data, deps, impact, risks, nodeMap, cy) {
   });
 }
 
-function renderConfGroups(ids, type, sourceId, cy, nodeMap) {
+function renderConfGroups(ids, type, sourceId, cy, nodeMap, upstream = false) {
   const confirmed = [];
   const review    = [];
 
   ids.forEach(nid => {
-    // Check the direct incoming edge from sourceId → nid for confidence.
-    // If none exists (indirect descendant), look at all incoming edges to nid.
-    const directEdge = cy.edges(`[source="${sourceId}"][target="${nid}"]`);
+    // For upstream traversal (entry-point programs), the edge runs nid → sourceId.
+    // For downstream traversal, the edge runs sourceId → nid.
+    const directEdge = upstream
+      ? cy.edges(`[source="${nid}"][target="${sourceId}"]`)
+      : cy.edges(`[source="${sourceId}"][target="${nid}"]`);
     let conf = 'CONFIRMED';
     if (directEdge.length) {
       conf = directEdge[0].data('confidence');
     } else {
-      // For indirect descendants: if ANY incoming edge is NEEDS_REVIEW, flag it
-      cy.edges(`[target="${nid}"]`).forEach(e => {
+      // For indirect descendants/ancestors: if ANY connecting edge is NEEDS_REVIEW, flag it
+      const edgesToCheck = upstream
+        ? cy.edges(`[source="${nid}"]`)
+        : cy.edges(`[target="${nid}"]`);
+      edgesToCheck.forEach(e => {
         if (e.data('confidence') === 'NEEDS_REVIEW') conf = 'NEEDS_REVIEW';
       });
     }
