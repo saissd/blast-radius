@@ -2,7 +2,7 @@
 """
 risk_score.py
 Usage:
-    python risk_score.py [--json] [--gate] <name>
+    python risk_score.py [--json] [--gate] [--report] <name>
 
 <name> is matched case-insensitively against:
   - program IDs    (e.g. SAM2)
@@ -30,9 +30,12 @@ Bands:
   LOW     < 30
 
 Flags:
-  --json   Output structured JSON.
-  --gate   Exit with code 1 if the band is HIGH, 0 otherwise.
-           Combine with --json to get structured output AND a gate exit code.
+  --json     Output structured JSON.
+  --gate     Exit with code 1 if the band is HIGH, 0 otherwise.
+             Combine with --json or --report to get formatted output AND a gate
+             exit code.
+  --report   Output a formatted Markdown block suitable for posting as a
+             GitHub PR comment section.
 """
 
 import argparse
@@ -361,6 +364,31 @@ def print_text(result: dict) -> None:
         print("Regression tests : (none)")
 
 
+_BAND_BADGE = {
+    "HIGH":   "🔴 HIGH",
+    "MEDIUM": "🟡 MEDIUM",
+    "LOW":    "🟢 LOW",
+}
+
+
+def format_markdown(result: dict) -> str:
+    """Return a Markdown section suitable for a GitHub PR comment."""
+    band_label = _BAND_BADGE.get(result["band"], result["band"])
+    tests = result["regression_tests"]
+    if tests:
+        test_lines = "\n".join(f"- `{t}`" for t in tests)
+    else:
+        test_lines = "_None identified._"
+
+    return (
+        f"### `{result['entity']}` — {band_label}\n\n"
+        f"**Score:** {result['score']}/100\n\n"
+        f"**Reason:** {result['reason']}\n\n"
+        f"**Regression tests:**\n\n"
+        f"{test_lines}\n"
+    )
+
+
 # --------------------------------------------------------------------------- #
 # Entry point
 # --------------------------------------------------------------------------- #
@@ -370,7 +398,9 @@ def main() -> None:
         description="Compute change-risk score for a COBOL program, file, or copybook."
     )
     parser.add_argument("name", help="Program ID, DD file name, or copybook name")
-    parser.add_argument("--json", action="store_true", help="Emit structured JSON")
+    parser.add_argument("--json",   action="store_true", help="Emit structured JSON")
+    parser.add_argument("--report", action="store_true",
+                        help="Emit formatted Markdown suitable for a GitHub PR comment")
     parser.add_argument(
         "--gate",
         action="store_true",
@@ -385,6 +415,8 @@ def main() -> None:
 
     if args.json:
         print(json.dumps(result, indent=2))
+    elif args.report:
+        sys.stdout.buffer.write(format_markdown(result).encode("utf-8"))
     else:
         print_text(result)
 

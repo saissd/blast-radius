@@ -67,8 +67,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          HIGH_HITS=""      # accumulates JSON blocks for HIGH entities
-          ALL_RESULTS=""    # accumulates every result for the summary comment
+          HIGH_HITS=""      # accumulates entity names that scored HIGH
+          ALL_RESULTS=""    # accumulates --report markdown blocks
 
           while IFS= read -r filepath; do
             # Extract bare filename without extension (e.g. CUSTCOPY)
@@ -76,15 +76,15 @@ jobs:
 
             echo "Scoring: $entity  (from $filepath)"
 
-            # Run with --json so we can parse; capture exit code separately
-            result=$(python risk_score.py --json "$entity" 2>&1)
+            # --report produces ready-to-use Markdown; --gate sets exit code
+            report=$(python risk_score.py --report "$entity" 2>&1)
             python risk_score.py --gate "$entity" > /dev/null 2>&1
             gate_exit=$?
 
-            ALL_RESULTS="${ALL_RESULTS}
-          ### \`${entity}\` — \`$(echo "$result" | python -c "import sys,json; d=json.load(sys.stdin); print(d['band'])")\` (score $(echo "$result" | python -c "import sys,json; d=json.load(sys.stdin); print(d['score'])"))
-          $(echo "$result" | python -c "import sys,json; d=json.load(sys.stdin); print(d['reason'])")
-          **Regression tests:** $(echo "$result" | python -c "import sys,json; d=json.load(sys.stdin); tests=d['regression_tests']; print(', '.join(tests) if tests else '(none)')")
+            ALL_RESULTS="${ALL_RESULTS}${report}
+
+          ---
+
           "
 
             if [ "$gate_exit" -eq 1 ]; then
@@ -120,14 +120,14 @@ jobs:
           script: |
             const gateStep   = ${{ toJSON(steps.gate.outputs) }};
             const gateFailed = gateStep.gate_failed === 'true';
-            const allResults = gateStep.all_results || '(no results)';
+            const allResults = gateStep.all_results || '_No results._';
             const highHits   = (gateStep.high_hits || '').trim();
 
             const header = gateFailed
               ? `## ⛔ Blast-Radius Risk Gate — BLOCKED\n\nOne or more changed entities scored **HIGH** risk. The following programs need retesting before this PR can merge:\n\n\`\`\`\n${highHits}\n\`\`\``
               : `## ✅ Blast-Radius Risk Gate — PASSED\n\nAll changed entities are within acceptable risk bands.`;
 
-            const body = `${header}\n\n---\n\n## Risk breakdown\n\n${allResults}\n\n> Scores: each affected program ×3 · output file ×5 · shared copybook ×4 · JCL job ×6 · cap 100. HIGH ≥ 60, MEDIUM 30–59, LOW < 30.`;
+            const body = `${header}\n\n---\n\n## Risk breakdown\n\n${allResults}\n> Scores: each affected program ×3 · output file ×5 · shared copybook ×10 · JCL job ×8 · cap 100. HIGH ≥ 60, MEDIUM 30–59, LOW < 30.`;
 
             await github.rest.issues.createComment({
               owner:    context.repo.owner,
