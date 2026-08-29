@@ -2,7 +2,7 @@
 """
 risk_score.py
 Usage:
-    python risk_score.py [--json] <name>
+    python risk_score.py [--json] [--gate] <name>
 
 <name> is matched case-insensitively against:
   - program IDs    (e.g. SAM2)
@@ -26,6 +26,8 @@ Bands:
 
 Flags:
   --json   Output structured JSON.
+  --gate   Exit with code 1 if the band is HIGH, 0 otherwise.
+           Combine with --json to get structured output AND a gate exit code.
 """
 
 import argparse
@@ -244,6 +246,11 @@ def main() -> None:
     )
     parser.add_argument("name", help="Program ID, DD file name, or copybook name")
     parser.add_argument("--json", action="store_true", help="Emit structured JSON")
+    parser.add_argument(
+        "--gate",
+        action="store_true",
+        help="Exit with code 1 if band is HIGH, 0 otherwise (for CI use)",
+    )
     args = parser.parse_args()
 
     impact_map = _load(IMPACT_MAP, "impact_map.json")
@@ -255,6 +262,9 @@ def main() -> None:
         print(json.dumps(result, indent=2))
     else:
         print_text(result)
+
+    if args.gate and result["band"] == "HIGH":
+        sys.exit(1)
 
 
 if __name__ == "__main__":
