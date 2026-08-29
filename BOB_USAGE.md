@@ -4,6 +4,8 @@
 
 IBM Bob in Agent mode was used throughout the construction of Blast Radius. Every source file in the project — `dependencies.json`, `build_impact_map.py`, `blast_radius.py`, `risk_score.py`, and `.github/workflows/blast-radius.yml` — was written or significantly shaped in Bob Agent mode sessions.
 
+The dependency manifest was expanded in a subsequent session to incorporate the openmainframeproject/cobol-programming-course source tree, growing the corpus from 2 COBOL programs and 5 JCL jobs to 12 source files, 42 JCL jobs, and 87 JCL dataset edges. Bob read the course's JCL and COBOL files, extended `dependencies.json`, and regenerated `impact_map.json` without modifying any existing entry.
+
 ## The Four Named Subagents
 
 The architecture of `dependencies.json` is built around four named subagents declared in the file's `_agents` metadata field:

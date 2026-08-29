@@ -114,25 +114,75 @@
 
   .legend {
     display: flex;
-    gap: 14px;
+    align-items: center;
+    gap: 6px;
     margin-left: auto;
     flex-shrink: 0;
   }
+  .leg-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 4px;
+    flex-shrink: 0;
+  }
+  /* Node-type filter toggles */
+  .leg-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 3px 7px;
+    cursor: pointer;
+    transition: opacity .15s, border-color .15s, background .15s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .leg-toggle:hover { background: var(--surface2); border-color: var(--border); }
+  .leg-toggle--off  { opacity: .35; }
+  .leg-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  /* Edge legend items (non-interactive) */
   .leg-item {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 12px;
     color: var(--muted);
-  }
-  .leg-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
+    white-space: nowrap;
   }
   .leg-line {
     width: 20px; height: 2px;
     flex-shrink: 0;
+  }
+  /* Hide-unconnected toggle */
+  #hide-unconnected {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  #hide-unconnected:hover { background: var(--surface2); }
+  #hide-unconnected.active { border-color: var(--accent); background: rgba(56,139,253,.1); color: var(--accent); }
+  #hide-unconnected .hu-count {
+    font-size: 11px;
+    opacity: .7;
   }
 
   /* ── Main layout ──────────────────────────────────────── */
@@ -372,10 +422,11 @@
   </div>
 
   <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:var(--prog)"></div>Program</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--file)"></div>File</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--copy)"></div>Copybook</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--jcl)"></div>JCL Job</div>
+    <button class="leg-toggle" data-type="program"><div class="leg-dot" style="background:var(--prog)"></div>Program</button>
+    <button class="leg-toggle" data-type="file"><div class="leg-dot" style="background:var(--file)"></div>File</button>
+    <button class="leg-toggle" data-type="copybook"><div class="leg-dot" style="background:var(--copy)"></div>Copybook</button>
+    <button class="leg-toggle" data-type="jcl"><div class="leg-dot" style="background:var(--jcl)"></div>JCL Job</button>
+    <div class="leg-sep"></div>
     <div class="leg-item">
       <svg width="24" height="8"><line x1="0" y1="4" x2="24" y2="4" stroke="#8b949e" stroke-width="1.5"/></svg>
       Confirmed
@@ -384,6 +435,10 @@
       <svg width="24" height="8"><line x1="0" y1="4" x2="24" y2="4" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="4,3"/></svg>
       Needs Review
     </div>
+    <div class="leg-sep"></div>
+    <button id="hide-unconnected" class="active">
+      Hide unconnected <span class="hu-count" id="huCount"></span>
+    </button>
   </div>
 </header>
 
@@ -457,19 +512,22 @@ function buildElements(deps, impact) {
     addNode(pid, 'program', pid, { sourceFiles: programFiles[pid] });
   });
 
-  // Calls (program → program)
+  // Calls: edge flows callee → caller.
+  // Semantics: if DSNTIAR changes, CBLDB21/22/23 (its callers) are impacted.
+  // BFS downstream from DSNTIAR therefore reaches CBLDB21/22/23.
   deps.programs.forEach(prog => {
     (prog.calls || []).forEach(call => {
       addNode(call.program, 'program', call.program);
-      // deduplicate edges between same pair
-      const eKey = `${prog.program_id}__${call.program}`;
-      if (!edges.find(e => e.source === prog.program_id && e.target === call.program)) {
-        addEdge(prog.program_id, call.program, call.confidence, 'CALLS', call.note);
+      // callee → caller (reversed from the source CALL statement direction)
+      if (!edges.find(e => e.source === call.program && e.target === prog.program_id)) {
+        addEdge(call.program, prog.program_id, call.confidence, 'CALLS', call.note);
       }
     });
   });
 
-  // Files (program → file)
+  // Files: edge direction depends on access mode.
+  //   INPUT  → file → program  (changing the file breaks the reader)
+  //   OUTPUT → program → file  (changing the program changes what it writes)
   const fileNodes = new Set();
   deps.programs.forEach(prog => {
     (prog.files || []).forEach(f => {
@@ -477,9 +535,10 @@ function buildElements(deps, impact) {
         fileNodes.add(f.dd_name);
         addNode(f.dd_name, 'file', f.dd_name, { logicalName: f.logical_name });
       }
-      const eKey = `${prog.program_id}__${f.dd_name}`;
-      if (!edges.find(e => e.source === prog.program_id && e.target === f.dd_name)) {
-        addEdge(prog.program_id, f.dd_name, f.confidence, f.access, f.note);
+      const src = f.access === 'OUTPUT' ? prog.program_id : f.dd_name;
+      const tgt = f.access === 'OUTPUT' ? f.dd_name        : prog.program_id;
+      if (!edges.find(e => e.source === src && e.target === tgt)) {
+        addEdge(src, tgt, f.confidence, f.access, f.note);
       }
     });
   });
@@ -738,6 +797,72 @@ function init(deps, impact, risks) {
   });
   cy.on('mouseout', 'node', () => {
     document.getElementById('cy').style.cursor = 'default';
+  });
+
+  // ── Filters ──────────────────────────────────────────────
+  // Track which types are visible and whether unconnected are hidden.
+  const hiddenTypes = new Set();   // types currently filtered out
+  let hideUnconnected = true;
+
+  function applyFilters() {
+    // Determine which nodes should be visible under current filter state.
+    // A node is visible if:
+    //   1. Its type is not in hiddenTypes, AND
+    //   2. (hideUnconnected is false) OR it has at least one edge.
+    const unconnectedHidden = [];
+
+    cy.nodes().forEach(n => {
+      const typeHidden = hiddenTypes.has(n.data('type'));
+      const isOrphan   = n.degree() === 0;   // no edges at all
+      const hide       = typeHidden || (hideUnconnected && isOrphan);
+      if (hide) {
+        n.hide();
+        if (!typeHidden && isOrphan) unconnectedHidden.push(n.id());
+      } else {
+        n.show();
+      }
+    });
+
+    // Hide edges whose source or target is now hidden.
+    cy.edges().forEach(e => {
+      if (e.source().hidden() || e.target().hidden()) e.hide();
+      else e.show();
+    });
+
+    // Update hidden-count badge.
+    const totalHidden = cy.nodes(':hidden').length;
+    const countEl = document.getElementById('huCount');
+    countEl.textContent = totalHidden > 0 ? `· ${totalHidden} hidden` : '';
+
+    // Update footer visible counts.
+    document.getElementById('statNodes').textContent = cy.nodes(':visible').length;
+    document.getElementById('statEdges').textContent = cy.edges(':visible').length;
+  }
+
+  // Apply initial state (hideUnconnected = true).
+  applyFilters();
+
+  // Node-type toggle buttons.
+  document.querySelectorAll('.leg-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      if (hiddenTypes.has(type)) {
+        hiddenTypes.delete(type);
+        btn.classList.remove('leg-toggle--off');
+      } else {
+        hiddenTypes.add(type);
+        btn.classList.add('leg-toggle--off');
+      }
+      applyFilters();
+    });
+  });
+
+  // Hide-unconnected toggle.
+  const huBtn = document.getElementById('hide-unconnected');
+  huBtn.addEventListener('click', () => {
+    hideUnconnected = !hideUnconnected;
+    huBtn.classList.toggle('active', hideUnconnected);
+    applyFilters();
   });
 }
 

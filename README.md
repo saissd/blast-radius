@@ -417,3 +417,19 @@ This includes:
 The sample programs implement a simple customer-file batch application: `SAM1` reads `CUSTFILE` and `TRANFILE`, calls `SAM2` to process individual transactions, and writes updated records to `CUSTOUT` and a report to `CUSTRPT`.
 
 All source files remain unmodified from the upstream IBM repository and are used here under their original license (see `sample-cobol/LICENSE`).
+
+---
+
+**Open Mainframe Project — COBOL Programming Course**
+Repository: [https://github.com/openmainframeproject/cobol-programming-course](https://github.com/openmainframeproject/cobol-programming-course)
+Local path: `sample-cobol/cobol-programming-course/`
+
+This includes:
+- `COBOL Programming Course #3 - Advanced Topics/Challenges/Debugging/cbl/` — `CBL0106.cbl`, `CBL0106C.cbl` (debugging challenge programs)
+- `COBOL Programming Course #3 - Advanced Topics/Labs/cbl/` — `CBLDB21.cbl`, `CBLDB22.cbl`, `CBLDB23.cbl` (DB2 lab programs)
+- `COBOL Programming Course #4 - Testing/Labs/cbl/` — `EMPPAY.CBL`, `DEPTPAY.CBL` (payroll test programs)
+- `COBOL Programming Course #*/JCL/` — JCL job streams for all lab and challenge programs
+
+The course programs demonstrate DB2 embedded SQL, payroll processing, and debugging patterns at a scale that exercises the multi-job, multi-dataset tracing paths of Blast Radius.
+
+All source files remain unmodified from the upstream repository and are used here under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license (see `sample-cobol/cobol-programming-course/LICENSE`).
