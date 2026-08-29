@@ -13,11 +13,16 @@ Outputs a risk score (0-100), band (HIGH / MEDIUM / LOW), a plain-English
 reason, and a regression test list (affected programs that need retesting).
 
 Scoring weights:
-  - Each affected program  x3
-  - Each file written      x5
-  - Each shared copybook   x4
-  - Each JCL job affected  x6
+  - Each affected program           x3
+  - Each OUTPUT file written        x5
+  - Each copybook source-file use   x10  (total #files that COPY this copybook;
+                                          or shared copybooks when scoring a
+                                          program/file entity)
+  - Each JCL job affected           x8
   Score is capped at 100.
+
+Root programs (entry-points that nothing calls, e.g. SAM1) are scored on what
+they *depend on* rather than what depends on them.
 
 Bands:
   HIGH   >= 60
@@ -40,8 +45,8 @@ DEPENDENCIES = Path(__file__).parent / "dependencies.json"
 
 WEIGHT_PROGRAM   = 3
 WEIGHT_FILE      = 5
-WEIGHT_COPYBOOK  = 4
-WEIGHT_JCL_JOB   = 6
+WEIGHT_COPYBOOK  = 10
+WEIGHT_JCL_JOB   = 8
 
 
 # --------------------------------------------------------------------------- #
@@ -74,11 +79,137 @@ def _search(impact_map: dict, name: str) -> list[tuple[str, str, list[dict]]]:
 # Core scoring
 # --------------------------------------------------------------------------- #
 
+def _is_root_program(
+    hits: list[tuple[str, str, list[dict]]],
+    name: str,
+    deps_data: dict,
+) -> bool:
+    """
+    Mirror of blast_radius.is_root_program().
+    Returns True when <name> is a known program that nothing calls.
+    Two cases:
+      1. Absent from impact_map entirely but present in dependencies.json programs.
+      2. Present in impact_map.programs with an empty depended_on_by and no other
+         category hit that has callers.
+    """
+    name_upper = name.upper()
+    if not hits:
+        return any(
+            p.get("program_id", "").upper() == name_upper
+            for p in deps_data.get("programs", [])
+        )
+    program_hits     = [h for h in hits if h[0] == "programs"]
+    non_program_hits = [h for h in hits if h[0] != "programs"]
+    if not program_hits:
+        return False
+    all_empty             = all(len(deps) == 0 for _, _, deps in program_hits)
+    any_non_prog_callers  = any(len(deps) > 0 for _, _, deps in non_program_hits)
+    return all_empty and not any_non_prog_callers
+
+
+def _root_program_facts(
+    name: str,
+    deps_data: dict,
+    executed_by: dict,
+) -> tuple[set[str], set[str], int, set[str]]:
+    """
+    For a root program: collect what *it depends on* from dependencies.json.
+    Returns (called_programs, output_files, n_copybook_uses, affected_jobs).
+    n_copybook_uses is the total count of distinct copybook names used (all are
+    at risk when the entry-point changes, not just shared ones).
+    """
+    name_upper = name.upper()
+    calls: set[str] = set()
+    output_files: set[str] = set()
+    copybooks_used: set[str] = set()
+
+    for prog in deps_data.get("programs", []):
+        if prog.get("program_id", "").upper() != name_upper:
+            continue
+        for c in prog.get("calls", []):
+            if c.get("program"):
+                calls.add(c["program"])
+        for f in prog.get("files", []):
+            if f.get("access", "").upper() == "OUTPUT":
+                output_files.add(f["dd_name"])
+        for cb in prog.get("copybooks", []):
+            if cb.get("name"):
+                copybooks_used.add(cb["name"])
+
+    affected_jobs: set[str] = set()
+    for step_entry in executed_by.get(name_upper, []):
+        job = step_entry.get("job", "")
+        if job:
+            affected_jobs.add(job)
+
+    return calls, output_files, len(copybooks_used), affected_jobs
+
+
 def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
     hits = _search(impact_map, name)
 
+    # ------------------------------------------------------------------ #
+    # Root-program path
+    # ------------------------------------------------------------------ #
+    executed_by = impact_map.get("jcl", {}).get("programs_executed_by", {})
+
+    if _is_root_program(hits, name, deps_data):
+        calls, output_files, n_cb_uses, affected_jobs = _root_program_facts(
+            name, deps_data, executed_by
+        )
+        n_programs  = len(calls)
+        n_files     = len(output_files)
+        n_copybooks = n_cb_uses
+        n_jobs      = len(affected_jobs)
+        raw = (
+            n_programs  * WEIGHT_PROGRAM  +
+            n_files     * WEIGHT_FILE     +
+            n_copybooks * WEIGHT_COPYBOOK +
+            n_jobs      * WEIGHT_JCL_JOB
+        )
+        score = min(raw, 100)
+        band  = "HIGH" if score >= 60 else ("MEDIUM" if score >= 30 else "LOW")
+
+        parts = []
+        if n_programs:
+            parts.append(
+                f"calls {n_programs} program{'s' if n_programs != 1 else ''} "
+                f"({', '.join(sorted(calls))})"
+            )
+        if n_files:
+            parts.append(
+                f"writes {n_files} output file{'s' if n_files != 1 else ''} "
+                f"({', '.join(sorted(output_files))})"
+            )
+        if n_copybooks:
+            parts.append(f"uses {n_copybooks} copybook{'s' if n_copybooks != 1 else ''}")
+        if n_jobs:
+            parts.append(
+                f"executed by {n_jobs} JCL job{'s' if n_jobs != 1 else ''} "
+                f"({', '.join(sorted(affected_jobs))})"
+            )
+
+        reason = (
+            f"'{name.upper()}' is an entry-point program (nothing calls it). "
+            + (
+                "It " + "; ".join(parts) + f". Raw weighted score {raw}"
+                + (f" capped to {score}" if raw > 100 else "") + "."
+                if parts else "No downstream dependencies found."
+            )
+        )
+        regression_tests = sorted({name.upper()} | calls)
+        return {
+            "entity": name.upper(),
+            "score": score,
+            "band": band,
+            "reason": reason,
+            "regression_tests": regression_tests,
+        }
+
+    # ------------------------------------------------------------------ #
+    # Unknown entity
+    # ------------------------------------------------------------------ #
     if not hits:
-        # Entity not found in impact map
         return {
             "entity": name.upper(),
             "score": 0,
@@ -89,11 +220,9 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
         }
 
     # ------------------------------------------------------------------ #
-    # Collect unique affected programs across all category hits
+    # Normal path: entity has dependents in the impact map
     # ------------------------------------------------------------------ #
     affected_program_ids: set[str] = set()
-    output_files: set[str] = set()          # files written (OUTPUT access)
-    shared_copybooks: set[str] = set()
     entity_categories: list[str] = []
 
     for category, key, dependents in hits:
@@ -103,9 +232,7 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             if pid:
                 affected_program_ids.add(pid)
 
-    # From dependencies.json: collect OUTPUT files and copybook sharing
-    # OUTPUT files: any file with access==OUTPUT touched by affected programs
-    # Shared copybooks: copybooks used by more than one distinct program_id
+    output_files: set[str] = set()
     copybook_users: dict[str, set[str]] = {}   # copybook_name -> {program_ids}
 
     for prog in deps_data.get("programs", []):
@@ -119,15 +246,26 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             cb_name = cb["name"]
             copybook_users.setdefault(cb_name, set()).add(pid)
 
-    # A copybook counts as "shared" when more than one distinct program uses it
-    for cb_name, users in copybook_users.items():
-        if len(users) > 1:
-            shared_copybooks.add(cb_name)
+    # ------------------------------------------------------------------ #
+    # Copybook weight: use total source-file count from depended_on_by when
+    # the entity itself is a copybook; use shared-copybook count otherwise.
+    # ------------------------------------------------------------------ #
+    cat0 = entity_categories[0]
+    if cat0 == "copybooks":
+        # Count total source files that COPY this copybook — every one of
+        # those files must be recompiled, so breadth of use is the risk.
+        n_copybooks = sum(len(dependents) for _, _, dependents in hits)
+        cb_detail   = f"{n_copybooks} source file{'s' if n_copybooks != 1 else ''} COPY it"
+    else:
+        shared_copybooks: set[str] = {
+            cb for cb, users in copybook_users.items() if len(users) > 1
+        }
+        n_copybooks = len(shared_copybooks)
+        cb_detail   = (
+            f"{n_copybooks} shared copybook{'s' if n_copybooks != 1 else ''} "
+            f"({', '.join(sorted(shared_copybooks))})"
+        )
 
-    # ------------------------------------------------------------------ #
-    # JCL jobs affected: unique job names that execute any affected program
-    # ------------------------------------------------------------------ #
-    executed_by = impact_map.get("jcl", {}).get("programs_executed_by", {})
     affected_jobs: set[str] = set()
     for pid in affected_program_ids:
         for step_entry in executed_by.get(pid, []):
@@ -135,12 +273,8 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             if job:
                 affected_jobs.add(job)
 
-    # ------------------------------------------------------------------ #
-    # Raw score
-    # ------------------------------------------------------------------ #
     n_programs  = len(affected_program_ids)
     n_files     = len(output_files)
-    n_copybooks = len(shared_copybooks)
     n_jobs      = len(affected_jobs)
 
     raw = (
@@ -151,9 +285,6 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
     )
     score = min(raw, 100)
 
-    # ------------------------------------------------------------------ #
-    # Band
-    # ------------------------------------------------------------------ #
     if score >= 60:
         band = "HIGH"
     elif score >= 30:
@@ -161,17 +292,14 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
     else:
         band = "LOW"
 
-    # ------------------------------------------------------------------ #
-    # Plain-English reason
-    # ------------------------------------------------------------------ #
     category_label = {
         "programs":  "program",
         "files":     "DD file",
         "copybooks": "copybook",
     }
-    entity_type = category_label.get(entity_categories[0], "entity")
+    entity_type = category_label.get(cat0, "entity")
     if len(set(entity_categories)) > 1:
-        entity_type = "entity"  # appears in multiple categories
+        entity_type = "entity"
 
     parts = []
     if n_programs:
@@ -185,10 +313,7 @@ def compute_risk(name: str, impact_map: dict, deps_data: dict) -> dict:
             f"({', '.join(sorted(output_files))})"
         )
     if n_copybooks:
-        parts.append(
-            f"{n_copybooks} shared copybook{'s' if n_copybooks != 1 else ''} "
-            f"({', '.join(sorted(shared_copybooks))})"
-        )
+        parts.append(cb_detail)
     if n_jobs:
         parts.append(
             f"{n_jobs} JCL job{'s' if n_jobs != 1 else ''} affected "
