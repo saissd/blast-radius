@@ -506,7 +506,7 @@ function buildElements(deps, impact) {
 
     job.steps.forEach(step => {
       const prog = step.program;
-      if (nodes.has(prog) || programFiles[prog]) {
+      if ((nodes.has(prog) || programFiles[prog]) && prog !== job.job_name) {
         // program → job: "this program is executed by this job"
         if (!edges.find(e => e.source === prog && e.target === job.job_name)) {
           addEdge(prog, job.job_name, 'CONFIRMED', 'EXECUTED_BY', step.note || `Step ${step.step_name} executes ${prog}`);
